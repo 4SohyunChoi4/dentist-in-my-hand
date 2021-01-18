@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "920061015760",
+    "project_id": "dentist-in-myhand",
+    "storage_bucket": "dentist-in-myhand.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920061015760:android:95dafb4b4750a8737710d5",
+        "android_client_info": {
+          "package_name": "com.toothfairy.dentist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920061015760-juvj8cb6f35i2j77h6be05frg2b3786u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrVFrYkQB1dYs2Vit1psJKITSsDT95UQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920061015760-juvj8cb6f35i2j77h6be05frg2b3786u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
