@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.subject;
+package com.toothfairy.dentist.ui.about;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,17 +12,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.toothfairy.dentist.R;
 
-public class SubjectFragment extends Fragment {
+public class AboutFragment extends Fragment {
 
-    private SubjectViewModel subjectViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        subjectViewModel =
-                ViewModelProviders.of(this).get(SubjectViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_subject, container, false);
-        final TextView textView = root.findViewById(R.id.text_subject);
-        subjectViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        AboutViewModel aboutViewModel = ViewModelProviders.of(this).get(AboutViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_about, container, false);
+        final TextView textView = root.findViewById(R.id.text_about);
+        aboutViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -4,28 +4,27 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
             app:startDestination="@+id/nav_intro">
-
     <fragment
             android:id="@+id/nav_intro"
             android:name="com.toothfairy.dentist.ui.intro.IntroFragment"
-            android:label="@string/menu_intro"
             tools:layout="@layout/fragment_intro"/>
+    <fragment
+            android:id="@+id/nav_about"
+            android:name="com.toothfairy.dentist.ui.about.AboutFragment"
+            tools:layout="@layout/fragment_about"/>
 
     <fragment
             android:id="@+id/nav_subject"
             android:name="com.toothfairy.dentist.ui.subject.SubjectFragment"
-            android:label="@string/menu_subject"
             tools:layout="@layout/fragment_subject"/>
 
     <fragment
             android:id="@+id/nav_doctor"
             android:name="com.toothfairy.dentist.ui.doctor.DoctorFragment"
-            android:label="@string/menu_doctor"
             tools:layout="@layout/fragment_doctor"/>
 
     <fragment
             android:id="@+id/nav_map"
             android:name="com.toothfairy.dentist.ui.map.MapFragment"
-            android:label="@string/menu_map"
             tools:layout="@layout/fragment_map"/>
 </navigation>

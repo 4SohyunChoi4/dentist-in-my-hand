@@ -10,7 +10,7 @@ public class SubjectViewModel extends ViewModel {
 
     public SubjectViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("진료과목");
     }
 
     public LiveData<String> getText() {

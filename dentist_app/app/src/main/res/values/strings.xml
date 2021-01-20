@@ -7,11 +7,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_intro">치과 소개</string>
+    <string name="menu_about">치과 소개</string>
     <string name="menu_subject">진료 항목</string>
     <string name="menu_doctor">의료진 소개</string>
     <string name="menu_map">오시는 길</string>
-    <string name="menu_slideshow">설정</string>
 
 
 </resources>

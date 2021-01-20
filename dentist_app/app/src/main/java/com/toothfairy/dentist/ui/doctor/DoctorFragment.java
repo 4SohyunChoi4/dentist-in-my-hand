@@ -20,8 +20,8 @@ public class DoctorFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         doctorViewModel =
                 ViewModelProviders.of(this).get(DoctorViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_subject, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
+        View root = inflater.inflate(R.layout.fragment_doctor, container, false);
+        final TextView textView = root.findViewById(R.id.text_doctor);
         doctorViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

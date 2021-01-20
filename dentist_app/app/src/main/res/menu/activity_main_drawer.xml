@@ -6,8 +6,8 @@
     <group android:checkableBehavior="single">
         <!--android:icon="@drawable/ic_menu_camera"-->
         <item
-                android:id="@+id/nav_intro"
-                android:title="@string/menu_intro"/>
+                android:id="@+id/nav_about"
+                android:title="@string/menu_about"/>
         <item
                 android:id="@+id/nav_subject"
                 android:title="@string/menu_subject"/>

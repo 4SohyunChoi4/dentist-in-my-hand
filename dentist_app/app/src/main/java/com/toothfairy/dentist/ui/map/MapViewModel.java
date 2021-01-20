@@ -10,7 +10,7 @@ public class MapViewModel extends ViewModel {
 
     public MapViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is map fragment");
+        mText.setValue("오시는 길");
     }
 
     public LiveData<String> getText() {

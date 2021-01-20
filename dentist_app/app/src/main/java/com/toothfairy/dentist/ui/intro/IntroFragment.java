@@ -16,12 +16,13 @@ public class IntroFragment extends Fragment {
 
     private IntroViewModel introViewModel;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         introViewModel =
                 ViewModelProviders.of(this).get(IntroViewModel.class);
         View root = inflater.inflate(R.layout.fragment_intro, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
+        final TextView textView = root.findViewById(R.id.text_intro);
         introViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
