@@ -8,20 +8,23 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-
+<!--
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             app:elevation="0dp"
-            android:background="@color/design_default_color_background"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
+            android:theme="@style/AppTheme.AppBarOverlay">-->
+        <!--
+        <Space android:layout_width="311dp"
+               android:layout_height="match_parent"/>
+        -->
         <androidx.appcompat.widget.Toolbar
+                style="@style/AppTheme"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
+   <!-- </com.google.android.material.appbar.AppBarLayout>-->
 
     <include layout="@layout/content_main">
     </include>

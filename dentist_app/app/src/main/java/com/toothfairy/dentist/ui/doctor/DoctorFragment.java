@@ -10,11 +10,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
+import com.toothfairy.dentist.ui.subject.SubjectFragment;
 
 public class DoctorFragment extends Fragment {
 
     private DoctorViewModel doctorViewModel;
+
+    public static DoctorFragment newInstance() {
+        return new DoctorFragment();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -26,6 +32,12 @@ public class DoctorFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
+            }
+        });
+        root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment();
             }
         });
         return root;
