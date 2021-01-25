@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
+import com.toothfairy.dentist.ui.intro.IntroFragment;
 import com.toothfairy.dentist.ui.subject.SubjectFragment;
 
 public class DoctorFragment extends Fragment {
@@ -37,7 +38,7 @@ public class DoctorFragment extends Fragment {
         root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment();
+                ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
             }
         });
         return root;

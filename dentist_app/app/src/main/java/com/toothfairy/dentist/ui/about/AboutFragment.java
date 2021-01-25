@@ -36,7 +36,7 @@ public class AboutFragment extends Fragment {
        root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               ((MainActivity)getActivity()).replaceFragment();
+               ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
            }
        });
         return root;

@@ -14,11 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
+import com.toothfairy.dentist.ui.NoticeFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
 import com.toothfairy.dentist.ui.map.MapFragment;
 import com.toothfairy.dentist.ui.subject.SubjectFragment;
+
+import java.util.Objects;
 
 public class IntroFragment extends Fragment {
 
@@ -34,6 +38,13 @@ public class IntroFragment extends Fragment {
         introViewModel =
                 ViewModelProviders.of(this).get(IntroViewModel.class);
         View root = inflater.inflate(R.layout.fragment_intro, container, false);
+
+        root.findViewById(R.id.noticeBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(NoticeFragment.newInstance());
+            }
+        });
 
 
         return root;

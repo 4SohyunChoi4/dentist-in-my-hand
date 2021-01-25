@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                  //   drawer.openDrawer(Gravity.RIGHT);
             }
         });
+
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
             drawerLayout.closeDrawer(Gravity.RIGHT);
         else if (!(getSupportFragmentManager().findFragmentById(R.id.nav_intro) instanceof IntroFragment))
-                replaceFragment();
+                replaceFragment(IntroFragment.newInstance());
     }
 
     /*
@@ -143,9 +143,11 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 */
-    public void replaceFragment() {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.nav_host_fragment, IntroFragment.newInstance()).commit();
+        ft.replace(R.id.nav_host_fragment,fragment).commit();
     }
+
+
 }
