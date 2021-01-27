@@ -14,7 +14,6 @@ public class IntroViewModel extends ViewModel {
 
     public IntroViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("숙명치과입니다! 야호!");
     }
 
     public LiveData<String> getText() {

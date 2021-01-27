@@ -8,31 +8,28 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
 import com.toothfairy.dentist.ui.intro.IntroFragment;
 import com.toothfairy.dentist.ui.map.MapFragment;
 import com.toothfairy.dentist.ui.subject.SubjectFragment;
-
-import java.util.Objects;
 
 import static android.Manifest.permission.CALL_PHONE;
 
@@ -44,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+// Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+      //  DatabaseReference myRef = database.getReference("message");
+      //  myRef.setValue("Hello, World!");
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
@@ -70,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_subject, R.id.nav_doctor, R.id.nav_map)
                 .setDrawerLayout(drawer)
                 .build();*/
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
+        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, drawer);
 
         //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -96,8 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = MapFragment.newInstance();
                 }
                 if (fragment != null) {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.nav_host_fragment, fragment).commit();
+                    replaceFragment(fragment);
                 }
                 drawer.closeDrawer(Gravity.END);
                 // 햄버거 버튼-> 뒤로가기 버튼으로 바뀌고 그 버튼을 누르면 메인화면으로 돌아간다.
@@ -132,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
             drawerLayout.closeDrawer(Gravity.RIGHT);
         else if (!(getSupportFragmentManager().findFragmentById(R.id.nav_intro) instanceof IntroFragment))
-                replaceFragment(IntroFragment.newInstance());
+            replaceFragment(IntroFragment.newInstance());
     }
 
     /*
