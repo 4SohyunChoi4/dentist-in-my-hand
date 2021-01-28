@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+import notice.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main.views.index, name='index'),
+    path('notice/main', notice.views.main, name='main'),
+    path('notice/<int:post_id>', notice.views.show, name='show'),
+    path('notice/new', notice.views.new, name='new'),
+    path('notice/postcreate', notice.views.postcreate, name='postcreate'),
+    path('notice/edit', notice.views.edit, name='edit'),
+    path('notice/postupdate/<int:post_id>', notice.views.postupdate, name='postupdate'),
+    path('notice/postdelete/<int:post_id>', notice.views.postdelete, name='postdelete'),
 ]
