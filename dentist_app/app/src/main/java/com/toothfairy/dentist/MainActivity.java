@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(Gravity.RIGHT);
         else if (!(getSupportFragmentManager().findFragmentById(R.id.nav_intro) instanceof IntroFragment))
             replaceFragment(IntroFragment.newInstance());
+        else
+            finish();
     }
 
     /*

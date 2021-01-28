@@ -17,17 +17,44 @@
             app:layout_constraintStart_toStartOf="parent"
             android:background="@android:color/transparent"
             android:src="@drawable/left_arrow"/>
+
     <TextView
-            android:id="@+id/text_subject"
-            android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
             android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/contents"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@+id/contents"/>
+    <TextView
+            android:id="@+id/contents"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:text="임플란트
+
+상실된 치아를 인공 치아의 이식을 통해 건강한 구
+강을 가지게 하는 의학의 한 분야. 본래는 인체의 조
+직이 상실되었을 때 이를 회복시켜 주는 대치물을
+의미하지만 치과에서는 인공 치아 이식을 말한다.
+
+
+라미네이트
+
+치아가 벌어지거나 깨졌을 때 그 사이에 붙이는 아
+주 얇은 세라믹.
+
+
+치아 교정
+
+맞물림 장애를 수술하지 않고 교정하여 치료하는 방
+법. 치아와 이틀 돌기는 압박이 없는 자유로운 상태
+에서 정상적인 맞물림을 이룬다는 생물학적 원리를
+이용한다."
             app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
