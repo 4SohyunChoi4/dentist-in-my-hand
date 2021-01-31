@@ -30,6 +30,14 @@ public class BookFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        root.findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(SubBookFragment.newInstance());
+
+            }
+        });
+
 
        root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
            @Override

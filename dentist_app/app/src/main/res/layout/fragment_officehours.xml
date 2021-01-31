@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"
-        tools:context=".ui.about.AboutFragment">
+        tools:context=".ui.OfficehoursFragment">
 
     <ImageButton
             android:id="@+id/btnBack"
@@ -19,43 +19,28 @@
             android:background="@android:color/transparent"
             android:src="@drawable/left_arrow"/>
 
+
     <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size"
+            android:textSize="30sp"
+            android:text="진료시간"
+            android:layout_marginBottom="30dp"
             app:layout_constraintStart_toStartOf="@+id/contents"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintBottom_toTopOf="@+id/contents"/>
     <TextView
             android:id="@+id/contents"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="100dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            android:text="일제하였던 당시 우리나라 교육사상 최초로 한국인 교
-장이 취임한 가운데 경선궁과 영친왕궁이 하사한 황해
-도, 전라남도, 경기도 등 3도와 신천, 은율, 완도 등 6군
-의 농경지 수익금을 재원으로 11세~26세의 여학생 5
-명을 선발하여 문을 연 우리 숙명의 창학은, 외국의 자
-본에 의존함 없이, 오직 우리 힘으로 일으킨 민족 여성
-교육의 효시였다.
-
-
-
-이로부터 32년 후, 2차 대전 발발 직전의 암울한 시절
-을 보내면서 구국과 애족을 염원하던 당시 지성인들
-은, 보다 높은 여성 교육의 필요성을 통감하게 되었고,
-이것이 거국적인 '숙명여전 설립 모금 운동'으로 이어
-져 1938년 숙명여자 전문학교가 탄생되었다. 우리 대
-학교의 전신인 숙명여전은 황실이 제공한 막대한 재원
-과 교지 위에 역사적으로 유례가 없었던, 이러한 지식
-인 모금 운동에 힘입어 태어났으므로 그 설립 자체가
-민족 지성사의 한 부분일만큼 감격적인 출범이었다."
+            android:text="주중\n 9~12시 오전 진료\n12~1시 점심시간\n1시~5시 오후진료
+\n\n화, 목 야간진료\n~21시까지\n\n(*주말엔 쉽니다)"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

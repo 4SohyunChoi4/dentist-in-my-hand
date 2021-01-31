@@ -25,14 +25,14 @@
             android:layout_width="150dp"
             android:id="@+id/noticeBtn"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/timeBtn"
+            app:layout_constraintRight_toLeftOf="@+id/officehoursBtn"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="200dp"
             android:text="공지사항"/>
 
     <Button
-            android:id="@+id/timeBtn"
+            android:id="@+id/officehoursBtn"
             android:textSize="20dp"
             android:layout_height="80dp"
             android:layout_width="150dp"
@@ -55,8 +55,8 @@
             android:layout_height="80dp"
             android:layout_width="150dp"
             android:id="@+id/askBtn"
-            app:layout_constraintLeft_toLeftOf="@id/timeBtn"
-            app:layout_constraintTop_toBottomOf="@+id/timeBtn"
+            app:layout_constraintLeft_toLeftOf="@id/officehoursBtn"
+            app:layout_constraintTop_toBottomOf="@+id/officehoursBtn"
             android:text="1:1 문의"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

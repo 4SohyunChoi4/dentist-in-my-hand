@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.ui.NoticeFragment;
+import com.toothfairy.dentist.ui.OfficehoursFragment;
 import com.toothfairy.dentist.ui.book.BookFragment;
 
 import java.util.Objects;
@@ -42,6 +43,12 @@ public class IntroFragment extends Fragment {
             }
         });
 
+        root.findViewById(R.id.officehoursBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(OfficehoursFragment.newInstance());
+            }
+        });
         return root;
     }
 }
