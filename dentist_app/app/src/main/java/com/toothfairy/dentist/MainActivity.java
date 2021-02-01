@@ -42,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-// Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-      //  DatabaseReference myRef = database.getReference("message");
-      //  myRef.setValue("Hello, World!");
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);

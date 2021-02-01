@@ -63,31 +63,18 @@
                     android:text="주민등록번호"/>
             <EditText
                     android:layout_width="100dp"
+                    android:id="@+id/regiNum"
                     android:singleLine="true"
                     android:layout_height="wrap_content"/>
-            <TextView
+            <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-"/>
             <EditText
                     android:layout_width="100dp"
                     android:singleLine="true"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"/>-->
 
-        </LinearLayout>
-        <LinearLayout
-                android:layout_marginBottom="20dp"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="성별"/>
-            <Spinner
-                    android:id="@+id/gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -99,10 +86,11 @@
                     android:layout_height="wrap_content"
                     android:text="휴대폰 번호"/>
             <EditText
+                    android:id="@+id/phoneNum"
                     android:layout_width="70dp"
                     android:singleLine="true"
                     android:layout_height="wrap_content"/>
-            <TextView
+            <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-"/>
@@ -118,7 +106,7 @@
             <EditText
                     android:layout_width="70dp"
                     android:singleLine="true"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"/>-->
         </LinearLayout>
 
     </LinearLayout>
