@@ -1,10 +1,11 @@
 package com.toothfairy.dentist;
 
-public class UserInfo {
+public class PatientInfo {
 
     private String name;
     private long regiNum;
     private long phoneNum;
+
 
     public String getName() {
         return name;
