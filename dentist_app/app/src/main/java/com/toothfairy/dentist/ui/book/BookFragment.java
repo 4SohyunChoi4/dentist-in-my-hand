@@ -22,14 +22,15 @@ public class BookFragment extends Fragment {
         return new BookFragment();
     }
 
-       Calendar calendar = Calendar.getInstance();
-
+       //Calendar calendar = Calendar.getInstance()
+    int year, month, day;
+    int hour;
+    FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_book, container, false);
 
-        final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseDatabase.setPersistenceEnabled(true);
         final EditText editName = root.findViewById(R.id.name);
         final EditText editRegiNum= root.findViewById(R.id.regiNum);
@@ -44,20 +45,24 @@ public class BookFragment extends Fragment {
         final RadioButton park = root.findViewById(R.id.doctorPark);
         final RadioButton kim = root.findViewById(R.id.doctorKim);
 
-        final TimePicker time = root.findViewById(R.id.time);
+        /*final TimePicker time = root.findViewById(R.id.timePicker);
         time.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                //TODO
+                hour = hourOfDay;
             }
         });
+         */
 
-        final CalendarView date = root.findViewById(R.id.calendar);
-        date.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        final CalendarView calendarView = root.findViewById(R.id.calendar);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                calendar.set(year, month, dayOfMonth);
-                view.setDate(calendar.getTimeInMillis());
+            public void onSelectedDayChange(@NonNull CalendarView view, int y, int m, int d) {
+                year = y;
+                month = m;
+                day = d;
+                //calendar.set(y, m, d);
+                //view.setDate(calendar.getTimeInMillis());
             }
         });
 
@@ -73,17 +78,15 @@ public class BookFragment extends Fragment {
                 patientInfo.setRegiNum(regiNum);
                 patientInfo.setPhoneNum(phoneNum);
 
-                mFirebaseDatabase.getReference("patientInfo/")
+                mFirebaseDatabase.getReference(year+"Y/"+month+"M/"+day+"D/"+hour+"h/")
                         .push()
-                        .setValue(patientInfo)//calendar+"/"+
+                        .setValue(patientInfo)//calendar year+"/"+patientInfo
                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(getActivity(),"ㅎㅇ",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),"예약이 완료됨",Toast.LENGTH_SHORT).show();
                             }
                         });
-
-                //((MainActivity) getActivity()).replaceFragment(SubBookFragment.newInstance());
             }
         });
 

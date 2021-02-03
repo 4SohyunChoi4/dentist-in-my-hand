@@ -21,6 +21,7 @@
             android:layout_marginTop="150dp"/>
     <Button
             android:textSize="20dp"
+            android:stateListAnimator="@null"
             android:layout_height="80dp"
             android:layout_width="150dp"
             android:id="@+id/noticeBtn"
@@ -33,6 +34,7 @@
 
     <Button
             android:id="@+id/officehoursBtn"
+            android:stateListAnimator="@null"
             android:textSize="20dp"
             android:layout_height="80dp"
             android:layout_width="150dp"
@@ -43,6 +45,7 @@
 
     <Button
             android:textSize="20dp"
+            android:stateListAnimator="@null"
             android:layout_height="80dp"
             android:layout_width="150dp"
             android:id="@+id/bookBtn"
@@ -52,6 +55,7 @@
 
     <Button
             android:textSize="20sp"
+            android:stateListAnimator="@null"
             android:layout_height="80dp"
             android:layout_width="150dp"
             android:id="@+id/askBtn"
