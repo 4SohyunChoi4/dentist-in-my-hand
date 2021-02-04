@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
         android:orientation="vertical">
 
     <TextView
@@ -11,12 +12,7 @@
             android:textSize="30sp"
             android:text="nn월 nn일"/>
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9시 예약가능"
-            android:background="@android:color/transparent"
-            android:stateListAnimator="@null"/>
-    <Button
+            android:id="@+id/btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10시 예약가능"
@@ -32,5 +28,59 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="완료" />
+            android:text="12시 예약가능"
+            android:background="@android:color/transparent"
+            android:stateListAnimator="@null"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13시 예약가능"
+            android:background="@android:color/transparent"
+            android:stateListAnimator="@null"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14시 예약가능"
+            android:background="@android:color/transparent"
+            android:stateListAnimator="@null"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11시 예약가능"
+            android:background="@android:color/transparent"
+            android:stateListAnimator="@null"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15시 예약가능"
+            android:background="@android:color/transparent"
+            android:stateListAnimator="@null"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16시 예약가능"
+            android:background="@android:color/transparent"
+            android:stateListAnimator="@null"/>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/okBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="완료" />
+        <Button
+                android:id="@+id/cancelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="취소" />
+
+    </LinearLayout>
 </LinearLayout>

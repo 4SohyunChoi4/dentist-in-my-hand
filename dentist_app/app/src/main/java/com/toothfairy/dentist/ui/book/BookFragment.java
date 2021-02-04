@@ -1,9 +1,11 @@
 package com.toothfairy.dentist.ui.book;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,7 +19,7 @@ import com.toothfairy.dentist.ui.intro.IntroFragment;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class BookFragment extends Fragment {
+public class BookFragment extends Fragment{
     public static BookFragment newInstance(){
         return new BookFragment();
     }
@@ -27,14 +29,15 @@ public class BookFragment extends Fragment {
     int hour;
     FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+    Dialog dialog;
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_book, container, false);
 
         mFirebaseDatabase.setPersistenceEnabled(true);
-        final EditText editName = root.findViewById(R.id.name);
-        final EditText editRegiNum= root.findViewById(R.id.regiNum);
-        final EditText editPhoneNum= root.findViewById(R.id.phoneNum);
+
 
         final CheckBox ch1 = root.findViewById(R.id.ch1);
         final CheckBox ch2 = root.findViewById(R.id.ch2);
@@ -53,6 +56,9 @@ public class BookFragment extends Fragment {
             }
         });
          */
+        dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_book);
 
         final CalendarView calendarView = root.findViewById(R.id.calendar);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -63,15 +69,40 @@ public class BookFragment extends Fragment {
                 day = d;
                 //calendar.set(y, m, d);
                 //view.setDate(calendar.getTimeInMillis());
+
+                //여기에 dialog 추가해야 함
+                showDialog();
             }
         });
 
         root.findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = editName.getText().toString();
-                long regiNum = Integer.parseInt(editRegiNum.getText().toString());
-                long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
+
+            }
+        });
+               root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
+                   @Override
+                 public void onClick(View v) {
+                   ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
+                 }
+               });
+        return root;
+    }
+
+    public void showDialog() {
+        dialog.show();
+
+        EditText editName = getView().findViewById(R.id.name);
+        EditText editRegiNum= getView().findViewById(R.id.regiNum);
+        EditText editPhoneNum= getView().findViewById(R.id.phoneNum);
+
+        final String name = editName.getText().toString();
+        final long regiNum = Integer.parseInt(editRegiNum.getText().toString());
+        final long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
+        (dialog.findViewById(R.id.okBtn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
                 PatientInfo patientInfo = new PatientInfo();
                 patientInfo.setName(name);
@@ -87,16 +118,15 @@ public class BookFragment extends Fragment {
                                 Toast.makeText(getActivity(),"예약이 완료됨",Toast.LENGTH_SHORT).show();
                             }
                         });
+                Toast.makeText(getActivity(),"완료",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
-
-
-               root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
-                   @Override
-                 public void onClick(View v) {
-                   ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
-                 }
-               });
-        return root;
+        (dialog.findViewById(R.id.cancelBtn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }
