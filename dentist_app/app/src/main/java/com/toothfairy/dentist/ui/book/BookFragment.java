@@ -24,13 +24,15 @@ public class BookFragment extends Fragment{
         return new BookFragment();
     }
 
-       //Calendar calendar = Calendar.getInstance()
-    int year, month, day;
     int hour;
     FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-    Dialog dialog;
+    private ListView listView;
+    private ListViewAdapter adapter;
 
+    Dialog dialog;
+    String[] monthTxt = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Dec"};
+    String[] weekDay = {"일요일", "월요일","화요일","수요일","목요일","금요일","토요일"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,25 +62,32 @@ public class BookFragment extends Fragment{
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_book);
 
+        adapter = new ListViewAdapter();
+
+        listView = dialog.findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+
+        adapter.addItem("9시","예약가능");
+        adapter.addItem("10시","예약가능");
+        adapter.addItem("11시","예약가능");
+        adapter.addItem("1시","예약가능");
+        adapter.addItem("2시","예약가능");
+        adapter.addItem("3시","예약가능");
+        adapter.addItem("4시","예약가능");
+
+        adapter.notifyDataSetChanged();
+
         final CalendarView calendarView = root.findViewById(R.id.calendar);
+        final Calendar calendar = Calendar.getInstance();
+        long startOfMonth = calendar.getTimeInMillis();
+        calendarView.setMinDate(startOfMonth);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int y, int m, int d) {
-                year = y;
-                month = m;
-                day = d;
-                //calendar.set(y, m, d);
-                //view.setDate(calendar.getTimeInMillis());
-
-                //여기에 dialog 추가해야 함
-                showDialog();
-            }
-        });
-
-        root.findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.set(year,month,dayOfMonth);
+                int dayOfWeek = calendar1.get(Calendar.DAY_OF_WEEK)-1;
+                showDialog(year, month, dayOfMonth, dayOfWeek);
             }
         });
                root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
@@ -90,8 +99,10 @@ public class BookFragment extends Fragment{
         return root;
     }
 
-    public void showDialog() {
+    public void showDialog(final int year, final int month, final int dayOfMonth, final int dayOfWeek) { //월, 연
         dialog.show();
+
+        TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
 
         EditText editName = getView().findViewById(R.id.name);
         EditText editRegiNum= getView().findViewById(R.id.regiNum);
@@ -100,6 +111,9 @@ public class BookFragment extends Fragment{
         final String name = editName.getText().toString();
         final long regiNum = Integer.parseInt(editRegiNum.getText().toString());
         final long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
+
+        dialogTitle.setText((month+1)+"월"+dayOfMonth+"일"+weekDay[dayOfWeek]);
+
         (dialog.findViewById(R.id.okBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,16 +123,14 @@ public class BookFragment extends Fragment{
                 patientInfo.setRegiNum(regiNum);
                 patientInfo.setPhoneNum(phoneNum);
 
-                mFirebaseDatabase.getReference(year+"Y/"+month+"M/"+day+"D/"+hour+"h/")
+                mFirebaseDatabase.getReference(year+"Y/"+monthTxt[month]+"/"+dayOfMonth+"D/"+hour+"h/")
                         .push()
                         .setValue(patientInfo)//calendar year+"/"+patientInfo
                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(getActivity(),"예약이 완료됨",Toast.LENGTH_SHORT).show();
                             }
                         });
-                Toast.makeText(getActivity(),"완료",Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
