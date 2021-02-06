@@ -2,15 +2,15 @@ package com.toothfairy.dentist.ui.book;
 
 public class ListViewItem {
 
-    private String title;
+    private int time;
     private String bool;
 
-    public String getTitle() {
-        return title;
+    public int getTime() {
+        return time;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTime(int title) {
+        this.time = title;
     }
 
     public String getBool() {

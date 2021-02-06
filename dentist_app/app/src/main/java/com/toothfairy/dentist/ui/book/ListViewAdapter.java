@@ -5,18 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.toothfairy.dentist.R;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
 
-    private TextView title;
+    private TextView time;
     private TextView bool;
 
-    private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+    public ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
 
     public ListViewAdapter() {
     }
@@ -45,23 +45,23 @@ public class ListViewAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.listview_item, parent, false);
         }
+        time = convertView.findViewById(R.id.time);
+        bool = convertView.findViewById(R.id.bool);
 
-        title = (TextView) convertView.findViewById(R.id.time);
-        bool = (TextView) convertView.findViewById(R.id.bool);
+        final ListViewItem listViewItem = listViewItemList.get(position);
 
-        ListViewItem listViewItem = listViewItemList.get(position);
-
-        title.setText(listViewItem.getTitle());
+        //final long regiNum = Integer.parseInt(editRegiNum.getText().toString());
+        time.setText(String.valueOf(listViewItem.getTime()));
         bool.setText(listViewItem.getBool());
 
         return convertView;
     }
-    public void addItem(String title, String bool){
+    public void addItem(int time, String bool){
         ListViewItem item = new ListViewItem();
 
-        item.setTitle(title);
+        item.setTime(time);
         item.setBool(bool);
-
         listViewItemList.add(item);
     }
+
 }
