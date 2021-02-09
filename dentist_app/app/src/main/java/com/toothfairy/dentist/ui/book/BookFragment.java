@@ -35,51 +35,18 @@ public class BookFragment extends Fragment{
     Dialog dialog;
     String[] monthTxt = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Dec"};
     String[] weekDay = {"일요일", "월요일","화요일","수요일","목요일","금요일","토요일"};
-    int y, m, d, hour;
+    int y, m, d;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_book, container, false);
 
-        //mFirebaseDatabase.setPersistenceEnabled(true);
+        mFirebaseDatabase.setPersistenceEnabled(true);
 
         final EditText editName = root.findViewById(R.id.name);
         final EditText editRegiNum = root.findViewById(R.id.regiNum);
         final EditText editPhoneNum = root.findViewById(R.id.phoneNum);
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("정말로 예약하시겠습니까?");
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialogInterface, int which) {
-                String name = editName.getText().toString();
-                long regiNum = Integer.parseInt(editRegiNum.getText().toString());
-                long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
-
-                PatientInfo patientInfo = new PatientInfo();
-                patientInfo.setName(name);
-                patientInfo.setRegiNum(regiNum);
-                patientInfo.setPhoneNum(phoneNum);
-
-                mFirebaseDatabase.getReference(y+"Y/"+monthTxt[m]+"/"+d+"D/"+hour+"h/")
-                        .push()
-                        .setValue(patientInfo)
-                        .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                dialog.dismiss();
-                                ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
-                            }
-                        });
-                //bool값을 false로 바꾸기
-            }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return;
-            }
-        });
 
         final CheckBox ch1 = root.findViewById(R.id.ch1);
         final CheckBox ch2 = root.findViewById(R.id.ch2);
@@ -98,17 +65,17 @@ public class BookFragment extends Fragment{
 
 
         final TextView time = dialog.findViewById(R.id.time);
-        final TextView bool = dialog.findViewById(R.id.bool);
+        final TextView limit = dialog.findViewById(R.id.limit);
 
         listView = dialog.findViewById(R.id.listView);
 
-        adapter.addItem(9, "예약가능");
-        adapter.addItem(10, "예약가능");
-        adapter.addItem(11, "예약가능");
-        adapter.addItem(1, "예약가능");
-        adapter.addItem(2, "예약가능");
-        adapter.addItem(3, "예약가능");
-        adapter.addItem(4, "예약가능");
+        adapter.addItem(9);
+        adapter.addItem(10);
+        adapter.addItem(11);
+        adapter.addItem(1);
+        adapter.addItem(2);
+        adapter.addItem(3);
+        adapter.addItem(4);
 
         adapter.notifyDataSetChanged();
 
@@ -117,12 +84,45 @@ public class BookFragment extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("정말로 예약하시겠습니까?");
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                final ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
+
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, int which) {
+                        String name = editName.getText().toString();
+                        long regiNum = Integer.parseInt(editRegiNum.getText().toString());
+                        long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
+
+                        PatientInfo patientInfo = new PatientInfo();
+                        item.addPatient();
+
+                        patientInfo.setName(name);
+                        patientInfo.setRegiNum(regiNum);
+                        patientInfo.setPhoneNum(phoneNum);
+
+                        mFirebaseDatabase.getReference(y+"Y/"+monthTxt[m]+"/"+d+"D/"+item.getTime()+"h/")
+                                .push()
+                                .setValue(patientInfo)
+                                .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        dialog.dismiss();
+                                        ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
+                                    }
+                                });
+                    }
+                });
                 builder.create().show();
-                ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
-                hour = item.getTime();
             }
         });
-
         final CalendarView calendarView = root.findViewById(R.id.calendar);
         final Calendar calendar = Calendar.getInstance();
         long startOfMonth = calendar.getTimeInMillis();
