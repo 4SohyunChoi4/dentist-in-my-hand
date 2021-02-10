@@ -2,12 +2,17 @@ package com.toothfairy.dentist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
@@ -30,6 +35,10 @@ import com.toothfairy.dentist.ui.doctor.DoctorFragment;
 import com.toothfairy.dentist.ui.intro.IntroFragment;
 import com.toothfairy.dentist.ui.map.MapFragment;
 import com.toothfairy.dentist.ui.subject.SubjectFragment;
+import net.daum.android.map.MapView;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static android.Manifest.permission.CALL_PHONE;
 
@@ -40,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getHashKey();
         //mFirebaseDatabase.setPersistenceEnabled(true);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -154,5 +163,26 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.nav_host_fragment,fragment).commit();
     }
 
+    private void getHashKey(){
+        PackageInfo packageInfo = null;
+        try{
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(),
+                    PackageManager.GET_SIGNATURES);
+        }catch (PackageManager.NameNotFoundException e){
+            e.printStackTrace();
+        }
+        if(packageInfo == null)
+            Log.e("HashKey", "Hashkey:null");
+
+        for (Signature signature : packageInfo.signatures){
+            try{
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("HashKey", Base64.encodeToString(md.digest(),Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("HashKey","HashKey Error. signature=" + signature, e);
+            }
+        }
+    }
 
 }
