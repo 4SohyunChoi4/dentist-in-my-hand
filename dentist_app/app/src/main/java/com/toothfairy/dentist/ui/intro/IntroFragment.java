@@ -11,6 +11,7 @@ import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.ui.NoticeFragment;
 import com.toothfairy.dentist.ui.OfficehoursFragment;
+import com.toothfairy.dentist.ui.ask.AskFragment;
 import com.toothfairy.dentist.ui.book.BookFragment;
 
 import java.util.Objects;
@@ -49,6 +50,13 @@ public class IntroFragment extends Fragment {
                 ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(OfficehoursFragment.newInstance());
             }
         });
+        root.findViewById(R.id.askBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(AskFragment.newInstance());
+            }
+        });
+
         return root;
     }
 }

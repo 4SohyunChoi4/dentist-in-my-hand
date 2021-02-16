@@ -44,21 +44,21 @@
             android:text="진료시간"/>
 
     <Button
+            android:id="@+id/bookBtn"
             android:textSize="20dp"
             android:stateListAnimator="@null"
             android:layout_height="80dp"
             android:layout_width="150dp"
-            android:id="@+id/bookBtn"
             app:layout_constraintLeft_toLeftOf="@id/noticeBtn"
             app:layout_constraintTop_toBottomOf="@+id/noticeBtn"
             android:text="예약하기"/>
 
     <Button
+            android:id="@+id/askBtn"
             android:textSize="20sp"
             android:stateListAnimator="@null"
             android:layout_height="80dp"
             android:layout_width="150dp"
-            android:id="@+id/askBtn"
             app:layout_constraintLeft_toLeftOf="@id/officehoursBtn"
             app:layout_constraintTop_toBottomOf="@+id/officehoursBtn"
             android:text="1:1 문의"/>

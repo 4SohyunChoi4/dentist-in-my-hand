@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getHashKey();
+        //getHashKey();
         //mFirebaseDatabase.setPersistenceEnabled(true);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.nav_host_fragment,fragment).commit();
     }
-
+/*
     private void getHashKey(){
         PackageInfo packageInfo = null;
         try{
@@ -184,5 +184,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    */
 
 }

@@ -68,18 +68,15 @@ public class ListViewAdapter extends BaseAdapter {
 
         item.setTime(time);
         item.setLimit(0); //이렇게 하는게 아니고 firebase에서 값을 받아와야 할것같다...
-         /*
-        mFirebaseDatabase
+        /*mFirebaseDatabase
                 .getReference()
-              .getReference("memos/" + mFirebaseUser.getUid() + "/" + selectedMemoKey)
+                .getReference("memos/" + mFirebaseUser.getUid() + "/" + selectedMemoKey)
                 .removeValue(new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                         Snackbar.make(etContent, "메모가 삭제되었습니다", Snackbar.LENGTH_SHORT).show();
                     }
-                });//firebase에서 응답을 주는 서버 함수 구현
-
-         */
+                });//firebase에서 응답을 주는 서버 함수 구현*/
         listViewItemList.add(item);
     }
 

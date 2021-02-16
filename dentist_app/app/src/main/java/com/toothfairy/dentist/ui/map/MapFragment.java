@@ -62,8 +62,8 @@ public class MapFragment extends Fragment {
 
         // 중심점 변경
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.546456944360514, 126.9648174435511), true);
-/*
-        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(37.5514579595, 126.951949155);
+
+        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(37.546456944360514, 126.9648174435511);
 
         MapPOIItem marker = new MapPOIItem();
         marker.setItemName("숙명치과");
@@ -72,7 +72,7 @@ public class MapFragment extends Fragment {
         marker.setMarkerType(MapPOIItem.MarkerType.RedPin); // 기본으로 제공하는 BluePin 마커 모양.
         mapView.addPOIItem(marker);
 
- */
+
 
 // 줌 레벨 변경
         //mapView.setZoomLevel(7, true);

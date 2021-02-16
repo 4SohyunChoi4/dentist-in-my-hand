@@ -103,7 +103,6 @@ public class BookFragment extends Fragment{
 
                         PatientInfo patientInfo = new PatientInfo();
                         item.addPatient();
-
                         patientInfo.setName(name);
                         patientInfo.setRegiNum(regiNum);
                         patientInfo.setPhoneNum(phoneNum);
@@ -116,6 +115,7 @@ public class BookFragment extends Fragment{
                                     public void onSuccess(Void unused) {
                                         dialog.dismiss();
                                         ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
+
                                     }
                                 });
                     }
