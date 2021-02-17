@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"
-        tools:context=".ui.about.AboutFragment">
+        tools:context=".ui.ask.AskFragment">
 
     <ImageButton
             android:id="@+id/btnBack"
@@ -35,7 +35,7 @@
 
     <EditText
             android:id="@+id/board"
-            android:text="작성하신 글이 없습니다"
+            android:hint="작성된 글이 없습니다"
             android:textAlignment="center"
             android:layout_width="300dp"
             android:layout_height="400dp"

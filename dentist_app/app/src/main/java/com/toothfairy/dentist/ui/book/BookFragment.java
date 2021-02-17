@@ -107,7 +107,7 @@ public class BookFragment extends Fragment{
                         patientInfo.setRegiNum(regiNum);
                         patientInfo.setPhoneNum(phoneNum);
 
-                        mFirebaseDatabase.getReference(y+"Y/"+monthTxt[m]+"/"+d+"D/"+item.getTime()+"h/")
+                        mFirebaseDatabase.getReference("Book/"+y+"Y/"+monthTxt[m]+"/"+d+"D/"+item.getTime()+"h/")
                                 .push()
                                 .setValue(patientInfo)
                                 .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
