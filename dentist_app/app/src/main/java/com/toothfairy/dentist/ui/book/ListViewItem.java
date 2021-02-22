@@ -3,7 +3,7 @@ package com.toothfairy.dentist.ui.book;
 public class ListViewItem {
 
     private int time;
-    private int limit;
+    private long limit;
 
     public int getTime() {
         return time;
@@ -13,15 +13,12 @@ public class ListViewItem {
         this.time = time;
     }
 
-    public int getLimit() {
+    public long getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
+    public void setLimit(long limit) {
         this.limit = limit;
     }
 
-    public void addPatient(){
-        this.limit+=1;
-    }
 }

@@ -5,9 +5,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,6 +16,10 @@ import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.ui.intro.IntroFragment;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AskFragment extends Fragment {
 
 
@@ -25,8 +27,11 @@ public class AskFragment extends Fragment {
         return new AskFragment();
     }
 
-    FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+
+    private ArrayAdapter<String> adapter;
+    List<Object> Array = new ArrayList<Object>();
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,73 +48,58 @@ public class AskFragment extends Fragment {
         root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
+                ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
             }
         });
 
         root.findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(SubAskFragment.newInstance());
+                ((MainActivity) getActivity()).replaceFragment(SubAskFragment.newInstance());
             }
         });
 
-        final EditText board = root.findViewById(R.id.board);
-        board.setFocusable(false);
-        board.setClickable(false);
+        final ListView listViewBoard = root.findViewById(R.id.listViewBoard);
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
+        listViewBoard.setAdapter(adapter);
 
-        mFirebaseDatabase.getReference("Ask/")
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                        AskInfo askInfo = snapshot.getValue(AskInfo.class);
-                        askInfo.setKey(snapshot.getKey());
-                        Menu menu = board.getMenu();
-                        getMenu()
-                        board.setTag(askInfo);
-                        /*
-                                Menu leftMenu = mNavigationView.getMenu(); //네비게이션 바 변수
-        MenuItem item = leftMenu.add(memo.getTxt());
-        View view = new View(getApplication());
-        view.setTag(memo); //view에다가 memo의 내용값 지정
-        item.setActionView(view);
-                         */
-                    }
+        DatabaseReference mDatabaseReference = mFirebaseDatabase.getReference("Ask");
+        ChildEventListener mChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName){
-                        /*
-                        Memo memo = snapshot.getValue(Memo.class);
-                        memo.setKey(snapshot.getKey()); //데이터를 받아온다
-                        for (int i = 0; i < mNavigationView.getMenu().size(); i++) {
-                            MenuItem menuItem = mNavigationView.getMenu().getItem(i);
-                            if (memo.getKey().equals(((Memo) menuItem.getActionView().getTag()).getKey())) {//tag -> Memo로
-                                menuItem.getActionView().setTag(memo);
-                                menuItem.setTitle(memo.getTxt());
-                                break;
-                         */
-                    }
+            }
 
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                adapter.clear();
 
-                    }
+                for (DataSnapshot messageData : snapshot.getChildren()) {
+                    String msg2 = messageData.getValue().toString();
+                    Array.add(msg2);
+                    adapter.add(msg2);
+                }
+                adapter.notifyDataSetChanged();
+                listViewBoard.setSelection(adapter.getCount() - 1);
+            }
 
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                    }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                    }
-                });
-        //firebase DB에서 글 받아오고 출력(만)
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        return root;
+            }
+        };
+
+    return root;
     }
 }

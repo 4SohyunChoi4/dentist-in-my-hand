@@ -4,16 +4,19 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.PatientInfo;
@@ -28,10 +31,10 @@ public class BookFragment extends Fragment{
     }
 
     FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-
+    DatabaseReference mDatabaseReference;
     private ListView listView;
     private ListViewAdapter adapter;
-
+    long count=0;
     Dialog dialog;
     String[] monthTxt = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Dec"};
     String[] weekDay = {"일요일", "월요일","화요일","수요일","목요일","금요일","토요일"};
@@ -40,8 +43,6 @@ public class BookFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_book, container, false);
-
-        mFirebaseDatabase.setPersistenceEnabled(true);
 
         final EditText editName = root.findViewById(R.id.name);
         final EditText editRegiNum = root.findViewById(R.id.regiNum);
@@ -69,17 +70,6 @@ public class BookFragment extends Fragment{
 
         listView = dialog.findViewById(R.id.listView);
 
-        adapter.addItem(9);
-        adapter.addItem(10);
-        adapter.addItem(11);
-        adapter.addItem(1);
-        adapter.addItem(2);
-        adapter.addItem(3);
-        adapter.addItem(4);
-
-        adapter.notifyDataSetChanged();
-
-        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,22 +92,54 @@ public class BookFragment extends Fragment{
                         long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
 
                         PatientInfo patientInfo = new PatientInfo();
-                        item.addPatient();
                         patientInfo.setName(name);
                         patientInfo.setRegiNum(regiNum);
                         patientInfo.setPhoneNum(phoneNum);
 
-                        mFirebaseDatabase.getReference("Book/"+y+"Y/"+monthTxt[m]+"/"+d+"D/"+item.getTime()+"h/")
+                        final String path = "Book/"+y+"Y/"+monthTxt[m]+"/"+d+"D/"+item.getTime()+"h/";
+
+                        mFirebaseDatabase.getReference(path)
                                 .push()
                                 .setValue(patientInfo)
                                 .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         dialog.dismiss();
+                                        adapter.clear();
                                         ((MainActivity)getActivity()).replaceFragment(IntroFragment.newInstance());
 
                                     }
                                 });
+                        mFirebaseDatabase.getReference(path)
+                                .addChildEventListener(new ChildEventListener() {
+                                    @Override
+                                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                        PatientInfo patientInfo = snapshot.getValue(PatientInfo.class);
+                                        assert patientInfo != null;
+                                        patientInfo.setKey(snapshot.getKey());
+                                    }
+
+                                    @Override
+                                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
                     }
                 });
                 builder.create().show();
@@ -146,13 +168,42 @@ public class BookFragment extends Fragment{
     }
 
     public void showDialog(int year, int month, int dayOfMonth, int dayOfWeek) { //월, 연
+        adapter.clear();
         dialog.show();
         TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
         dialogTitle.setText((month + 1) + "월" + dayOfMonth + "일" + weekDay[dayOfWeek]);
-
         y=year;
         m=month;
         d=dayOfMonth;
+
+        for(int i=9 ; i<=16 ; i++){
+            if (i == 12)
+                continue;
+            count=0;
+
+            final int finalI = i;
+            mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+            mDatabaseReference.child("Book/"+y+"Y/"+monthTxt[m]+"/"+d+"D/"+finalI+"h/").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                             if(snapshot.exists()){
+                                count = snapshot.getChildrenCount();
+                                Toast.makeText(getActivity(),Long.toString(count),Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                                count = 0;
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+            adapter.addItem(i, count);
+        }
+
+        adapter.notifyDataSetChanged();
+
+        listView.setAdapter(adapter);
 
         (dialog.findViewById(R.id.cancelBtn)).setOnClickListener(new View.OnClickListener() {
             @Override

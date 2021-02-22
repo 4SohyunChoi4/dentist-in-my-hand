@@ -2,10 +2,18 @@ package com.toothfairy.dentist;
 
 public class PatientInfo {
 
+    private String key;
     private String name;
     private long regiNum;
     private long phoneNum;
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getName() {
         return name;
