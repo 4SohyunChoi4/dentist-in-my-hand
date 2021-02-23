@@ -27,8 +27,7 @@
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/main"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
             android:id="@+id/main"
@@ -37,7 +36,8 @@
             android:text="ㅇㅇㅇ님 반갑습니다.\n 대기시간은 n명이며\n예상 대기시간은 n분입니다."
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_chainStyle="packed"/>
 
