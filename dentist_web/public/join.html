@@ -2,7 +2,7 @@
 <html lang="ko">
 
 <head>
-    <title>숙명치과 - 가입</title>
+    <title>감사일기 - 가입</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -67,7 +67,7 @@
         </div>
 
         <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="name">NicName:</label>
             <input type="text" class="form-control" id="name">
         </div>
 
@@ -162,10 +162,10 @@
 
                     var ref = firebaseDatabase.ref("users/" + user.uid); //저장될 곳을 users라는 부모 키를 레퍼런스로 지정.
 
-                    var name = $('#name').val();
+                    var Name = $('#name').val();
 
                     //저장 형식
-                    var obj = { name: name };
+                    var obj = { Name: Name };
 
                     ref.set(obj); // 고유한 자식 키가 하나 생셩이 되면서 json 삽입
 

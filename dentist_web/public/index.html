@@ -26,7 +26,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">공지사항</a>
+        <a class="navbar-brand" href="/">1:1 문의 게시판</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -80,8 +80,8 @@
   <!-- 쓰기 텍스트 필드 시작-->
   <div class="container">
     <div class="form-group">
-      <label for="comment">공지사항</label>
-      <textarea class="form-control" rows="5" id="comment" placeholder="공지사항을 적어주세요."></textarea>
+      <label for="comment">1:1 문의</label>
+      <textarea class="form-control" rows="5" id="comment" placeholder="문의에 대한 답글을 달아주세요."></textarea>
       <br>
 
       <!-- 쓰기 버튼 가운데 정렬 -->
@@ -97,14 +97,12 @@
   <!-- 감사리스트 출력하기-->
   <div class="container">
     <hr>
-    <h3>공지사항 리스트</h3>
+    <h3>1:1 문의 목록</h3>
     <br>
     <!-- 감사 리스트 붙일 곳 -->
-    <div class="noticeList"></div>
+    <div class="thanksList"></div>
   </div>
 
-  <!--현재 시간을 가져오는 js 파일 -->
-  <script src="./js/time.js"></script>
 
   <!--스크립트 부분. 자신의 스크립트 코드로 변경하세요! -->
   <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -143,48 +141,6 @@
     //세션 체크 함수
     userSessionCheck();
 
-    $(document).ready(function () {
-
-      //메인화면 감사일기 쓰기버튼 눌렀을 때
-      $(document).on('click', '.write', function () {
-
-        //네비게이션 메뉴의 text값 가져오기 - 자바스크립트 dom 방식으로 가져왔다.
-        var seseionCheck = document.getElementById("loginmenu").textContent;
-
-        //내가 쓴글 가져오기 - jquery방식으로 가져왔다.
-        comment = $('#comment').val();
-        if (seseionCheck == "로그아웃") {
-          //저장하기
-          saveNotice();
-        } else {
-          alert("로그인이 필요한 서비스 입니다.")
-        }
-      });
-    });
-
-    //쓰기 버튼 눌렀을 때 호출 되는 함수
-    function saveNotice() {
-
-      //thanks 라는 테이블을 만들고 하위 데이터에 유저 아이디를 넣어준다. 그곳에 push로 가상의 키를 넣고, 객체를 넣어준다.!!!!
-      var noticeRef = firebaseDatabase.ref("notice");
-
-      // 해당 객체의 key 값이 자동으로 생성된다.
-      var notice = noticeRef.push(); // 해당 객체의 key 값이 자동으로 생성된다.
-
-      //로그인한 유저의 pk값,이름,내용,시간 데이터
-      var obj = {
-        userkey: loginUserKey,
-        name: name,
-        comment: comment,
-        createtime: currentTime
-      };
-      //위에서 thankRef.push()로 만들어진 key아래 위치에 저장해준다.
-      notice.set(obj);
-
-      alert("공지 작성이 완료되었습니다.");
-
-      $('#comment').val("");
-    }
 
     //유저가 로그인 했는지 안했는지 확인해주는 함수
     function userSessionCheck() {
@@ -208,55 +164,15 @@
 
 
             //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
-            noticeList();
+
             return true
           });
 
         } else {
-          $('#comment').val("로그인 하시면 공지사항을 확인하실 수 있습니다.");
+          $('#comment').val("로그인 하시면 등록된 1:1 문의 내역을 확인하실 수 있습니다.");
           return false
         }
       });
-    }
-
-    function noticeList() {
-      //로그인한 유저라면
-      if (loginUserKey) {
-        //글이 저장된 레퍼런스 값 가져오기
-        var noticeRef = firebaseDatabase.ref('notice');
-        //on 함수로 글 목록가져오기
-        noticeRef.on('child_added', on_notice_list)
-      } else {
-        alert("실패")
-        return;
-      }
-    }
-
-    //땡스리스트 thanks 테이블의 thanks 키 들을 연속적으로 가져온다.
-    function on_notice_list(data) {
-      console.log("on_notice_list() 함수안으로 들어왔습니다 리스트를 가져오겠습니다")
-      var key = data.key;
-
-      var Data = data.val();
-      var comment = Data.comment;
-      var createtime = Data.createtime;
-      var name = Data.name;
-      var userkey = Data.userkey;
-
-      //alert(comment +"/"+ createtime + "/"+name +"/"+userkey);
-
-
-      //감사리스트 동적으로 붙이기
-      var html =
-        "<div class=\"media\" id='" + userkey + "' onclick=\"show_user_page(this.id)\">" +
-        "<div class=\"media-body\">" +
-        "<h4 class=\"media-heading\">" + name +
-        " <span STYLE=\"color: green; font-size: 5pt\">" + createtime + "</span></h4>" +
-        "<p>" + comment + "</p></div></div>" +
-        "<hr>";
-
-      $(".noticeList").append(html);
-
     }
 
   </script>
