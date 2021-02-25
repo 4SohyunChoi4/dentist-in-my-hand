@@ -1,7 +1,6 @@
 package com.toothfairy.dentist;
 
 public class Notice {
-    String key;
     String comment;
     String createtime;
     String name;
@@ -10,16 +9,6 @@ public class Notice {
     public String getComment() {
         return comment;
     }
-
-    public String getKey() {
-        return key;
-    }
-
-    public int setKey(String key) {
-        this.key = key;
-        return 0;
-    }
-
     public void setComment(String comment) {
         this.comment = comment;
     }

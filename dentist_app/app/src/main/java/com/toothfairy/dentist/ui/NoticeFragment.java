@@ -46,13 +46,13 @@ public class NoticeFragment extends Fragment {
             }
         });
         ListView noticeBoard = root.findViewById(R.id.noticeBoard);
-        displayDatabase();
+        displayNotice();
         noticeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
         noticeBoard.setAdapter(noticeAdapter);
         return root;
     }
 
-    private void displayDatabase() {
+    private void displayNotice() {
 
         mFirebaseDatabase.getReference("notice/")
                 .addChildEventListener(new ChildEventListener() {

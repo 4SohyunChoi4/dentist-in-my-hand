@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.toothfairy.dentist.ui.ReceiptFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
 import com.toothfairy.dentist.ui.intro.IntroFragment;
@@ -126,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             requestPermissions(new String[]{CALL_PHONE}, 1);
                         }
-                    case R.id.receipt:
-                        //fragment = new();
-                        break;
+                    /*case R.id.receipt:
+                        replaceFragment(ReceiptFragment.newInstance());
+                        break;*/
                 }
                 return true;
 
