@@ -13,6 +13,9 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
@@ -28,6 +31,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.toothfairy.dentist.ui.ReceiptFragment;
@@ -44,12 +49,16 @@ import java.security.NoSuchAlgorithmException;
 import static android.Manifest.permission.CALL_PHONE;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //getHashKey();
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,13 +72,39 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!(drawer.isDrawerOpen(Gravity.RIGHT)))
                     drawer.openDrawer(Gravity.RIGHT);
-                //else
-                 //   drawer.openDrawer(Gravity.RIGHT);
+                ImageView navImageView = findViewById(R.id.navImageView);
+                TextView navTextView = findViewById(R.id.navTextView);
+                if (user == null){ //로그인 x
+                    navTextView.setText(getResources().getString(R.string.nav_header_title_no_login));
+                    navImageView.setVisibility(View.GONE);
+                    findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //replaceFragment(LoginFragment.newInstance());
+                        }
+                    });
+                    findViewById(R.id.joinBtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            replaceFragment(JoinFragment.newInstance());
+                            drawer.closeDrawer(Gravity.RIGHT);
+                        }
+                    });
+
+                }
+
+                else { // 로그인인
+                    navTextView.setText(getResources().getString(R.string.nav_header_title_login));
+                    navImageView.setVisibility(View.VISIBLE);
+
+                }
+
             }
         });
 
@@ -116,6 +151,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+      /* @Override
+        public void onStart() {
+            super.onStart();
+            // Check if user is signed in (non-null) and update UI accordingly.
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            updateUI(currentUser);
+        }*/
+
+
+
+
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() { //bottomnavigation
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -127,15 +173,14 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             requestPermissions(new String[]{CALL_PHONE}, 1);
                         }
-                    /*case R.id.receipt:
+                    case R.id.receipt:
                         replaceFragment(ReceiptFragment.newInstance());
-                        break;*/
+                        break;
                 }
                 return true;
 
             }
         });
-
     }
 
     public void onBackPressed(){
@@ -161,6 +206,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.nav_host_fragment,fragment).commit();
     }
+
+
 /*
     private void getHashKey(){
         PackageInfo packageInfo = null;

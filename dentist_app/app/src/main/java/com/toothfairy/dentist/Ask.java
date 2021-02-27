@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.ask;
+package com.toothfairy.dentist;
 
 public class Ask {
 

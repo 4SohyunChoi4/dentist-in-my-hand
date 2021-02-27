@@ -68,7 +68,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
                 android:text="주민등록번호"/>
         <EditText
                 android:layout_width="100sp"
-                android:id="@+id/regiNum"
+                android:id="@+id/c"
                 android:singleLine="true"
                 android:layout_height="wrap_content"/>
     </LinearLayout>
