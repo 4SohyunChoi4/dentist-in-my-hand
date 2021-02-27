@@ -1,6 +1,6 @@
 package com.toothfairy.dentist;
 
-public class PatientInfo {
+public class PatientID {
 
     private String key;
     private String name;

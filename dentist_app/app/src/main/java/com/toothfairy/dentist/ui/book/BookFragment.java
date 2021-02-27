@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.*;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.PatientInfo;
+import com.toothfairy.dentist.PatientID;
 import com.toothfairy.dentist.ui.intro.IntroFragment;
 
 import java.util.Calendar;
@@ -91,16 +88,16 @@ public class BookFragment extends Fragment{
                         long regiNum = Integer.parseInt(editRegiNum.getText().toString());
                         long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
 
-                        PatientInfo patientInfo = new PatientInfo();
-                        patientInfo.setName(name);
-                        patientInfo.setRegiNum(regiNum);
-                        patientInfo.setPhoneNum(phoneNum);
+                        PatientID patientID = new PatientID();
+                        patientID.setName(name);
+                        patientID.setRegiNum(regiNum);
+                        patientID.setPhoneNum(phoneNum);
 
                         final String path = "Book/"+y+"Y/"+monthTxt[m]+"/"+d+"D/"+item.getTime()+"h/";
 
                         mFirebaseDatabase.getReference(path)
                                 .push()
-                                .setValue(patientInfo)
+                                .setValue(patientID)
                                 .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
@@ -114,9 +111,9 @@ public class BookFragment extends Fragment{
                                 .addChildEventListener(new ChildEventListener() {
                                     @Override
                                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                                        PatientInfo patientInfo = snapshot.getValue(PatientInfo.class);
-                                        assert patientInfo != null;
-                                        patientInfo.setKey(snapshot.getKey());
+                                        PatientID patientID = snapshot.getValue(PatientID.class);
+                                        assert patientID != null;
+                                        patientID.setKey(snapshot.getKey());
                                     }
 
                                     @Override

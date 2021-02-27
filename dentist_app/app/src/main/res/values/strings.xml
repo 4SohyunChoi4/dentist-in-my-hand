@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title_no_login">로그인이 필요합니다</string>
-    <string name="nav_header_title_login">김눈송 고객님\n안녕하세요</string>
+    <string name="nav_header_title_login">님\n안녕하세요</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
