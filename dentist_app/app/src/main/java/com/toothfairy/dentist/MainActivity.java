@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //getHashKey();
+        //mFirebaseDatabase.setPersistenceEnabled(true);
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
         builder.setMessage("로그인이 필요한 기능입니다.");
         builder.setPositiveButton("로그인하기", new DialogInterface.OnClickListener() {
@@ -132,15 +133,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-      /* @Override
-        public void onStart() {
-            super.onStart();
-            // Check if user is signed in (non-null) and update UI accordingly.
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            updateUI(currentUser);
-        }*/
-
-
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() { //bottomnavigation
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -191,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateUI(FirebaseUser user) {
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
         final Button loginBtn = findViewById(R.id.loginBtn);
         final Button joinBtn = findViewById(R.id.joinBtn);
 
@@ -198,9 +191,18 @@ public class MainActivity extends AppCompatActivity {
         final TextView navTextView = findViewById(R.id.navTextView);
         if (user != null) { // 로그인했을때
             navImageView.setVisibility(View.VISIBLE);
-            navTextView.setText(user.getEmail());
-            //Toast.makeText(this,setPatientName(),Toast.LENGTH_SHORT).show();
-            //navTextView.setText(setPatientName()+getResources().getString(R.string.nav_header_title_login));
+            mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    PatientID patient = snapshot.getValue(PatientID.class);
+                    navTextView.setText(patient.getName()+getResources().getString(R.string.nav_header_title_login));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             loginBtn.setText("로그아웃");
             joinBtn.setVisibility(View.GONE);
             navImageView.setVisibility(View.VISIBLE);
@@ -233,22 +235,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
-    }
-    private String setPatientName(){
-        final String[] name = new String[1];
-        mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PatientID patient = snapshot.getValue(PatientID.class);
-                name[0] = patient.getName();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return name[0];
     }
 }
 /*

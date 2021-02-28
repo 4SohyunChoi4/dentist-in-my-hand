@@ -59,7 +59,7 @@ public class LoginFragment extends Fragment {
                                     ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "아이디 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                                 }
 
                             }

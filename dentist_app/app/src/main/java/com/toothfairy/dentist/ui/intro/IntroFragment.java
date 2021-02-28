@@ -7,7 +7,6 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,7 +18,7 @@ import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.ui.NoticeFragment;
 import com.toothfairy.dentist.ui.OfficehoursFragment;
 import com.toothfairy.dentist.ui.ask.AskFragment;
-import com.toothfairy.dentist.ui.book.BookFragment;
+import com.toothfairy.dentist.book.BookFragment;
 
 import java.util.Objects;
 
