@@ -1,6 +1,7 @@
 package com.toothfairy.dentist;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ public class JoinFragment extends Fragment {
 
         final EditText editEmail = root.findViewById(R.id.email);
         final EditText editPasswd = root.findViewById(R.id.passwd);
+        final EditText editPasswd2 = root.findViewById(R.id.passwd2);
         final EditText editName = root.findViewById(R.id.name);
         final EditText editRegiNum = root.findViewById(R.id.regiNum);
         final EditText editPhoneNum = root.findViewById(R.id.phoneNum);
@@ -52,32 +54,44 @@ public class JoinFragment extends Fragment {
         root.findViewById(R.id.join).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = editEmail.getText().toString();
-                String passwd = editPasswd.getText().toString();
-                final String name = editName.getText().toString();
-                final long regiNum = Integer.parseInt(editRegiNum.getText().toString());
-                final long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
+                if ( (TextUtils.isEmpty(editEmail.getText()))|| (TextUtils.isEmpty(editPasswd.getText())) ||
+                        (TextUtils.isEmpty(editPasswd2.getText())) || (TextUtils.isEmpty(editName.getText())) ||
+                        (TextUtils.isEmpty(editRegiNum.getText())) || (TextUtils.isEmpty(editPhoneNum.getText()))) { //빈칸 채우기
+                    Toast.makeText(getActivity(), "빈칸을 전부 채워주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    String email = editEmail.getText().toString();
+                    String passwd = editPasswd.getText().toString();
+                    String passwd2 = editPasswd2.getText().toString();
+                    final String name = editName.getText().toString();
+                    final long regiNum = Integer.parseInt(editRegiNum.getText().toString());
+                    final long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
 
-                mAuth.createUserWithEmailAndPassword(email, passwd)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    PatientID patient = new PatientID();
-                                    patient.setName(name);
-                                    patient.setRegiNum(regiNum);
-                                    patient.setPhoneNum(phoneNum);
-                                    user = mAuth.getCurrentUser();
-                                    updateDatabase(patient);
-                                } else {
-                                    Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                    ((MainActivity) getActivity()).updateUI(null);
-                                }
+                    if (!passwd.equals(passwd2)) {
+                        Toast.makeText(getActivity(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mAuth.createUserWithEmailAndPassword(email, passwd)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            PatientID patient = new PatientID();
+                                            patient.setName(name);
+                                            patient.setRegiNum(regiNum);
+                                            patient.setPhoneNum(phoneNum);
+                                            user = mAuth.getCurrentUser();
+                                            updateDatabase(patient);
+                                        } else {
+                                            Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                            ((MainActivity) getActivity()).updateUI(null);
+                                        }
 
-                            }
-                        });
+                                    }
+                                });
+                    }
 
+                }
             }
+
         });
         return root;
     }

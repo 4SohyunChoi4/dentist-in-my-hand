@@ -62,11 +62,28 @@
             android:id="@+id/passwd"
             android:autofillHints="hongrilldong123"/>
     <TextView
-            android:id="@+id/nameText"
+            android:id="@+id/passwd2Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/passwdText"
             app:layout_constraintTop_toBottomOf="@+id/passwdText"
+            android:layout_marginTop="30sp"
+            android:text="비밀번호 확인"/>
+    <EditText
+            android:layout_width="@dimen/join_width_size"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintTop_toTopOf="@+id/passwd2Text"
+            android:singleLine="true"
+            android:id="@+id/passwd2"
+            android:autofillHints="hongrilldong123"/>
+    <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/passwd2Text"
+            app:layout_constraintTop_toBottomOf="@+id/passwd2Text"
             android:layout_marginTop="30sp"
             android:text="이름"/>
     <EditText

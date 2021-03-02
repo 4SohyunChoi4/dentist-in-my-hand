@@ -31,7 +31,6 @@ public class BookFragment extends Fragment {
 
     FirebaseUser user;
     FirebaseDatabase mFirebaseDatabase;
-    DatabaseReference mDatabaseReference;
     private ListView listView;
     private ListViewAdapter adapter;
     Dialog dialog;
@@ -42,7 +41,7 @@ public class BookFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_book, container, false);
+        final View root = inflater.inflate(R.layout.fragment_book, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         RadioButton etc = root.findViewById(R.id.etc);
@@ -71,7 +70,7 @@ public class BookFragment extends Fragment {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage("정말로 예약하시겠습니까?");
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -125,11 +124,16 @@ public class BookFragment extends Fragment {
         calendarView.setMinDate(startOfMonth);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar subCalendar = Calendar.getInstance();
-                subCalendar.set(year, month, dayOfMonth);
-                int dayOfWeek = subCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-                showDialog(year, month, dayOfMonth, dayOfWeek);
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
+                RadioGroup rdGroup = getView().findViewById(R.id.rdGroup);
+                if (rdGroup.getCheckedRadioButtonId() == -1){
+                    Toast.makeText(getActivity(), "진료 항목을 선택해주세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    Calendar subCalendar = Calendar.getInstance();
+                    subCalendar.set(year, month, dayOfMonth);
+                    int dayOfWeek = subCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+                    showDialog(year, month, dayOfMonth, dayOfWeek);
+                }
             }
         });
         return root;
@@ -142,8 +146,7 @@ public class BookFragment extends Fragment {
         if (subjectID == 0x7f0900b1) {
             EditText etcEdit = getView().findViewById(R.id.etcEdit);
             return etcEdit.getText().toString();
-        }
-        else {
+        } else {
             RadioButton rb = getView().findViewById(subjectID);
             return rb.getText().toString();
         }

@@ -1,6 +1,7 @@
 package com.toothfairy.dentist;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,25 +46,30 @@ public class LoginFragment extends Fragment {
         root.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = editEmail.getText().toString();
-                String passwd = editPasswd.getText().toString();
+                if ((TextUtils.isEmpty(editEmail.getText())) || (TextUtils.isEmpty(editPasswd.getText())))
+                    Toast.makeText(getActivity(), "아이디 혹은 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                else {
+                    String email = editEmail.getText().toString();
+                    String passwd = editPasswd.getText().toString();
 
-                mAuth.signInWithEmailAndPassword(email, passwd)
-                        .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    ((MainActivity) getActivity()).updateUI(user);
-                                    ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(getActivity(), "아이디 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    mAuth.signInWithEmailAndPassword(email, passwd)
+                            .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        ((MainActivity) getActivity()).updateUI(user);
+                                        ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(getActivity(), "아이디 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
+                            });
+                }
 
-                            }
-                        });
             }
         });
         return root;
