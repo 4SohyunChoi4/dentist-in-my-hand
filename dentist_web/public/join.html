@@ -157,7 +157,7 @@
                 if (user && isAdduser) {
                     // User is signed in.
 
-                    var ref = firebaseDatabase.ref("users/" + user.uid); //저장될 곳을 users라는 부모 키를 레퍼런스로 지정.
+                    var ref = firebaseDatabase.ref("admin/" + user.uid); //저장될 곳을 users라는 부모 키를 레퍼런스로 지정.
 
                     var name = $('#name').val();
 
