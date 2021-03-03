@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.book;
+package com.toothfairy.dentist.book;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,11 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import com.google.firebase.database.*;
-import com.toothfairy.dentist.PatientInfo;
 import com.toothfairy.dentist.R;
 
 import java.util.ArrayList;
@@ -64,11 +60,11 @@ public class ListViewAdapter extends BaseAdapter {
         time.setText(String.valueOf(item.getTime()));
             return convertView;
     }
-    public void addItem(int time, long count){
+    public void addItem(int time){
         ListViewItem item = new ListViewItem();
 
         item.setTime(time); //이렇게 하는게 아니고 firebase에서 값을 받아와야 할것같다...
-        item.setLimit(count);
+        item.setLimit(0);
         listViewItemList.add(item);
     }
 

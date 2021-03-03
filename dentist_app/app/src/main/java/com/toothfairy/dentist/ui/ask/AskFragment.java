@@ -2,7 +2,6 @@ package com.toothfairy.dentist.ui.ask;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -12,11 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.firebase.database.*;
+import com.toothfairy.dentist.Ask;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.ui.intro.IntroFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +28,9 @@ public class AskFragment extends Fragment {
 
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-    private ArrayAdapter<String> adapter;
-    List<Object> Array = new ArrayList<Object>();
+    ListView askBoard;
+    private ArrayAdapter<String> askAdapter;
+    List<Object> askArray = new ArrayList<>();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,47 +59,45 @@ public class AskFragment extends Fragment {
             }
         });
 
-        final ListView listViewBoard = root.findViewById(R.id.listViewBoard);
+        final ListView askBoard = root.findViewById(R.id.askBoard);
+        displayAsk();
+        askAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
+        askBoard.setAdapter(askAdapter);
 
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
-        listViewBoard.setAdapter(adapter);
+        return root;
+    }
 
-        DatabaseReference mDatabaseReference = mFirebaseDatabase.getReference("Ask");
-        ChildEventListener mChildEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                adapter.clear();
-
-                for (DataSnapshot messageData : snapshot.getChildren()) {
-                    String msg2 = messageData.getValue().toString();
-                    Array.add(msg2);
-                    adapter.add(msg2);
+    private void displayAsk() {
+        mFirebaseDatabase.getReference("ask/")
+                .addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName){
+                    Ask ask = snapshot.getValue(Ask.class);
+                    String askContent = ask.getContent();
+                    askArray.add(askContent);
+                    askAdapter.add(askContent);
+                    askAdapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
-                listViewBoard.setSelection(adapter.getCount() - 1);
-            }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    //답변이 달렸을 때
+                }
 
-            }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
 
-            }
-        };
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-    return root;
+                }
+            });
     }
 }

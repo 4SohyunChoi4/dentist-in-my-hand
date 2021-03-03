@@ -4,171 +4,120 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"
-        tools:context=".ui.book.BookFragment">
 
-    <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="20sp"
-            android:layout_height="?attr/actionBarSize"
-            android:scaleType="fitCenter"
-            android:layout_marginLeft="10sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@android:color/transparent"
-            android:src="@drawable/left_arrow"/>
-
-    <LinearLayout
-            android:layout_marginTop="50sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/board"
-            android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="#ffffff"
+            tools:context=".book.BookFragment">
+
+        <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="20sp"
+                android:layout_height="?attr/actionBarSize"
+                android:scaleType="fitCenter"
+                android:layout_marginStart="10sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/left_arrow"/>
+
         <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
-                android:layout_height="35sp"
-                android:text="예약하기"
-                android:textSize="30sp"
-                android:layout_marginBottom="30sp"
-        />
-        <LinearLayout
-                android:layout_width="300sp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20sp"
-                android:orientation="horizontal">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이름"/>
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:id="@+id/name"
-                    android:autofillHints="최소현"/>
-        </LinearLayout>
-    <LinearLayout
-            android:layout_width="300sp"
-            android:layout_marginBottom="20sp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:text="예약하기"
+                app:layout_constraintTop_toBottomOf="@+id/btnBack"
+                app:layout_constraintStart_toEndOf="@+id/btnBack"
+                android:textSize="@dimen/title_size"/>
+
         <TextView
+                android:layout_marginTop="30sp"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintBottom_toTopOf="@id/rdGroup"
+                app:layout_constraintStart_toStartOf="@id/dateLayout"
+                android:id="@+id/subjectTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="주민등록번호"/>
-        <EditText
-                android:layout_width="100sp"
-                android:id="@+id/regiNum"
-                android:singleLine="true"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="300sp"
-                android:layout_marginBottom="20sp"
+                android:text="진료 항목"
+                android:textSize="20sp"
+        />
+        <RadioGroup
+                android:id="@+id/rdGroup"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <TextView
+                android:orientation="vertical"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintBottom_toTopOf="@+id/dateLayout"
+                app:layout_constraintStart_toStartOf="@id/subjectTitle"
+                app:layout_constraintTop_toBottomOf="@id/subjectTitle">
+            <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="휴대폰 번호"/>
-            <EditText
-                    android:id="@+id/phoneNum"
-                    android:layout_width="70sp"
-                    android:singleLine="true"
-                    android:layout_height="wrap_content"/>
-            <!--<TextView
+                    android:id="@+id/rd1"
+                    android:text="정기검진"/>
+            <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-"/>
+                    app:layout_constraintStart_toEndOf="@id/rd1"
+                    app:layout_constraintTop_toTopOf="@id/rd1"
+                    android:id="@+id/rd2"
+                    android:text="교정"/>
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/rd2"
+                    app:layout_constraintTop_toTopOf="@id/rd1"
+                    android:id="@+id/rd3"
+                    android:text="스케일링"/>
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/rd1"
+                    app:layout_constraintTop_toBottomOf="@id/rd1"
+                    android:id="@+id/rd4"
+                    android:text="라미네이트"/>
+            <RadioButton
+                    android:id="@+id/rd5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/rd4"
+                    app:layout_constraintTop_toBottomOf="@id/rd1"
+                    android:text="화이트닝"/>
+            <RadioButton
+                    android:id="@+id/etc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/rd1"
+                    app:layout_constraintTop_toBottomOf="@id/rd4"
+                    android:text="직접 작성"/>
             <EditText
-                    android:layout_width="70sp"
-                    android:singleLine="true"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/etcEdit"
+                    android:visibility="gone"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/etc"
+                    app:layout_constraintTop_toBottomOf="@+id/rd4"
+                    android:autofillHints="이 시림"/>
+        </RadioGroup>
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-"/>
-            <EditText
-                    android:layout_width="70sp"
-                    android:singleLine="true"
-                    android:layout_height="wrap_content"/>-->
-        </LinearLayout>
-        <TextView
-                    android:id="@+id/subjectTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35sp"
-                    android:text="진료 항목"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="10sp"/>
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ch1"
-                        android:text="정기검진"/>
-                <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ch2"
-                        android:text="교정"/>
-                <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ch3"
 
-                        android:text="충치치료"/>
-                <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ch4"
-                        android:text="라미네이트"/>
-            </LinearLayout>
-            <CheckBox
-                    android:id="@+id/ch5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="임플란트"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dateLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rdGroup"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="100sp">
 
             <TextView
                     android:layout_marginTop="30sp"
-                    android:id="@+id/doctorTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35sp"
-                    android:text="담당의"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="10sp"/>
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <RadioButton
-                        android:id="@+id/doctorPark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="박명숙"/>
-                <RadioButton
-                        android:id="@+id/doctorKim"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="김숙숙"/>
-            </LinearLayout>
-            <TextView
-                    android:layout_marginTop="30sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/dateTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="35sp"
@@ -176,12 +125,13 @@ xmlns:android="http://schemas.android.com/apk/res/android">
                     android:textSize="20sp"/>
             <CalendarView
                     android:id="@+id/calendar"
+                    app:layout_constraintTop_toBottomOf="@id/dateTitle"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
             />
-
-        </LinearLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+
+</ScrollView>

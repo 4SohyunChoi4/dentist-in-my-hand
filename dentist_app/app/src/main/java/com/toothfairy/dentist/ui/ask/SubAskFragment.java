@@ -14,9 +14,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.FirebaseDatabase;
+import com.toothfairy.dentist.Ask;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
 
 import java.util.Date;
 import java.util.Objects;
@@ -45,15 +45,14 @@ public class SubAskFragment extends Fragment {
 
         root.findViewById(R.id.btnUpload).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//
+            public void onClick(View v) {
                 String content  = editContent.getText().toString();
-                AskInfo askInfo = new AskInfo();
-                askInfo.setContent(content);
-                askInfo.setUploadDate(new Date().getTime());
-                askInfo.setAnswered(false);
-                mFirebaseDatabase.getReference("Ask/")
+                Ask ask = new Ask();
+                ask.setContent(content);
+                ask.setCreateDate(new Date().getTime());
+                mFirebaseDatabase.getReference("ask/")
                         .push()
-                        .setValue(askInfo)
+                        .setValue(ask)
                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -65,12 +64,12 @@ public class SubAskFragment extends Fragment {
         });
 
 
-       root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               ((MainActivity)getActivity()).replaceFragment(AskFragment.newInstance());
-           }
-       });
+        root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(AskFragment.newInstance());
+            }
+        });
         return root;
     }
 }

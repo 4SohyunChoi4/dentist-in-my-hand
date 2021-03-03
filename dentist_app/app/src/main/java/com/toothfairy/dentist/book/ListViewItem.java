@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.book;
+package com.toothfairy.dentist.book;
 
 public class ListViewItem {
 

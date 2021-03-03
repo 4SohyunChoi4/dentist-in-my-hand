@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#ffffff"
+        tools:context=".LoginFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="20sp"
+            android:layout_height="?attr/actionBarSize"
+            android:scaleType="fitCenter"
+            android:layout_marginStart="10sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/left_arrow"/>
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그인"
+            app:layout_constraintTop_toBottomOf="@+id/btnBack"
+            app:layout_constraintStart_toEndOf="@+id/btnBack"
+            android:textSize="@dimen/title_size"/>
+    <TextView
+            android:id="@+id/emailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="이메일"/>
+    <EditText
+            android:layout_width="@dimen/join_width_size"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="90sp"
+            app:layout_constraintTop_toTopOf="@+id/emailText"
+            android:singleLine="true"
+            android:id="@+id/email"
+            android:autofillHints="hongrilldong123"/>
+    <TextView
+            android:id="@+id/passwdText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/emailText"
+            app:layout_constraintTop_toBottomOf="@+id/emailText"
+            android:layout_marginTop="30sp"
+            android:text="비밀번호"/>
+    <EditText
+            android:layout_width="@dimen/join_width_size"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintTop_toTopOf="@+id/passwdText"
+            android:singleLine="true"
+            android:id="@+id/passwd"/>
+
+
+    <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwd"
+            android:layout_marginTop="@dimen/button_bottom_margin"
+            android:layout_marginEnd="@dimen/button_end_margin"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

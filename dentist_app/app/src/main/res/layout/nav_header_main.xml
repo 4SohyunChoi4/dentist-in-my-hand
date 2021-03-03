@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -9,34 +9,47 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:orientation="horizontal"
         android:gravity="bottom">
 
     <ImageView
+            android:id="@+id/navImageView"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:srcCompat="@mipmap/face"
             android:contentDescription="@string/nav_header_desc"
-            android:id="@+id/imageView"/>
-    <LinearLayout android:layout_width="match_parent"
-                  android:paddingLeft="@dimen/activity_vertical_margin"
-                  android:paddingTop="@dimen/nav_header_vertical_spacing"
-                  android:layout_height="75dp"
-                  android:orientation="vertical">
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/nav_header_title"
-                android:textColor="#000000"/>
+            app:layout_constraintTop_toTopOf="@id/navTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+    <TextView
+            android:id="@+id/navTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="40sp"
+            android:layout_marginStart="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/navImageView"
+            android:textColor="#000000"/>
+    <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/navTextView"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="15sp"
+            app:layout_constraintStart_toEndOf="@+id/navImageView"
+            android:textColor="#000000"
+            android:text="로그인"/>
+    <Button
+            android:id="@+id/joinBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/loginBtn"
+            app:layout_constraintStart_toEndOf="@+id/loginBtn"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"
+            android:text="회원가입"/>
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nav_header_subtitle"
-                android:id="@+id/textView"
-                android:textColor="#000000"/>
 
 
-    </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,8 @@
 package com.toothfairy.dentist;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,10 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
@@ -28,8 +31,10 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
+import com.toothfairy.dentist.ui.ReceiptFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
 import com.toothfairy.dentist.ui.intro.IntroFragment;
@@ -43,12 +48,24 @@ import java.security.NoSuchAlgorithmException;
 import static android.Manifest.permission.CALL_PHONE;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseUser user;
+    private FirebaseDatabase mFirebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //getHashKey();
+        //mFirebaseDatabase.setPersistenceEnabled(true);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
+        builder.setMessage("로그인이 필요한 기능입니다.");
+        builder.setPositiveButton("로그인하기", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                replaceFragment(LoginFragment.newInstance());
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,10 +82,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(drawer.isDrawerOpen(Gravity.RIGHT)))
+                if (!(drawer.isDrawerOpen(Gravity.RIGHT))) {
                     drawer.openDrawer(Gravity.RIGHT);
-                //else
-                 //   drawer.openDrawer(Gravity.RIGHT);
+                    user = FirebaseAuth.getInstance().getCurrentUser();
+                    updateUI(user);
+                }
             }
         });
 
@@ -126,20 +144,23 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             requestPermissions(new String[]{CALL_PHONE}, 1);
                         }
+                        break;
                     case R.id.receipt:
-                        //fragment = new();
+                        if (user == null) {
+                            alertDialog.show();
+                        } else
+                            replaceFragment(ReceiptFragment.newInstance());
                         break;
                 }
                 return true;
 
             }
         });
-
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-            if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
             drawerLayout.closeDrawer(Gravity.RIGHT);
         else if (!(getSupportFragmentManager().findFragmentById(R.id.nav_intro) instanceof IntroFragment))
             replaceFragment(IntroFragment.newInstance());
@@ -158,8 +179,64 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.nav_host_fragment,fragment).commit();
+        ft.replace(R.id.nav_host_fragment, fragment).commit();
     }
+
+    public void updateUI(FirebaseUser user) {
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        final Button loginBtn = findViewById(R.id.loginBtn);
+        final Button joinBtn = findViewById(R.id.joinBtn);
+
+        ImageView navImageView = findViewById(R.id.navImageView);
+        final TextView navTextView = findViewById(R.id.navTextView);
+        if (user != null) { // 로그인했을때
+            navImageView.setVisibility(View.VISIBLE);
+            mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    PatientID patient = snapshot.getValue(PatientID.class);
+                    navTextView.setText(patient.getName()+getResources().getString(R.string.nav_header_title_login));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            loginBtn.setText("로그아웃");
+            joinBtn.setVisibility(View.GONE);
+            navImageView.setVisibility(View.VISIBLE);
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+                }
+            });
+        } else { //로그인 x
+            navTextView.setText(getResources().getString(R.string.nav_header_title_no_login));
+            navImageView.setVisibility(View.GONE);
+            loginBtn.setText("로그인");
+            joinBtn.setVisibility(View.VISIBLE);
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replaceFragment(LoginFragment.newInstance());
+                    onBackPressed();
+                }
+            });
+            joinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replaceFragment(JoinFragment.newInstance());
+                    onBackPressed();
+                }
+            });
+
+        }
+    }
+}
 /*
     private void getHashKey(){
         PackageInfo packageInfo = null;
@@ -183,5 +260,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     */
-
-}
