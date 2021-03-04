@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.ask;
+package com.toothfairy.dentist.ask;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,20 +13,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.toothfairy.dentist.Ask;
+import com.google.firebase.database.ValueEventListener;
 import com.toothfairy.dentist.MainActivity;
+import com.toothfairy.dentist.PatientID;
 import com.toothfairy.dentist.R;
 
-import java.util.Date;
-import java.util.Objects;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SubAskFragment extends Fragment {
 
-
-    public static SubAskFragment newInstance(){
+    public static SubAskFragment newInstance() {
         return new SubAskFragment();
     }
+
     FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -46,18 +51,19 @@ public class SubAskFragment extends Fragment {
         root.findViewById(R.id.btnUpload).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String content  = editContent.getText().toString();
+                String content = editContent.getText().toString();
                 Ask ask = new Ask();
                 ask.setContent(content);
-                ask.setCreateDate(new Date().getTime());
+                ask.setName(getPatientName());
+                ask.setCreateTime(getTimeToString());
                 mFirebaseDatabase.getReference("ask/")
                         .push()
                         .setValue(ask)
                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(getActivity(),"글 작성이 완료되었습니다.",Toast.LENGTH_SHORT).show();
-                                ((MainActivity)getActivity()).replaceFragment(AskFragment.newInstance());
+                                Toast.makeText(getActivity(), "글 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                                ((MainActivity) getActivity()).replaceFragment(AskFragment.newInstance());
                             }
                         });
             }
@@ -67,9 +73,27 @@ public class SubAskFragment extends Fragment {
         root.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(AskFragment.newInstance());
+                ((MainActivity) getActivity()).replaceFragment(AskFragment.newInstance());
             }
         });
         return root;
+    }
+
+    private String getPatientName() {
+        String name = null;
+        Bundle bundle = getArguments();  //번들 받기. getArguments() 메소드로 받음.
+
+        if(bundle != null){
+            name = bundle.getString("name"); //Name 받기.
+        }
+        return name;
+    }
+
+    private String getTimeToString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMddHHmm", Locale.KOREA);
+        //"20213311941"
+        Date currentTime = new Date();
+        String dTime = formatter.format(currentTime);
+        return dTime;
     }
 }

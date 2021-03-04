@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.ask;
+package com.toothfairy.dentist.ask;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.firebase.database.*;
-import com.toothfairy.dentist.Ask;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
+import com.toothfairy.dentist.intro.IntroFragment;
 
 import java.util.ArrayList;
 import java.util.List;

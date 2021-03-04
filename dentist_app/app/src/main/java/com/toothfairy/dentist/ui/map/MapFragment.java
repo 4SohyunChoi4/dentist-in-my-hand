@@ -12,12 +12,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
-import com.toothfairy.dentist.ui.subject.SubjectFragment;
+import com.toothfairy.dentist.intro.IntroFragment;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-import net.daum.android.map.MapViewEventListener;
 
 public class MapFragment extends Fragment {
 

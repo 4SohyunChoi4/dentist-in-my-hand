@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
+import com.toothfairy.dentist.intro.IntroFragment;
 
 public class OfficehoursFragment extends Fragment {
     public static OfficehoursFragment newInstance(){

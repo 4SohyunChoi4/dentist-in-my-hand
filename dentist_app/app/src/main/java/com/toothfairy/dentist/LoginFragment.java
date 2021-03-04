@@ -15,7 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
+import com.toothfairy.dentist.intro.IntroFragment;
 
 import java.util.Objects;
 

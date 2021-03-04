@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.ask;
+package com.toothfairy.dentist.ask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

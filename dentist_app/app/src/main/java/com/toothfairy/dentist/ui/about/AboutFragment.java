@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
+import com.toothfairy.dentist.intro.IntroFragment;
 
 public class AboutFragment extends Fragment {
 

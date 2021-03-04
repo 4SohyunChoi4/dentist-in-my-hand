@@ -1,16 +1,11 @@
 package com.toothfairy.dentist;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,7 +21,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,19 +31,17 @@ import com.google.firebase.database.*;
 import com.toothfairy.dentist.ui.ReceiptFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
+import com.toothfairy.dentist.intro.IntroFragment;
 import com.toothfairy.dentist.ui.map.MapFragment;
 import com.toothfairy.dentist.ui.subject.SubjectFragment;
-import net.daum.android.map.MapView;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import static android.Manifest.permission.CALL_PHONE;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseDatabase mFirebaseDatabase;
+    PatientID patient;
+    Bundle bundle = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(LoginFragment.newInstance());
             }
         });
+
         final AlertDialog alertDialog = builder.create();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -106,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         //NavigationUI.setupWithNavController(navigationView, navController);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
@@ -179,7 +171,9 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        fragment.setArguments(bundle);
         ft.replace(R.id.nav_host_fragment, fragment).commit();
+
     }
 
     public void updateUI(FirebaseUser user) {
@@ -194,13 +188,12 @@ public class MainActivity extends AppCompatActivity {
             mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    PatientID patient = snapshot.getValue(PatientID.class);
+                    patient = snapshot.getValue(PatientID.class);
                     navTextView.setText(patient.getName()+getResources().getString(R.string.nav_header_title_login));
+                    bundle.putString("name",patient.getName());
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
                 }
             });
             loginBtn.setText("로그아웃");

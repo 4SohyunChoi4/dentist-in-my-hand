@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui.intro;
+package com.toothfairy.dentist.intro;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,7 +17,7 @@ import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.ui.NoticeFragment;
 import com.toothfairy.dentist.ui.OfficehoursFragment;
-import com.toothfairy.dentist.ui.ask.AskFragment;
+import com.toothfairy.dentist.ask.AskFragment;
 import com.toothfairy.dentist.book.BookFragment;
 
 import java.util.Objects;

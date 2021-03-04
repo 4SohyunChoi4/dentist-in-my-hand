@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.*;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +18,7 @@ import com.google.firebase.database.*;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.PatientID;
-import com.toothfairy.dentist.ui.intro.IntroFragment;
+import com.toothfairy.dentist.intro.IntroFragment;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -125,15 +124,12 @@ public class BookFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-                RadioGroup rdGroup = getView().findViewById(R.id.rdGroup);
-                if (rdGroup.getCheckedRadioButtonId() == -1){
-                    Toast.makeText(getActivity(), "진료 항목을 선택해주세요", Toast.LENGTH_SHORT).show();
-                } else {
-                    Calendar subCalendar = Calendar.getInstance();
-                    subCalendar.set(year, month, dayOfMonth);
-                    int dayOfWeek = subCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-                    showDialog(year, month, dayOfMonth, dayOfWeek);
-                }
+
+                Calendar subCalendar = Calendar.getInstance();
+                subCalendar.set(year, month, dayOfMonth);
+                int dayOfWeek = subCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+                showDialog(year, month, dayOfMonth, dayOfWeek);
+
             }
         });
         return root;
