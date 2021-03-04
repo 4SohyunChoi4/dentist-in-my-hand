@@ -5,5 +5,3 @@
  var day = d.getDate().toString();
  var hours = d.getHours().toString();
  var min = d.getMinutes().toString();
- var sec = d.getSeconds().toString();
- var currentTime = year + month + day + hours + min + sec;
