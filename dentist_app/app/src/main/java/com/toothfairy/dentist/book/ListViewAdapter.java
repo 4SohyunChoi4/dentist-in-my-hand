@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.google.firebase.database.*;
 import com.toothfairy.dentist.R;
 
@@ -16,10 +18,9 @@ public class ListViewAdapter extends BaseAdapter {
     private TextView time;
     private TextView limit;
 
-    FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference;
 
-    public ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+    public ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
 
     public ListViewAdapter() {
     }
@@ -58,17 +59,48 @@ public class ListViewAdapter extends BaseAdapter {
             limit.setText("X");
         }
         time.setText(String.valueOf(item.getTime()));
-            return convertView;
-    }
-    public void addItem(int time){
-        ListViewItem item = new ListViewItem();
-
-        item.setTime(time); //이렇게 하는게 아니고 firebase에서 값을 받아와야 할것같다...
-        item.setLimit(0);
-        listViewItemList.add(item);
+        return convertView;
     }
 
     public void clear() {
         listViewItemList.clear();
+    }
+
+    public void addItem(String ref, int time) {
+        final ListViewItem item = new ListViewItem();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        item.setTime(time); //이렇게 하는게 아니고 firebase에서 값을 받아와야 할것같다...
+        item.setLimit(0);
+        mDatabaseReference.child(ref + time + "h/").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.exists()) {
+                    //item= snapshot.getValue()
+                    item.setLimit(snapshot.getChildrenCount());
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.exists()) {
+                    item.setLimit(snapshot.getChildrenCount());
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        listViewItemList.add(item);
+
     }
 }

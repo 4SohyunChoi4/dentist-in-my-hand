@@ -90,7 +90,7 @@ public class SubAskFragment extends Fragment {
     }
 
     private String getTimeToString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMddHHmm", Locale.KOREA);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 M월 d일 HH:mm", Locale.KOREA);
         //"20213311941"
         Date currentTime = new Date();
         String dTime = formatter.format(currentTime);

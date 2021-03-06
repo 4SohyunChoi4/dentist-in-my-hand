@@ -1,4 +1,4 @@
-package com.toothfairy.dentist.ui;
+package com.toothfairy.dentist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +13,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.toothfairy.dentist.MainActivity;
-import com.toothfairy.dentist.Notice;
-import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.intro.IntroFragment;
 
 import java.util.ArrayList;

@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +32,7 @@ public class BookFragment extends Fragment {
 
     FirebaseUser user;
     FirebaseDatabase mFirebaseDatabase;
+    DatabaseReference mDatabaseReference;
     private ListView listView;
     private ListViewAdapter adapter;
     Dialog dialog;
@@ -86,12 +89,13 @@ public class BookFragment extends Fragment {
                         //PatientID patientID = new PatientID(); // 로그인 된 사용자의 정보를 가져온다.
                         mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            public void onDataChange(@NonNull final DataSnapshot snapshot) {
                                 PatientID patient = snapshot.getValue(PatientID.class);
                                 BookInfo bookInfo = new BookInfo();
                                 bookInfo.setPatient(patient);
                                 bookInfo.setSubject(getCheckbox());
                                 mFirebaseDatabase.getReference("book/" + y + "Y/" + monthTxt[m] + "/" + d + "D/" + item.getTime() + "h/")
+                                        .push()
                                         .setValue(bookInfo)
                                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                                             @Override
@@ -100,7 +104,6 @@ public class BookFragment extends Fragment {
                                                 adapter.clear();
                                                 Toast.makeText(getActivity(), "예약이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                                                 ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
-
                                             }
                                         });
                             }
@@ -154,34 +157,17 @@ public class BookFragment extends Fragment {
         dialog.show();
         TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
         dialogTitle.setText((month + 1) + "월" + dayOfMonth + "일" + weekDay[dayOfWeek]);
-        y = year;
-        m = month;
-        d = dayOfMonth;
+        String ref = "Book/" + year + "Y/" + monthTxt[month] + "/" + dayOfMonth + "D/";
 
-        for (int i = 9; i <= 16; i++) {
+        int max =17;
+        if ( dayOfWeek ==2 || dayOfWeek == 4) // 화요일이나 목요일일 때
+            max = 20;
+
+        for (int i = 9; i <= max; i++) {
             if (i == 12)
                 continue;
-/*
-            final int finalI = i;
-            mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-            mDatabaseReference.child("Book/" + y + "Y/" + monthTxt[m] + "/" + d + "D/" + finalI + "h/").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        count = snapshot.getChildrenCount();
-                        Toast.makeText(getActivity(), Long.toString(count), Toast.LENGTH_SHORT).show();
-                    } else
-                        count = 0;
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });*/
-            adapter.addItem(i);
+            adapter.addItem(ref, i);
         }
-
         adapter.notifyDataSetChanged();
 
         listView.setAdapter(adapter);

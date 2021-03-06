@@ -18,19 +18,14 @@
             app:layout_constraintStart_toStartOf="parent"
             android:background="@android:color/transparent"
             android:src="@drawable/left_arrow"/>
-
-
     <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:text="진료시간"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintStart_toStartOf="@+id/contents"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintBottom_toTopOf="@+id/contents"/>
+            android:text="진료 시간"
+            app:layout_constraintTop_toBottomOf="@+id/btnBack"
+            app:layout_constraintStart_toEndOf="@+id/btnBack"
+            android:textSize="@dimen/title_size"/>
     <TextView
             android:id="@+id/contents"
             android:layout_width="wrap_content"
@@ -41,6 +36,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             android:text="주중\n 9~12시 오전 진료\n12~1시 점심시간\n1시~5시 오후진료
-\n\n화, 목 야간진료\n~21시까지\n\n(*주말엔 쉽니다)"
+\n\n화, 목 야간진료\n~20시까지\n\n(*주말엔 쉽니다)"
             app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
