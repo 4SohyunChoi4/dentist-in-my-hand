@@ -92,9 +92,11 @@ public class BookFragment extends Fragment {
                             public void onDataChange(@NonNull final DataSnapshot snapshot) {
                                 PatientID patient = snapshot.getValue(PatientID.class);
                                 BookInfo bookInfo = new BookInfo();
-                                bookInfo.setPatient(patient);
+                                bookInfo.setName(patient.getName());
+                                bookInfo.setTime(item.getTime());
+                                bookInfo.setPhoneNum(patient.getPhoneNum());
                                 bookInfo.setSubject(getCheckbox());
-                                mFirebaseDatabase.getReference("book/" + y + "Y/" + monthTxt[m] + "/" + d + "D/" + item.getTime() + "h/")
+                                mFirebaseDatabase.getReference("book/" + y +"/" + m + "/" + d + "/")// + item.getTime() + "/")
                                         .push()
                                         .setValue(bookInfo)
                                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
@@ -127,14 +129,17 @@ public class BookFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-
                 Calendar subCalendar = Calendar.getInstance();
                 subCalendar.set(year, month, dayOfMonth);
                 int dayOfWeek = subCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+                /*if ( subCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || subCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY )
+                    calendarView.setDate(calendar.getTimeInMillis());
+                 */
+                if (dayOfWeek == 0 || dayOfWeek == 6)
                 showDialog(year, month, dayOfMonth, dayOfWeek);
 
-            }
-        });
+            })
+        };
         return root;
     }
 
@@ -157,7 +162,10 @@ public class BookFragment extends Fragment {
         dialog.show();
         TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
         dialogTitle.setText((month + 1) + "월" + dayOfMonth + "일" + weekDay[dayOfWeek]);
-        String ref = "Book/" + year + "Y/" + monthTxt[month] + "/" + dayOfMonth + "D/";
+        y = year;
+        m = month+1;
+        d = dayOfMonth;
+        String ref = "Book/" + year + "/" + month + "/" + dayOfMonth + "/";
 
         int max =17;
         if ( dayOfWeek ==2 || dayOfWeek == 4) // 화요일이나 목요일일 때

@@ -54,7 +54,7 @@ public class ListViewAdapter extends BaseAdapter {
         final ListViewItem item = listViewItemList.get(position);
 
         if (item.getLimit() < 2) //1명만
-            limit.setText("예약 가능");
+            limit.setText("예약하기");
         else {//2명이상
             limit.setText("X");
         }

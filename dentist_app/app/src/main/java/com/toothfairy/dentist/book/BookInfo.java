@@ -3,16 +3,33 @@ package com.toothfairy.dentist.book;
 import com.toothfairy.dentist.PatientID;
 
 public class BookInfo {
-
-    private PatientID patient;
+    private int time;
+    private String name;
+    private long phoneNum;
     private String subject;
 
-    public PatientID getPatient() {
-        return patient;
+    public String getName() {
+        return name;
+    }
+    public int getTime() {
+        return time;
     }
 
-    public void setPatient(PatientID patient) {
-        this.patient = patient;
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(long phoneNum) {
+        this.phoneNum = phoneNum;
     }
 
     public String getSubject() {

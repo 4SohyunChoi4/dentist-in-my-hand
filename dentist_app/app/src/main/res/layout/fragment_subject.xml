@@ -27,33 +27,68 @@
             app:layout_constraintStart_toEndOf="@+id/btnBack"
             android:textSize="@dimen/title_size"/>
     <TextView
-            android:id="@+id/contents"
+            android:id="@+id/implantTitle"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="임플란트"/>
+    <TextView
+            android:id="@+id/implantContents"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            android:text="임플란트
-
-상실된 치아를 인공 치아의 이식을 통해 건강한 구
-강을 가지게 하는 의학의 한 분야. 본래는 인체의 조
-직이 상실되었을 때 이를 회복시켜 주는 대치물을
-의미하지만 치과에서는 인공 치아 이식을 말한다.
-
-
-라미네이트
-
-치아가 벌어지거나 깨졌을 때 그 사이에 붙이는 아
-주 얇은 세라믹.
-
-
-치아 교정
-
-맞물림 장애를 수술하지 않고 교정하여 치료하는 방
-법. 치아와 이틀 돌기는 압박이 없는 자유로운 상태
-에서 정상적인 맞물림을 이룬다는 생물학적 원리를
-이용한다."
+            app:layout_constraintTop_toBottomOf="@+id/implantTitle"
+            android:text="수면 임플란트, 심미 임플란트,\n 즉시 임플란트, 전악 임플란트"/>
+    <TextView
+            android:id="@+id/braceTitle"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/implantTitle"
+            app:layout_constraintBottom_toTopOf="@+id/totalTitle"
+            android:text="교정프로그램"/>
+    <TextView
+            android:id="@+id/braceContents"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/braceTitle"
+            android:text="S-LINE, C-LINE, 세라믹, MTA, 메탈, 클리피씨, 데이몬, 투명, 콤비, 설측, 인코그니토, 인비절라인"
+            />
+    <TextView
+            android:id="@+id/totalTitle"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/braceContents"
+            android:text="토탈심미케어"
             app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:id="@+id/totalContent"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/totalTitle"
+            android:text="치아성형, 치아미백, 치주치료, 인레이(레진 인레이, 골드 인레이)"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
