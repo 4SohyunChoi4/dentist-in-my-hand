@@ -70,15 +70,6 @@
 
   <!-- 네비게이션 바 끝 -->
 
-  <!-- 감사리스트 출력하기-->
-  <div class="container">
-    <hr>
-    <h3>예약 목록</h3>
-    <br>
-    <!-- 감사 리스트 붙일 곳 -->
-    <div class="bookList"></div>
-  </div>
-
 
   <!--현재 시간을 가져오는 js 파일 -->
   <script src="./js/time.js"></script>
@@ -94,6 +85,17 @@
   <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
 
   <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+
+  <!-- 감사리스트 출력하기-->
+  <div class="container">
+    <script type="text/javascript">
+      document.write("<h3>" + month.toString() + "월 " + day.toString() + "일 예약 목록" + "</h3>");
+    </script>
+    <hr>
+    <br>
+    <!-- 감사 리스트 붙일 곳 -->
+    <div class="bookList"></div>
+  </div>
 
   <script>
     var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
@@ -184,11 +186,11 @@
       //감사리스트 동적으로 붙이기
       var html =
         "<div class=\"media-body\">" +
-        "<h4 class=\"media-heading\">" + "이름: " + name +
-        "<p>" + "시간: " + time + "</p>" + 
-        "<p>" + "전화번호: " + phoneNum + "</p>" +
-        "<p>" + "진료과목: " + subject + "</p></h4></div>"
-        "<hr>";
+        "<b>" + "<p class=\"media-heading\">" + "이름: " + name + "</p>" + "</b>" +
+        "<p>" + "-시간: " + time + "</p>" +
+        "<p>" + "-전화번호: " + phoneNum + "</p>" +
+        "<p>" + "-진료과목: " + subject + "</p></div>"
+      "<hr>";
 
       $(".bookList").append(html);
     }

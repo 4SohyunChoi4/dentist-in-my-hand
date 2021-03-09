@@ -49,7 +49,7 @@
           </li>
           <li>
             <a id="bookmenu" href="/book.html">예약 관리</a>
-        </li>
+          </li>
 
         </ul>
       </div>
@@ -71,8 +71,8 @@
       <textarea class="form-control" rows="5" id="reply" placeholder="문의사항에 대한 답변을 적어주세요."></textarea>
       <br> -->
 
-      <!-- 쓰기 버튼 가운데 정렬 -->
-      <!-- <div class="text-center">
+  <!-- 쓰기 버튼 가운데 정렬 -->
+  <!-- <div class="text-center">
         <button type="button" class="btn btn-success write" id="write" name="write">쓰기</button>
       </div>
     </div>
@@ -82,8 +82,8 @@
 
   <!-- 감사리스트 출력하기-->
   <div class="container">
-    <hr>
     <h3>1:1 문의 내역</h3>
+    <hr>
     <br>
     <!-- 감사 리스트 붙일 곳 -->
     <div class="askList"></div>
@@ -240,8 +240,8 @@
       var html =
         "<div class=\"media-body\">" +
         "<h4 class=\"media-heading\">" + name +
-        "<span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
-        "<p>" + content + "</p></div>" +
+        " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
+        "<p>" + content + "</p></div></div>" +
         "<hr>";
 
       $(".askList").append(html);
