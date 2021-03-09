@@ -162,7 +162,7 @@
       //로그인한 유저라면
       if (loginUserKey) {
         //글이 저장된 레퍼런스 값 가져오기
-        var bookRef = firebaseDatabase.ref('book/' + year + '/' + month + '/' + day + '/' + 15);
+        var bookRef = firebaseDatabase.ref('book/' + year + '/' + month + '/' + day);
         //on 함수로 글 목록가져오기
         bookRef.on('child_added', on_book_list)
       } else {
@@ -179,12 +179,14 @@
       var name = Data.name;
       var phoneNum = Data.phoneNum;
       var subject = Data.subject;
+      var time = Data.time;
 
       //감사리스트 동적으로 붙이기
       var html =
         "<div class=\"media-body\">" +
         "<h4 class=\"media-heading\">" + "이름: " + name +
-        "<p>" + "전화번호: " + phoneNum +  + "</p>" +
+        "<p>" + "시간: " + time + "</p>" + 
+        "<p>" + "전화번호: " + phoneNum + "</p>" +
         "<p>" + "진료과목: " + subject + "</p></h4></div>"
         "<hr>";
 
