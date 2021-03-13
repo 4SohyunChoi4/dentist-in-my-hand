@@ -11,6 +11,7 @@
     <string name="menu_subject">진료 항목</string>
     <string name="menu_doctor">의료진 소개</string>
     <string name="menu_map">오시는 길</string>
+    <string name="msg_token_fmt">msg token fmt</string>
 
     <string-array name="gender">
         <item>여자</item>

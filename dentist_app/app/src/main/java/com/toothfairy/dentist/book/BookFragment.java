@@ -37,7 +37,6 @@ public class BookFragment extends Fragment {
     private ListViewAdapter adapter;
     Dialog dialog;
 
-    String[] monthTxt = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Dec"};
     String[] weekDay = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
     int y, m, d;
 
@@ -115,7 +114,6 @@ public class BookFragment extends Fragment {
                             }
                         });
 
-
                     }
                 });
                 builder.create().show();
@@ -138,8 +136,8 @@ public class BookFragment extends Fragment {
                 if (dayOfWeek == 0 || dayOfWeek == 6)
                 showDialog(year, month, dayOfMonth, dayOfWeek);
 
-            })
-        };
+            }
+        });
         return root;
     }
 

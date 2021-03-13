@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import androidx.navigation.NavController;
@@ -27,7 +30,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.*;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.toothfairy.dentist.ui.ReceiptFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
@@ -38,6 +43,8 @@ import com.toothfairy.dentist.ui.subject.SubjectFragment;
 import static android.Manifest.permission.CALL_PHONE;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MyFirebaseMsgService";
     private FirebaseUser user;
     private FirebaseDatabase mFirebaseDatabase;
     PatientID patient;
@@ -47,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        getToken();
         //getHashKey();
         //mFirebaseDatabase.setPersistenceEnabled(true);
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
@@ -148,6 +158,28 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void getToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void onBackPressed() {
