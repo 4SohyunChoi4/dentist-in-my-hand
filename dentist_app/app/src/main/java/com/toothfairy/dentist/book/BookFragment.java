@@ -1,9 +1,14 @@
 package com.toothfairy.dentist.book;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.app.PendingIntent;
+import android.content.*;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +16,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.*;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
-import com.toothfairy.dentist.MainActivity;
+import com.toothfairy.dentist.*;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.PatientID;
 import com.toothfairy.dentist.intro.IntroFragment;
 
 import java.util.Calendar;
@@ -95,7 +98,7 @@ public class BookFragment extends Fragment {
                                 bookInfo.setTime(item.getTime());
                                 bookInfo.setPhoneNum(patient.getPhoneNum());
                                 bookInfo.setSubject(getCheckbox());
-                                mFirebaseDatabase.getReference("book/" + y +"/" + m + "/" + d + "/")// + item.getTime() + "/")
+                                mFirebaseDatabase.getReference("book/" + y + "/" + m + "/" + d + "/")// + item.getTime() + "/")
                                         .push()
                                         .setValue(bookInfo)
                                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
@@ -104,6 +107,8 @@ public class BookFragment extends Fragment {
                                                 dialog.dismiss();
                                                 adapter.clear();
                                                 Toast.makeText(getActivity(), "예약이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                                                setYesterdayAlarm(y, m, d);
+                                                setOneHoursAgoAlarm(y, m, d, item.getTime());
                                                 ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
                                             }
                                         });
@@ -133,12 +138,41 @@ public class BookFragment extends Fragment {
                 /*if ( subCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || subCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY )
                     calendarView.setDate(calendar.getTimeInMillis());
                  */
-                if (dayOfWeek == 0 || dayOfWeek == 6)
-                showDialog(year, month, dayOfMonth, dayOfWeek);
+                if (dayOfWeek != 0 && dayOfWeek != 6)
+                    showDialog(year, month, dayOfMonth, dayOfWeek);
 
             }
         });
         return root;
+    }
+
+    private void setYesterdayAlarm(int y, int m, int d) {
+        PackageManager pm = getActivity().getPackageManager();
+        IntentFilter filter = new IntentFilter("ALARM_ACTION");
+        ComponentName receiver = new ComponentName(getActivity(), DeviceBootReceiver.class);
+        Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, y);
+        calendar.set(Calendar.MONTH, m);
+        calendar.set(Calendar.DATE, d-1);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        //SharedPreferences.Editor editor = getActivity().getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+        if (alarmManager != null) {
+            //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
+                    3000, pendingIntent);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
+    }
+
+    private void setOneHoursAgoAlarm(int y, int m, int d, int hour) {
     }
 
     private String getCheckbox() {
@@ -161,12 +195,12 @@ public class BookFragment extends Fragment {
         TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
         dialogTitle.setText((month + 1) + "월" + dayOfMonth + "일" + weekDay[dayOfWeek]);
         y = year;
-        m = month+1;
+        m = month + 1;
         d = dayOfMonth;
         String ref = "Book/" + year + "/" + month + "/" + dayOfMonth + "/";
 
-        int max =17;
-        if ( dayOfWeek ==2 || dayOfWeek == 4) // 화요일이나 목요일일 때
+        int max = 17;
+        if (dayOfWeek == 2 || dayOfWeek == 4) // 화요일이나 목요일일 때
             max = 20;
 
         for (int i = 9; i <= max; i++) {

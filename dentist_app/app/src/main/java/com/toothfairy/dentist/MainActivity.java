@@ -3,6 +3,7 @@ package com.toothfairy.dentist;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+        SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
 
         getToken();
+        yesterdayAlarm();
         //getHashKey();
         //mFirebaseDatabase.setPersistenceEnabled(true);
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
@@ -173,11 +176,21 @@ public class MainActivity extends AppCompatActivity {
 
                         // Get new FCM registration token
                         String token = task.getResult();
+                        Log.d("token is : ", token);
 
                         // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        //String msg = getString(R.string.msg_token_fmt, token);
+                        //Log.d("token is : ", msg);
+                    }
+                });
+    }
+
+    private void yesterdayAlarm() {
+        FirebaseMessaging.getInstance().subscribeToTopic("yesterday")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d(TAG,"yesterday 구독 완료");
                     }
                 });
     }
