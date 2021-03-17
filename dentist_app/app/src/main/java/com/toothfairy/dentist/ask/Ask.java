@@ -5,7 +5,7 @@ public class Ask {
     private String name;
     private String content;
     private String createTime;
-    private String reply;
+    private String comment;
 
     public String getName() {
         return name;
@@ -15,12 +15,12 @@ public class Ask {
         this.name = name;
     }
 
-    public String getReply() {
-        return reply;
+    public String getComment() {
+        return comment;
     }
 
-    public void setReply(String reply) {
-        this.reply = reply;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getContent() {

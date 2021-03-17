@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     PatientID patient;
     Bundle bundle = new Bundle();
-
+    String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
         SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
 
-        getToken();
-        yesterdayAlarm();
         //getHashKey();
         //mFirebaseDatabase.setPersistenceEnabled(true);
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
@@ -115,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-                //FragmentManager fm = getSupportFragmentManager();
+                Bundle bundle = new Bundle();
+                bundle.putString("userName", userName);                //FragmentManager fm = getSupportFragmentManager();
                 switch (item.getItemId()) {
                     case R.id.nav_about:
                         fragment = AboutFragment.newInstance();
@@ -130,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = MapFragment.newInstance();
                 }
                 if (fragment != null) {
+                    fragment.setArguments(bundle);
                     replaceFragment(fragment);
                 }
                 drawer.closeDrawer(Gravity.END);
@@ -185,15 +185,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void yesterdayAlarm() {
-        FirebaseMessaging.getInstance().subscribeToTopic("yesterday")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d(TAG,"yesterday 구독 완료");
-                    }
-                });
-    }
 
     public void onBackPressed() {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
@@ -234,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     patient = snapshot.getValue(PatientID.class);
+                    userName = patient.getName();
                     navTextView.setText(patient.getName()+getResources().getString(R.string.nav_header_title_login));
                     bundle.putString("name",patient.getName());
                 }

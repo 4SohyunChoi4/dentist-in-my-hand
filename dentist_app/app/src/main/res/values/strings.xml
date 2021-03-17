@@ -11,7 +11,9 @@
     <string name="menu_subject">진료 항목</string>
     <string name="menu_doctor">의료진 소개</string>
     <string name="menu_map">오시는 길</string>
-    <string name="msg_token_fmt">msg token fmt</string>
+    <string name="default_notification_channel_id">123123</string>
+    <string name="fcm_message">알림 제목입니다.</string>
+    <string name="msg_token_fmt"/>
 
     <string-array name="gender">
         <item>여자</item>

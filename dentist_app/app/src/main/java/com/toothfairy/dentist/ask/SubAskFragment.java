@@ -27,12 +27,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SubAskFragment extends Fragment {
+    FirebaseUser user;
 
     public static SubAskFragment newInstance() {
         return new SubAskFragment();
     }
 
     FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+    String messageReceived = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +48,10 @@ public class SubAskFragment extends Fragment {
             }
         });
 
+        Bundle extra = getArguments();
+        if(extra != null) {
+            messageReceived = extra.getString("msg");
+        }
         final EditText editContent = root.findViewById(R.id.editContent);
 
         root.findViewById(R.id.btnUpload).setOnClickListener(new View.OnClickListener() {
@@ -53,6 +59,8 @@ public class SubAskFragment extends Fragment {
             public void onClick(View v) {
                 String content = editContent.getText().toString();
                 Ask ask = new Ask();
+                ask.setName(messageReceived);
+                ask.setComment("");
                 ask.setContent(content);
                 ask.setName(getPatientName());
                 ask.setCreateTime(getTimeToString());

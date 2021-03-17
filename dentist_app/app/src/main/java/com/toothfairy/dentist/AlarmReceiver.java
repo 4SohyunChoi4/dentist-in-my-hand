@@ -7,18 +7,30 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import androidx.core.app.NotificationCompat;
+import com.toothfairy.dentist.book.BookFragment;
 
 public class AlarmReceiver extends BroadcastReceiver {
+
+    private static final String TAG = AlarmReceiver.class.getName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        NotificationHelper notificationHelper = new NotificationHelper(context);
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        notificationHelper.getManager().notify(1, nb.build());
+    }
+}
+        /*
+        Log.i(TAG, "onReceive");
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        Intent notificationIntent = new Intent(context, BookFragment.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        PendingIntent pending = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        PendingIntent pending = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
 
@@ -41,9 +53,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setTicker("{Time to watch some cool stuff!}")
-                .setContentTitle("상태바 드래그시 보이는 타이틀")
-                .setContentText("상태바 드래그시 보이는 서브타이틀")
-                .setContentInfo("INFO")
+                .setContentTitle("숙명치과")
+                .setContentText("내일 치과 방문 잊지 말아주세요.")
                 .setContentIntent(pending);
 
         if (notificationManager != null) {
@@ -52,4 +63,4 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         }
     }
-}
+ */
