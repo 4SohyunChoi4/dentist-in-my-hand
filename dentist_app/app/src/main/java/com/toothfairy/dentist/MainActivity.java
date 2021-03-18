@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-                Bundle bundle = new Bundle();
-                bundle.putString("userName", userName);                //FragmentManager fm = getSupportFragmentManager();
+                //Bundle bundle = new Bundle();
+                //bundle.putString("userName", userName);                //FragmentManager fm = getSupportFragmentManager();
                 switch (item.getItemId()) {
                     case R.id.nav_about:
                         fragment = AboutFragment.newInstance();
@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                         fragment = MapFragment.newInstance();
                 }
                 if (fragment != null) {
-                    fragment.setArguments(bundle);
                     replaceFragment(fragment);
                 }
                 drawer.closeDrawer(Gravity.END);
@@ -207,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        fragment.setArguments(bundle);
         ft.replace(R.id.nav_host_fragment, fragment).commit();
 
     }

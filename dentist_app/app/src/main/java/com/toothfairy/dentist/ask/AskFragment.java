@@ -8,6 +8,8 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.firebase.database.*;
@@ -17,6 +19,7 @@ import com.toothfairy.dentist.intro.IntroFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AskFragment extends Fragment {
 
@@ -27,6 +30,7 @@ public class AskFragment extends Fragment {
 
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+    long num;
     ListView askBoard;
     private ArrayAdapter<String> askAdapter;
     List<Object> askArray = new ArrayList<>();
@@ -36,6 +40,7 @@ public class AskFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         AskViewModel askViewModel = ViewModelProviders.of(this).get(AskViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ask, container, false);
+        CountAskNum();
         final TextView textView = root.findViewById(R.id.title);
         askViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -54,7 +59,15 @@ public class AskFragment extends Fragment {
         root.findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(SubAskFragment.newInstance());
+                Fragment fragment = SubAskFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putLong("number", num);                //FragmentManager fm = getSupportFragmentManager();
+                fragment.setArguments(bundle);
+                /*FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.nav_host_fragment, fragment).commit();
+                */
+                ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(fragment);
             }
         });
 
@@ -65,7 +78,24 @@ public class AskFragment extends Fragment {
 
         return root;
     }
+    private void CountAskNum() {
+        mFirebaseDatabase.getReference("ask/")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //num = snapshot.getChildrenCount();
+                        for (DataSnapshot d: snapshot.getChildren())
+                            // TODO: handle the post
+                            num++;
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
     private void displayAsk() {
         mFirebaseDatabase.getReference("ask/")
                 .addChildEventListener(new ChildEventListener() {
@@ -99,4 +129,5 @@ public class AskFragment extends Fragment {
                 }
             });
     }
+
 }

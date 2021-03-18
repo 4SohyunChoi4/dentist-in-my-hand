@@ -7,10 +7,20 @@ public class BookInfo {
     private String name;
     private long phoneNum;
     private String subject;
+    private String detail;
 
     public String getName() {
         return name;
     }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
     public int getTime() {
         return time;
     }

@@ -1,6 +1,7 @@
 package com.toothfairy.dentist.ask;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import java.util.*;
 
 public class SubAskFragment extends Fragment {
     FirebaseUser user;
-
+    long num;
     public static SubAskFragment newInstance() {
         return new SubAskFragment();
     }
@@ -48,10 +49,12 @@ public class SubAskFragment extends Fragment {
             }
         });
 
-        Bundle extra = getArguments();
-        if(extra != null) {
-            messageReceived = extra.getString("msg");
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            num = bundle.getLong("number"); //Name 받기.
+            System.out.println(num); //확인
         }
+
         final EditText editContent = root.findViewById(R.id.editContent);
 
         root.findViewById(R.id.btnUpload).setOnClickListener(new View.OnClickListener() {
@@ -60,12 +63,12 @@ public class SubAskFragment extends Fragment {
                 String content = editContent.getText().toString();
                 Ask ask = new Ask();
                 ask.setName(messageReceived);
-                ask.setComment("");
+                ask.setReply("");
+                ask.setReplyIsNull(false);
                 ask.setContent(content);
                 ask.setName(getPatientName());
                 ask.setCreateTime(getTimeToString());
-                mFirebaseDatabase.getReference("ask/")
-                        .push()
+                mFirebaseDatabase.getReference("ask/"+num+"/")
                         .setValue(ask)
                         .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
                             @Override
