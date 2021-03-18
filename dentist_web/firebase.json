@@ -6,7 +6,6 @@
     "public": "public",
     "ignore": [
       "firebase.json",
-      "database.rules.json",
       "**/.*",
       "**/node_modules/**"
     ]
