@@ -98,6 +98,8 @@
         var content; //유저가 쓴글 내용 저장
         var createTime;
         var reply;
+        var replyIsNull = false;
+        var num;
 
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -129,33 +131,16 @@
                 var seseionCheck = document.getElementById("loginmenu").textContent;
 
                 //내가 쓴글 가져오기 - jquery방식으로 가져왔다.
-                comment = $('#comment').val();
+                reply = $('#reply').val();
                 if (seseionCheck == "로그아웃") {
                     //저장하기
-                    saveComment();
+                    saveReply();
                 } else {
                     alert("로그인이 필요한 서비스 입니다.")
                 }
             });
         });
 
-
-        //쓰기 버튼 눌렀을 때 호출 되는 함수
-        function saveComment() {
-
-            var askRef = firebaseDatabase.ref("ask/" + askUserKey);
-
-            //로그인한 유저의 pk값,이름,내용,시간 데이터
-            var obj = {
-                comment: comment
-            };
-
-            askRef.update(obj);
-
-            alert("답글 작성이 완료되었습니다.");
-
-            $('#comment').val("");
-        }
         //유저가 로그인 했는지 안했는지 확인해주는 함수
         function userSessionCheck() {
 
@@ -176,8 +161,6 @@
                         loginUserKey = snapshot.key;  //로그인한 유저의 key도 계속 쓸 것이기 때문에 전역변수로 할당
                         userInfo = snapshot.val(); //snapshot.val()에 user 테이블에 있는 해당 개체 정보가 넘어온다. userInfo에 대입!
 
-
-                        //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
                         askList();
                         return true
                     });
@@ -193,8 +176,13 @@
             if (loginUserKey) {
                 //글이 저장된 레퍼런스 값 가져오기
                 var askRef = firebaseDatabase.ref('ask');
-                //on 함수로 글 목록가져오기
-                askRef.on('child_added', on_ask_list);
+
+                firebaseDatabase.ref('ask').once('value').then(function (snapshot) {
+                    num = snapshot.numChildren();
+
+                    //on 함수로 글 목록가져오기
+                    askRef.on('child_added', on_ask_list);
+                });
             } else {
                 alert("실패")
                 return;
@@ -205,32 +193,43 @@
         function on_ask_list(data) {
             var key = data.key;
 
-            askUserKey = data.key;
-            
             var Data = data.val();
+
+            askUserKey = data.key;
             var name = Data.name;
             var createTime = Data.createTime;
             var content = Data.content;
-            var comment = Data.comment;
+            var reply = Data.reply;
 
+            var askUserKeyInList = data.key;
 
             //문의 내용 동적으로 붙이기
-            var html =
+            var contentView =
                 "<div class=\"media-body\">" +
                 "<h4 class=\"media-heading\">" + name +
                 " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
                 "<p>" + content + "</p></div></div>" +
-                "<br>" +
+                "<br>";
+
+            var replyView =
                 "<div class=\"media-body\">" +
                 "<h4 class=\"media-heading\">" + "관리자" +
                 " <span STYLE=\"color: red; font-size: 5pt\">" + "(답변 완료)" + "</span></h4>" +
-                "<p>" + comment + "</p></div></div>" +
-                "<br>" +
+                "<p>" + reply + "</p></div></div>" +
+                "<br>";
 
+            var replyWait =
+                "<div class=\"media-body\">" +
+                "<h4 class=\"media-heading\">" + "대기중인 답변" +
+                " <span STYLE=\"color: red; font-size: 5pt\">" + "(답변 미완료)" + "</span></h4>" +
+                "<p>" + "아래의 내용을 먼저 답변해주세요." + "</p></div></div>" +
+                "<br>";
+
+            var replyAdd =
                 "<div class=\"container\">" +
                 "<div class=\"form-group\">" +
-                "<label for=\"comment\">" + "답글 작성" + "</label>" +
-                "<textarea class=\"form-control\"; id=\"comment\"\></textarea>" +
+                "<label for=\"reply\">" + "답글 작성" + "</label>" +
+                "<textarea class=\"form-control\"; id=\"reply\"\></textarea>" +
                 "<br>" +
                 "<div class=\"text-center\">" +
                 "<button type=\"button\" class=\"btn btn-success write\" id=\"write\" name=\"write\">" + "쓰기" + "</button>" +
@@ -239,9 +238,50 @@
                 "</div>" +
                 "<hr>";
 
+            $(".askList").append(contentView);
 
-            $(".askList").append(html);
+            if (Data.replyIsNull == false) {
+                console.log("replyAdd: ", askUserKeyInList, "num: ", num);
+                $(".askList").append(replyAdd);
+                Data.replyIsNull = true;
+            }
+            else if (Data.replyIsNull == true) {
+                console.log("replyView: ", askUserKeyInList, "numCount: ", num);
+                $(".askList").append(replyView);
+            }
+            else {
+                console.log("replyWait: ", askUserKeyInList, "numCount: ", num);
+                $(".askList").append(replyWait);
+            }
+
         }
+
+        //쓰기 버튼 눌렀을 때 호출 되는 함수
+        function saveReply() {
+            var askRef = firebaseDatabase.ref("ask/" + askUserKey);
+
+            firebaseDatabase.ref('ask/' + askUserKey).once('value').then(function (snapshot) {
+                var saveReplyIsNull = snapshot.val().replyIsNull;
+
+                if (saveReplyIsNull == true) {
+                    askUserKey--;
+                    askRef = firebaseDatabase.ref("ask/" + askUserKey);
+                }
+
+                //로그인한 유저의 pk값,이름,내용,시간 데이터
+                var obj = {
+                    reply: reply,
+                    replyIsNull: true
+                };
+
+                askRef.update(obj);
+                console.log("saveReply(): ", askUserKey, "num: ", num);
+                
+                alert("답글 작성이 완료되었습니다.");
+                $('#reply').val("");
+            });
+        }
+
 
     </script>
 
