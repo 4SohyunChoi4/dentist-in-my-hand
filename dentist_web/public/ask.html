@@ -133,7 +133,6 @@
                 //내가 쓴글 가져오기 - jquery방식으로 가져왔다.
                 reply = $('#reply').val();
                 if (seseionCheck == "로그아웃") {
-                    //저장하기
                     saveReply();
                 } else {
                     alert("로그인이 필요한 서비스 입니다.")
@@ -240,18 +239,15 @@
 
             $(".askList").append(contentView);
 
-            if (Data.replyIsNull == false) {
-                console.log("replyAdd: ", askUserKeyInList, "num: ", num);
-                $(".askList").append(replyAdd);
-                Data.replyIsNull = true;
+            if( askUserKey < num){
             }
-            else if (Data.replyIsNull == true) {
-                console.log("replyView: ", askUserKeyInList, "numCount: ", num);
-                $(".askList").append(replyView);
+            if (Data.replyIsNull == false) {
+                console.log("replyAdd: ", askUserKey, "num: ", num);
+                $(".askList").append(replyAdd);
             }
             else {
-                console.log("replyWait: ", askUserKeyInList, "numCount: ", num);
-                $(".askList").append(replyWait);
+                console.log("replyView: ", askUserKey, "numCount: ", num);
+                $(".askList").append(replyView);
             }
 
         }
@@ -259,7 +255,7 @@
         //쓰기 버튼 눌렀을 때 호출 되는 함수
         function saveReply() {
             var askRef = firebaseDatabase.ref("ask/" + askUserKey);
-
+            console.log(askUserKey);
             firebaseDatabase.ref('ask/' + askUserKey).once('value').then(function (snapshot) {
                 var saveReplyIsNull = snapshot.val().replyIsNull;
 

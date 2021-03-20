@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "admin": "^1.4.1",
+    "firebase": "^8.3.0",
+    "firebase-admin": "^9.5.0",
+    "request": "^2.88.2"
+  }
+}
