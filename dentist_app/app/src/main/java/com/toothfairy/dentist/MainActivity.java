@@ -50,13 +50,12 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     PatientID patient;
     Bundle bundle = new Bundle();
-    String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
-        SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         //getHashKey();
         //mFirebaseDatabase.setPersistenceEnabled(true);
@@ -88,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!(drawer.isDrawerOpen(Gravity.RIGHT))) {
                     drawer.openDrawer(Gravity.RIGHT);
-                    user = FirebaseAuth.getInstance().getCurrentUser();
-                    updateUI(user);
+                    //user = FirebaseAuth.getInstance().getCurrentUser();
+                    //updateUI(user);
                 }
             }
         });
@@ -113,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-                //Bundle bundle = new Bundle();
-                //bundle.putString("userName", userName);                //FragmentManager fm = getSupportFragmentManager();
                 switch (item.getItemId()) {
                     case R.id.nav_about:
                         fragment = AboutFragment.newInstance();
@@ -204,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
     }
 */
     public void replaceFragment(Fragment fragment) {
+        //fragment.setArguments(bundle);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment).commit();
@@ -211,10 +209,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateUI(FirebaseUser user) {
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
         final Button loginBtn = findViewById(R.id.loginBtn);
         final Button joinBtn = findViewById(R.id.joinBtn);
-
         ImageView navImageView = findViewById(R.id.navImageView);
         final TextView navTextView = findViewById(R.id.navTextView);
         if (user != null) { // 로그인했을때
@@ -223,26 +219,16 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     patient = snapshot.getValue(PatientID.class);
-                    userName = patient.getName();
-                    navTextView.setText(patient.getName()+getResources().getString(R.string.nav_header_title_login));
-                    bundle.putString("name",patient.getName());
+                    navTextView.setText(patient.getName() + getResources().getString(R.string.nav_header_title_login));
+                    bundle.putString("name", patient.getName());
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
-            loginBtn.setText("로그아웃");
-            joinBtn.setVisibility(View.GONE);
-            navImageView.setVisibility(View.VISIBLE);
-            loginBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
-                    updateUI(null);
-                }
-            });
-        } else { //로그인 x
+        }
+        else { //로그인 x
             navTextView.setText(getResources().getString(R.string.nav_header_title_no_login));
             navImageView.setVisibility(View.GONE);
             loginBtn.setText("로그인");

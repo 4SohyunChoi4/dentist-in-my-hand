@@ -28,20 +28,18 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SubAskFragment extends Fragment {
-    FirebaseUser user;
     long num;
+    String name;
     public static SubAskFragment newInstance() {
         return new SubAskFragment();
     }
 
     FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-    String messageReceived = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         AskViewModel askViewModel = ViewModelProviders.of(this).get(AskViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ask_sub, container, false);
-        final TextView textView = root.findViewById(R.id.title);
         askViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -52,7 +50,8 @@ public class SubAskFragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle != null){
             num = bundle.getLong("number"); //Name 받기.
-            System.out.println(num); //확인
+            name = bundle.getString("name");
+            Toast.makeText(getActivity(),name,Toast.LENGTH_SHORT).show();
         }
 
         final EditText editContent = root.findViewById(R.id.editContent);
@@ -62,11 +61,11 @@ public class SubAskFragment extends Fragment {
             public void onClick(View v) {
                 String content = editContent.getText().toString();
                 Ask ask = new Ask();
-                ask.setName(messageReceived);
                 ask.setReply("");
+                ask.setName(name);
                 ask.setReplyIsNull(false);
                 ask.setContent(content);
-                ask.setName(getPatientName());
+                //ask.setName(getPatientName());
                 ask.setCreateTime(getTimeToString());
                 mFirebaseDatabase.getReference("ask/"+num+"/")
                         .setValue(ask)
@@ -88,16 +87,6 @@ public class SubAskFragment extends Fragment {
             }
         });
         return root;
-    }
-
-    private String getPatientName() {
-        String name = null;
-        Bundle bundle = getArguments();  //번들 받기. getArguments() 메소드로 받음.
-
-        if(bundle != null){
-            name = bundle.getString("name"); //Name 받기.
-        }
-        return name;
     }
 
     private String getTimeToString() {

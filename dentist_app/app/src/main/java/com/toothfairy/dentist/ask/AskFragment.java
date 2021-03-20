@@ -12,8 +12,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.toothfairy.dentist.MainActivity;
+import com.toothfairy.dentist.PatientID;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.intro.IntroFragment;
 
@@ -34,12 +37,16 @@ public class AskFragment extends Fragment {
     ListView askBoard;
     private ArrayAdapter<String> askAdapter;
     List<Object> askArray = new ArrayList<>();
+    Bundle bundle = new Bundle();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         AskViewModel askViewModel = ViewModelProviders.of(this).get(AskViewModel.class);
         View root = inflater.inflate(R.layout.fragment_ask, container, false);
+
+        isLogin();
+
         CountAskNum();
         final TextView textView = root.findViewById(R.id.title);
         askViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -60,7 +67,6 @@ public class AskFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Fragment fragment = SubAskFragment.newInstance();
-                Bundle bundle = new Bundle();
                 bundle.putLong("number", num);                //FragmentManager fm = getSupportFragmentManager();
                 fragment.setArguments(bundle);
                 /*FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -78,6 +84,26 @@ public class AskFragment extends Fragment {
 
         return root;
     }
+
+    private void isLogin() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!= null)
+        {
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    PatientID patient = snapshot.getValue(PatientID.class);
+                    bundle.putString("name",patient.getName());
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
+    }
+
+
     private void CountAskNum() {
         mFirebaseDatabase.getReference("ask/")
                 .addValueEventListener(new ValueEventListener() {
