@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.toothfairy.dentist.LoginFragment;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.NoticeFragment;
+import com.toothfairy.dentist.notice.NoticeFragment;
 import com.toothfairy.dentist.ui.OfficehoursFragment;
 import com.toothfairy.dentist.ask.AskFragment;
 import com.toothfairy.dentist.book.BookFragment;

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"
-        tools:context=".NoticeFragment">
+        tools:context=".notice.NoticeFragment">
 
     <ImageButton
             android:id="@+id/btnBack"

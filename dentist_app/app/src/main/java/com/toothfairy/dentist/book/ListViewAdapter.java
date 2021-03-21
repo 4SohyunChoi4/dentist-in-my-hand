@@ -46,7 +46,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.listview_item, parent, false);
+            convertView = inflater.inflate(R.layout.listview_item_dialog, parent, false);
         }
         time = convertView.findViewById(R.id.time);
         limit = convertView.findViewById(R.id.limit);

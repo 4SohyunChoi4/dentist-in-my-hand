@@ -1,4 +1,4 @@
-package com.toothfairy.dentist;
+package com.toothfairy.dentist.notice;
 
 public class Notice {
     String comment;
