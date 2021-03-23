@@ -17,9 +17,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        int yesterd_m = intent.getExtras().getInt("yesterd_m");
+        int yesterd_d = intent.getExtras().getInt("yesterd_d");
+        int yesterd_h = intent.getExtras().getInt("yesterd_h");
 
         NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(yesterd_m, yesterd_d, yesterd_h);
         notificationHelper.getManager().notify(1, nb.build());
     }
 }

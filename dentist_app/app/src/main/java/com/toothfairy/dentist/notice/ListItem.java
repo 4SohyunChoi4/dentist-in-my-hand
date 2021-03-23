@@ -5,13 +5,21 @@ import com.toothfairy.dentist.R;
 public class ListItem {
 
     private ListViewHolder holder;
-    private String text;
+    private String text, createTime;
     private int collapsedHeight, currentHeight, expandedHeight;
     private boolean isOpen;
     private int drawable;
 
     public String getText() {
         return text;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public void setText(String text) {
@@ -67,9 +75,10 @@ public class ListItem {
     }
 
 
-    public ListItem(String text, int collapsedHeight, int currentHeight, int expandedHeight){
+    public ListItem(String comment, int collapsedHeight, int currentHeight, int expandedHeight){
         super();
-        this.text = text;
+        text = comment;
+        this.createTime = createTime;
         this.collapsedHeight = collapsedHeight;
         this.currentHeight = currentHeight;
         this.expandedHeight = expandedHeight;

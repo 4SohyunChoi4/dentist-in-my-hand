@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         //getHashKey();
-        //mFirebaseDatabase.setPersistenceEnabled(true);
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
         builder.setMessage("로그인이 필요한 기능입니다.");
         builder.setPositiveButton("로그인하기", new DialogInterface.OnClickListener() {
@@ -87,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!(drawer.isDrawerOpen(Gravity.RIGHT))) {
                     drawer.openDrawer(Gravity.RIGHT);
-                    //user = FirebaseAuth.getInstance().getCurrentUser();
-                    //updateUI(user);
+                    updateUI(user);
                 }
             }
         });
@@ -215,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView navTextView = findViewById(R.id.navTextView);
         if (user != null) { // 로그인했을때
             navImageView.setVisibility(View.VISIBLE);
+            loginBtn.setText("로그아웃");
+            joinBtn.setVisibility(View.GONE);
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
             mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -225,6 +226,14 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                    updateUI(null);
                 }
             });
         }

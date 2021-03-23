@@ -1,20 +1,17 @@
 package com.toothfairy.dentist.notice;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.book.ListViewItem;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class ListAdapter extends ArrayAdapter<ListItem> {
     private ArrayList<ListItem> listItems;
@@ -30,7 +27,7 @@ public class ListAdapter extends ArrayAdapter<ListItem> {
     @Override
     @SuppressWarnings("deprecation")
     public View getView(int position, View convertView, ViewGroup parent) {
-        ListViewHolder holder = null;
+        ListViewHolder holder;
         ListItem listItem = listItems.get(position);
 
         if (convertView == null) {
