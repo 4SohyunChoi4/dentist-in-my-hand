@@ -239,14 +239,22 @@
 
             $(".askList").append(contentView);
 
-            if( askUserKey < num){
-            }
+
             if (Data.replyIsNull == false) {
-                console.log("replyAdd: ", askUserKey, "num: ", num);
-                $(".askList").append(replyAdd);
+                if (askUserKey == (num - 1)) {
+                    console.log("replyAdd: ", askUserKey, "num: ", num);
+                    $(".askList").append(replyAdd);
+                } else if (askUserKey > 0 && askUserKey < num - 1) {
+                    num--;
+                    askUserKey--;
+                }
+                else {
+                    console.log("replyWait: ", askUserKey, "num: ", num);
+                    $(".askList").append(replyWait);
+                }
             }
             else {
-                console.log("replyView: ", askUserKey, "numCount: ", num);
+                console.log("replyView: ", askUserKey, "num: ", num);
                 $(".askList").append(replyView);
             }
 
@@ -254,27 +262,38 @@
 
         //쓰기 버튼 눌렀을 때 호출 되는 함수
         function saveReply() {
+
             var askRef = firebaseDatabase.ref("ask/" + askUserKey);
+
             console.log(askUserKey);
+
             firebaseDatabase.ref('ask/' + askUserKey).once('value').then(function (snapshot) {
                 var saveReplyIsNull = snapshot.val().replyIsNull;
 
                 if (saveReplyIsNull == true) {
-                    askUserKey--;
-                    askRef = firebaseDatabase.ref("ask/" + askUserKey);
+                    if (askRef < num && askRef > 0) {
+                        askRef--;
+                        askRef = firebaseDatabase.ref("ask/" + askUserKey);
+                    }
+
+                    //로그인한 유저의 pk값,이름,내용,시간 데이터
+                    var obj = {
+                        reply: reply,
+                        replyIsNull: true
+                    };
+
+                    askRef.update(obj);
+                    console.log("saveReply(): ", askUserKey, "num: ", num);
+
+                    alert("답글 작성이 완료되었습니다.");
+                    $('#reply').val("");
+                }
+                else {
+                    askRef--;
+                    console.log("saveReplyFailed(): ", askUserKey, "num: ", num);
+                    alert("답글 작성에 실패하였습니다.");
                 }
 
-                //로그인한 유저의 pk값,이름,내용,시간 데이터
-                var obj = {
-                    reply: reply,
-                    replyIsNull: true
-                };
-
-                askRef.update(obj);
-                console.log("saveReply(): ", askUserKey, "num: ", num);
-                
-                alert("답글 작성이 완료되었습니다.");
-                $('#reply').val("");
             });
         }
 

@@ -182,17 +182,32 @@
       var phoneNum = Data.phoneNum;
       var subject = Data.subject;
       var time = Data.time;
+      var detail = Data.detail;
 
       //감사리스트 동적으로 붙이기
-      var html =
+      var bookDetail =
         "<div class=\"media-body\">" +
         "<b>" + "<p class=\"media-heading\">" + "이름: " + name + "</p>" + "</b>" +
         "<p>" + "-시간: " + time + "</p>" +
         "<p>" + "-전화번호: " + phoneNum + "</p>" +
-        "<p>" + "-진료과목: " + subject + "</p></div>"
+        "<p>" + "-진료과목: " + subject + "</p></div>" +
+        "<p>" + "-세부증상: " + detail + "</p></div>" +
       "<hr>";
 
-      $(".bookList").append(html);
+        var bookNoDetail =
+        "<div class=\"media-body\">" +
+        "<b>" + "<p class=\"media-heading\">" + "이름: " + name + "</p>" + "</b>" +
+        "<p>" + "-시간: " + time + "</p>" +
+        "<p>" + "-전화번호: " + phoneNum + "</p>" +
+        "<p>" + "-진료과목: " + subject + "</p></div>" +
+      "<hr>";
+      
+      if (detail == null) {
+        $(".bookList").append(bookNoDetail);
+      } else {
+        $(".bookList").append(bookDetail);
+      }
+      
     }
 
   </script>
