@@ -13,17 +13,30 @@ import com.toothfairy.dentist.book.BookFragment;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    private static final String TAG = AlarmReceiver.class.getName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int yesterd_m = intent.getExtras().getInt("yesterd_m");
-        int yesterd_d = intent.getExtras().getInt("yesterd_d");
-        int yesterd_h = intent.getExtras().getInt("yesterd_h");
+        int m = intent.getExtras().getInt("m");
+        int d = intent.getExtras().getInt("d");
+        int h = intent.getExtras().getInt("h");
+        int id = intent.getIntExtra("id",0);
 
         NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(yesterd_m, yesterd_d, yesterd_h);
-        notificationHelper.getManager().notify(1, nb.build());
+
+       NotificationCompat.Builder nb;
+        switch (id) {
+            case 1:
+                nb = notificationHelper.getChannelNotification1(m, d, h);
+                notificationHelper.getManager().notify(1, nb.build());
+                break;
+
+            case 2:
+                nb = notificationHelper.getChannelNotification2(h);
+                notificationHelper.getManager().notify(2, nb.build());
+                break;
+        }
+
+
     }
 }
         /*

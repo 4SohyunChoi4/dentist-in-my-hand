@@ -1,6 +1,7 @@
 package com.toothfairy.dentist;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -11,8 +12,10 @@ import androidx.core.app.NotificationCompat;
 import java.util.Calendar;
 
 public class NotificationHelper extends ContextWrapper {
-    public static final String channelID = "dentist_ch";
-    public static final String channelName = "내 손안의 치과";
+    public static final String CHANNEL_YESTERDAY_ID = "com.toothfairy.dentist.yesterday";
+    public static final String CHANNEL_YESTERDAY_NAME = "전날 알림";
+    public static final String CHANNEL_OHA_ID = "com.toothfairy.dentist.yesterday.onehourago";
+    public static final String CHANNEL_OHA_NAME = "한시간전 알림";
     private NotificationManager mManager;
     public NotificationHelper(Context base) {
         super(base);
@@ -22,8 +25,13 @@ public class NotificationHelper extends ContextWrapper {
     }
     @TargetApi(Build.VERSION_CODES.O)
     private void createChannel() {
-        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_YESTERDAY_ID, CHANNEL_YESTERDAY_NAME, NotificationManager.IMPORTANCE_HIGH);
+        //channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         getManager().createNotificationChannel(channel);
+
+        NotificationChannel channel2 = new NotificationChannel(CHANNEL_OHA_ID, CHANNEL_OHA_NAME, NotificationManager.IMPORTANCE_HIGH);
+        //channel2.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        getManager().createNotificationChannel(channel2);
     }
     public NotificationManager getManager() {
         if (mManager == null) {
@@ -31,10 +39,16 @@ public class NotificationHelper extends ContextWrapper {
         }
         return mManager;
     }
-    public NotificationCompat.Builder getChannelNotification(int yesterd_m, int yesterd_d, int yesterd_h ) {
-        return new NotificationCompat.Builder(getApplicationContext(), channelID)
+    public NotificationCompat.Builder getChannelNotification1(int m, int d, int h ) {
+        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_YESTERDAY_ID)
                 .setContentTitle("숙명치과")
-                .setContentText("내일 "+yesterd_m+"월 "+yesterd_d+"일 "+ yesterd_h+"시 치과 방문 잊지 말아주세요.") // nn월 nn일 nn시
+                .setContentText("내일 "+m+"월 "+d+"일 "+ h+"시 치과 방문 잊지 말아주세요.") // nn월 nn일 nn시
+                .setSmallIcon(R.drawable.ic_launcher_background);
+    }
+    public NotificationCompat.Builder getChannelNotification2(int h ) {
+        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_OHA_ID)
+                .setContentTitle("숙명치과")
+                .setContentText("오늘"+ h +"시 치과 방문 잊지 말아주세요.") // nn월 nn일 nn시
                 .setSmallIcon(R.drawable.ic_launcher_background);
     }
 }
