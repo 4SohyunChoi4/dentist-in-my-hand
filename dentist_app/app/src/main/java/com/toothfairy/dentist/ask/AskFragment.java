@@ -33,7 +33,7 @@ public class AskFragment extends Fragment {
 
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-    long num;
+    long num=1;
     ListView askBoard;
     private ArrayAdapter<String> askAdapter;
     List<Object> askArray = new ArrayList<>();
