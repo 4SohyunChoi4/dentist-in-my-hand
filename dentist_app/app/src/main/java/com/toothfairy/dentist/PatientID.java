@@ -4,8 +4,8 @@ public class PatientID {
 
     private String key;
     private String name;
-    private long regiNum;
-    private long phoneNum;
+    private String regiNum;
+    private String phoneNum;
 
     public String getKey() {
         return key;
@@ -23,19 +23,19 @@ public class PatientID {
         this.name = name;
     }
 
-    public long getRegiNum() {
+    public String getRegiNum() {
         return regiNum;
     }
 
-    public void setRegiNum(long regiNum) {
+    public void setRegiNum(String regiNum) {
         this.regiNum = regiNum;
     }
 
-    public long getPhoneNum() {
+    public String getPhoneNum() {
         return phoneNum;
     }
 
-    public void setPhoneNum(long phoneNum) {
+    public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
 }

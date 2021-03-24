@@ -92,7 +92,7 @@ public class BookFragment extends Fragment {
                             @Override
                             public void onDataChange(@NonNull final DataSnapshot snapshot) {
                                 PatientID patient = snapshot.getValue(PatientID.class);
-                                BookInfo bookInfo = new BookInfo();
+                                final BookInfo bookInfo = new BookInfo();
                                 bookInfo.setName(patient.getName());
                                 bookInfo.setTime(item.getTime());
                                 bookInfo.setPhoneNum(patient.getPhoneNum());
@@ -107,6 +107,12 @@ public class BookFragment extends Fragment {
                                             public void onSuccess(Void unused) {
                                                 dialog.dismiss();
                                                 adapter.clear();
+                                                //name, phonenum, booklist 빼고, 날짜와 시간을 넣어야 함
+                                                MyBookList myBookList = new MyBookList();
+                                                String date =y+"년 "+ m+"월 "+d+"일"+hour+"시";
+                                                myBookList.setDetail(bookInfo.getDetail());
+                                                myBookList.setSubject(bookInfo.getSubject());
+                                                addMyBookList(myBookList, date);
                                                 Toast.makeText(getActivity(), "예약이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                                                 setYesterdayAlarm(m, d, hour);
                                                 setOneHourAgoAlarm(m, d, hour);
@@ -142,6 +148,16 @@ public class BookFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    private void addMyBookList(MyBookList myBookList, String date) {
+        mFirebaseDatabase.getReference("patient/"+user.getUid()+"/"+"bookList/"+date+"/")
+                .setValue(myBookList)
+                .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                    }
+                });
     }
 
     private void setYesterdayAlarm(int m, int d, int hour) {

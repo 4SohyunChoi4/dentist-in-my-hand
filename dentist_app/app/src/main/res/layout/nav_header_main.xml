@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@+id/navImageView"
-            android:textColor="#000000"/>
+            android:textColor="@color/defaultContextColor"
+    />
     <Button
             android:id="@+id/loginBtn"
             android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
             android:background="@android:color/transparent"
             android:layout_marginTop="15sp"
             app:layout_constraintStart_toEndOf="@+id/navImageView"
-            android:textColor="#000000"
+            android:textColor="@color/defaultContextColor"
             android:text="로그인"/>
     <Button
             android:id="@+id/joinBtn"
@@ -46,18 +47,20 @@
             app:layout_constraintTop_toTopOf="@+id/loginBtn"
             app:layout_constraintStart_toEndOf="@+id/loginBtn"
             android:background="@android:color/transparent"
-            android:textColor="#000000"
+            android:textColor="@color/defaultContextColor"
             android:text="회원가입"/>
 
     <Button
             android:id="@+id/myBookBtn"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/loginBtn"
+            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
             app:layout_constraintStart_toEndOf="@+id/loginBtn"
+            app:layout_constraintEnd_toStartOf="@+id/joinBtn"
             android:background="@android:color/transparent"
-            android:textColor="#000000"
-            android:text="회원가입"/>
+            android:textColor="@color/defaultContextColor"
+            android:text="나의 예약 내역 보기"/>
 
 
 
