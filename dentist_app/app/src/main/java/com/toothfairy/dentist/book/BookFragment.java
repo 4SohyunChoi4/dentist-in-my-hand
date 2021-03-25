@@ -92,11 +92,12 @@ public class BookFragment extends Fragment {
                             @Override
                             public void onDataChange(@NonNull final DataSnapshot snapshot) {
                                 PatientID patient = snapshot.getValue(PatientID.class);
-                                BookInfo bookInfo = new BookInfo();
+                                final BookInfo bookInfo = new BookInfo();
                                 bookInfo.setName(patient.getName());
                                 bookInfo.setTime(item.getTime());
                                 bookInfo.setPhoneNum(patient.getPhoneNum());
                                 bookInfo.setSubject(getCheckbox());
+                                final int hour = item.getTime();
                                 bookInfo.setDetail(detailEdit.getText().toString());
                                 mFirebaseDatabase.getReference("book/" + y + "/" + m + "/" + d)// + item.getTime() + "/")
                                         .push()
@@ -106,9 +107,15 @@ public class BookFragment extends Fragment {
                                             public void onSuccess(Void unused) {
                                                 dialog.dismiss();
                                                 adapter.clear();
+                                                //name, phonenum, booklist 빼고, 날짜와 시간을 넣어야 함
+                                                MyBookList myBookList = new MyBookList();
+                                                String date =y+"년 "+ m+"월 "+d+"일"+hour+"시";
+                                                myBookList.setDetail(bookInfo.getDetail());
+                                                myBookList.setSubject(bookInfo.getSubject());
+                                                addMyBookList(myBookList, date);
                                                 Toast.makeText(getActivity(), "예약이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                                                setYesterdayAlarm(m, d, item.getTime());
-                                                setOneHoursAgoAlarm(y, m, d, item.getTime());
+                                                setYesterdayAlarm(m, d, hour);
+                                                setOneHourAgoAlarm(m, d, hour);
                                                 ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
                                             }
                                         });
@@ -143,34 +150,69 @@ public class BookFragment extends Fragment {
         return root;
     }
 
+    private void addMyBookList(MyBookList myBookList, String date) {
+        mFirebaseDatabase.getReference("patient/"+user.getUid()+"/"+"bookList/"+date+"/")
+                .setValue(myBookList)
+                .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                    }
+                });
+    }
+
     private void setYesterdayAlarm(int m, int d, int hour) {
         PackageManager pm = getActivity().getPackageManager();
         ComponentName receiver = new ComponentName(getActivity(), DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
-        alarmIntent.putExtra("yesterd_m",m);
-        alarmIntent.putExtra("yesterd_d",d);
-        alarmIntent.putExtra("yesterd_h",hour);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, alarmIntent, 0);
+        alarmIntent.putExtra("m",m);
+        alarmIntent.putExtra("d",d);
+        alarmIntent.putExtra("h",hour);
+        alarmIntent.putExtra("id",1);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, y);
-        calendar.set(Calendar.MONTH, m-1);
-        calendar.set(Calendar.DATE, d - 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 4);
-        calendar.set(Calendar.SECOND, 0);
-        //SharedPreferences.Editor editor = getActivity().getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+        Calendar yesterdayCalendar = Calendar.getInstance();
+        yesterdayCalendar.set(Calendar.YEAR, y);
+        yesterdayCalendar.set(Calendar.MONTH, m - 1);
+        yesterdayCalendar.set(Calendar.DATE, d-1);
+        yesterdayCalendar.set(Calendar.HOUR_OF_DAY, h);
+        yesterdayCalendar.set(Calendar.MINUTE, 0);
+        yesterdayCalendar.set(Calendar.SECOND, 0);
+
         if (alarmManager != null) {
             //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, yesterdayCalendar.getTimeInMillis(), pendingIntent);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,yesterdayCalendar.getTimeInMillis(), pendingIntent);
         }
-        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
     }
 
-    private void setOneHoursAgoAlarm(int y, int m, int d, int hour) {
+
+    private void setOneHourAgoAlarm(int m, int d, int hour) {
+        PackageManager pm = getActivity().getPackageManager();
+        ComponentName receiver = new ComponentName(getActivity(), DeviceBootReceiver.class);
+        Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
+        //alarmIntent.putExtra("m",m);
+        //alarmIntent.putExtra("d",d);
+        alarmIntent.putExtra("h",hour);
+        alarmIntent.putExtra("id",2);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 2, alarmIntent, PendingIntent.FLAG_ONE_SHOT );
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Calendar todayCalendar = Calendar.getInstance();
+        todayCalendar.set(Calendar.YEAR, y);
+        todayCalendar.set(Calendar.MONTH, m-1);
+        todayCalendar.set(Calendar.DATE, d);
+        todayCalendar.set(Calendar.HOUR_OF_DAY, h); //hour-1
+        todayCalendar.set(Calendar.MINUTE, 0);
+        todayCalendar.set(Calendar.SECOND, 0);
+
+        if (alarmManager != null) {
+            //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, todayCalendar.getTimeInMillis(), pendingIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,todayCalendar.getTimeInMillis(), pendingIntent);
+        }
+        pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
     private String getCheckbox() {

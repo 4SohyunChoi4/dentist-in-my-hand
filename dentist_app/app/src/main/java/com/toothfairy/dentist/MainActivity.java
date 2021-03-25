@@ -3,7 +3,6 @@ package com.toothfairy.dentist;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,9 +30,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.*;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.toothfairy.dentist.book.MyBookListFragment;
 import com.toothfairy.dentist.ui.ReceiptFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
@@ -209,12 +208,14 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(FirebaseUser user) {
         final Button loginBtn = findViewById(R.id.loginBtn);
         final Button joinBtn = findViewById(R.id.joinBtn);
+        final Button myBookBtn = findViewById(R.id.myBookBtn);
         ImageView navImageView = findViewById(R.id.navImageView);
         final TextView navTextView = findViewById(R.id.navTextView);
         if (user != null) { // 로그인했을때
             navImageView.setVisibility(View.VISIBLE);
             loginBtn.setText("로그아웃");
             joinBtn.setVisibility(View.GONE);
+            myBookBtn.setVisibility(View.VISIBLE);
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -234,6 +235,13 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                     updateUI(null);
+                }
+            });
+            myBookBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replaceFragment(MyBookListFragment.newInstance());
+                    onBackPressed();
                 }
             });
         }

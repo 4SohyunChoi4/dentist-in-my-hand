@@ -5,9 +5,18 @@ import com.toothfairy.dentist.PatientID;
 public class BookInfo {
     private int time;
     private String name;
-    private long phoneNum;
+    private String phoneNum;
     private String subject;
     private String detail;
+    private String bookList;
+
+    public String getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(String bookList) {
+        this.bookList = bookList;
+    }
 
     public String getName() {
         return name;
@@ -34,11 +43,11 @@ public class BookInfo {
         this.name = name;
     }
 
-    public long getPhoneNum() {
+    public String getPhoneNum() {
         return phoneNum;
     }
 
-    public void setPhoneNum(long phoneNum) {
+    public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
 

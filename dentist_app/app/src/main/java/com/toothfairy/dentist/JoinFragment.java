@@ -25,7 +25,6 @@ public class JoinFragment extends Fragment {
 
     private static FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
-    private DatabaseReference ref;
     private FirebaseUser user;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,8 +59,8 @@ public class JoinFragment extends Fragment {
                     String passwd = editPasswd.getText().toString();
                     String passwd2 = editPasswd2.getText().toString();
                     final String name = editName.getText().toString();
-                    final long regiNum = Integer.parseInt(editRegiNum.getText().toString());
-                    final long phoneNum = Integer.parseInt(editPhoneNum.getText().toString());
+                    final String regiNum = editRegiNum.getText().toString();
+                    final String phoneNum = editPhoneNum.getText().toString();
 
                     if (!passwd.equals(passwd2)) {
                         Toast.makeText(getActivity(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
