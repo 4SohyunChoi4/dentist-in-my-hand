@@ -62,20 +62,24 @@
     <br>
     <!-- 네비게이션 바 끝 -->
 
-    <!-- 1:1 문의 리스트 출력하기-->
+    <!-- 감사리스트 출력하기-->
     <div class="container">
         <h3>1:1 문의 내역</h3>
         <hr>
         <br>
-        <!-- 1:1 문의 리스트 붙일 곳 -->
+        <!-- 감사 리스트 붙일 곳 -->
         <div class="askList"></div>
     </div>
 
+    <!--현재 시간을 가져오는 js 파일 -->
+    <script src="./js/time.js"></script>
+
+    <!--스크립트 부분. 자신의 스크립트 코드로 변경하세요! -->
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
- https://firebase.google.com/docs/web/setup#available-libraries -->
+     https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
@@ -92,10 +96,8 @@
         var content; //유저가 쓴글 내용 저장
         var createTime;
         var reply;
-        var key;
         var replyIsNull = false;
-        var num = 1;
-
+        var num;
 
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -115,10 +117,26 @@
 
         firebaseEmailAuth = firebase.auth();
         firebaseDatabase = firebase.database();
-
         //세션 체크 함수
         userSessionCheck();
 
+        $(document).ready(function () {
+
+            //메인화면 쓰기버튼 눌렀을 때
+            $(document).on('click', '.write', function () {
+
+                //네비게이션 메뉴의 text값 가져오기 - 자바스크립트 dom 방식으로 가져왔다.
+                var seseionCheck = document.getElementById("loginmenu").textContent;
+
+                //내가 쓴글 가져오기 - jquery방식으로 가져왔다.
+                reply = $('#reply').val();
+                if (seseionCheck == "로그아웃") {
+                    saveReply();
+                } else {
+                    alert("로그인이 필요한 서비스 입니다.")
+                }
+            });
+        });
 
         //유저가 로그인 했는지 안했는지 확인해주는 함수
         function userSessionCheck() {
@@ -150,57 +168,139 @@
             });
         }
 
-        function openPop(key) {
-            var askRef = firebaseDatabase.ref('ask');
+        function askList() {
+            //로그인한 유저라면
+            if (loginUserKey) {
+                //글이 저장된 레퍼런스 값 가져오기
+                var askRef = firebaseDatabase.ref('ask');
 
-            askRef.child("ask").get(key).then(function(snapshot) {
-                    var popUp = window.open("askDetail.html?childKey:" + key);
-                    console.log("openPop():", key);
+                firebaseDatabase.ref('ask').once('value').then(function (snapshot) {
+                    num = snapshot.numChildren();
+
+                    //on 함수로 글 목록가져오기
+                    askRef.on('child_added', on_ask_list);
                 });
+            } else {
+                alert("실패")
+                return;
+            }
         }
 
-        function askList() {
-            var askRef = firebaseDatabase.ref('ask');
+        //ask 테이블의 data 키 들을 연속적으로 가져온다.
+        function on_ask_list(data) {
+            var key = data.key;
 
-            askRef.once('value', (snapshot) => {
-                snapshot.forEach((childSnapshot) => {
-                    var childKey = childSnapshot.key;
-                    var childData = childSnapshot.val();
+            var Data = data.val();
 
-                    var name = childData.name;
-                    var createTime = childData.createTime;
-                    var content = childData.content;
-                    var reply = childData.reply;
+            askUserKey = data.key;
+            var name = Data.name;
+            var createTime = Data.createTime;
+            var content = Data.content;
+            var reply = Data.reply;
 
-                    console.log(num, "childKey:", childKey, "name:", name);
-                    num++;
+            var askUserKeyInList = data.key;
 
-                    var askView = 
-                    "<a target=_self onclick=\"openPop(" + childKey + ")\">" +
-                    "<div class=\"media-body\">" +
-                    "<h4 class=\"media-heading\">" + name +
-                    " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
-                    "<p>" + content + "</p></div></div>" +
-                    "</a>" +
-                    "<br>";
-                    
+            //문의 내용 동적으로 붙이기
+            var contentView =
+                "<div class=\"media-body\">" +
+                "<h4 class=\"media-heading\">" + name +
+                " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
+                "<p>" + content + "</p></div></div>" +
+                "<br>";
 
-                    $(".askList").append(askView);
-                });
+            var replyView =
+                "<div class=\"media-body\">" +
+                "<h4 class=\"media-heading\">" + "관리자" +
+                " <span STYLE=\"color: red; font-size: 5pt\">" + "(답변 완료)" + "</span></h4>" +
+                "<p>" + reply + "</p></div></div>" +
+                "<br>";
+
+            var replyWait =
+                "<div class=\"media-body\">" +
+                "<h4 class=\"media-heading\">" + "대기중인 답변" +
+                " <span STYLE=\"color: red; font-size: 5pt\">" + "(답변 미완료)" + "</span></h4>" +
+                "<p>" + "아래의 내용을 먼저 답변해주세요." + "</p></div></div>" +
+                "<br>";
+
+            var replyAdd =
+                "<div class=\"container\">" +
+                "<div class=\"form-group\">" +
+                "<label for=\"reply\">" + "답글 작성" + "</label>" +
+                "<textarea class=\"form-control\"; id=\"reply\"\></textarea>" +
+                "<br>" +
+                "<div class=\"text-center\">" +
+                "<button type=\"button\" class=\"btn btn-success write\" id=\"write\" name=\"write\">" + "쓰기" + "</button>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "<hr>";
+
+            $(".askList").append(contentView);
+
+
+            if (Data.replyIsNull == false) {
+                if (askUserKey == (num - 1)) {
+                    console.log("replyAdd: ", askUserKey, "num: ", num);
+                    $(".askList").append(replyAdd);
+                }
+                else {
+                    console.log("replyWait: ", askUserKey, "num: ", num);
+                    $(".askList").append(replyWait);
+                }
+            }
+            else {
+                console.log("replyView: ", askUserKey, "num: ", num);
+                $(".askList").append(replyView);
+            }
+
+        }
+
+        //쓰기 버튼 눌렀을 때 호출 되는 함수
+        function saveReply() {
+
+            var askRef = firebaseDatabase.ref("ask/" + askUserKey);
+
+            console.log("saveReplyStart():", askUserKey, "num:", num);
+
+            firebaseDatabase.ref('ask/' + askUserKey).once('value').then(function (snapshot) {
+                var saveReplyIsNull = snapshot.val().replyIsNull;
+
+                if (saveReplyIsNull == true) {
+
+                        askRef = firebaseDatabase.ref("ask/" + (Number(askUserKey) - 1))
+                        // get-config.ts:101 GET https://firebase.googleapis.com/v1alpha/projects/-/apps/1:920061015760:web:513d6937ab721ef67710d5/webConfig net::ERR_CONNECTION_CLOSED
+                        
+                        //로그인한 유저의 pk값,이름,내용,시간 데이터
+                        var obj = {
+                            reply: reply,
+                            replyIsNull: true
+                        };
+
+                        askRef.update(obj); // Uncaught (in promise) TypeError: askRef.update is not a function
+                        console.log("replyIsNull(true): ", askUserKey, "num: ", num);
+
+                        alert("답글 작성이 완료되었습니다.");
+                        $('#reply').val("");
+                } else {
+                    //로그인한 유저의 pk값,이름,내용,시간 데이터
+                    var obj = {
+                        reply: reply,
+                        replyIsNull: true
+                    };
+
+                    askRef.update(obj);
+                    console.log("saveReply(): ", askUserKey, "num: ", num);
+
+                    alert("답글 작성이 완료되었습니다.");
+                    $('#reply').val("");
+                }
+
             });
         }
 
-        function writeReply(childKey) {
-            var askRef = firebaseDatabase.ref('ask' + childKey);
-            
-            var replyData = {
-                reply: reply,
-                replyIsNull: true
-            };
 
-            askRef.update(replyData);
-        }
     </script>
+
 </body>
 
 </html>
