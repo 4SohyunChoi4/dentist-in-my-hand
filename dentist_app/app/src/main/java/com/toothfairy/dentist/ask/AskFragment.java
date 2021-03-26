@@ -31,10 +31,9 @@ public class AskFragment extends Fragment {
         return new AskFragment();
     }
 
-    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+    private FirebaseDatabase mFirebaseDatabase;
 
     long num=1;
-    ListView askBoard;
     private ArrayAdapter<String> askAdapter;
     List<Object> askArray = new ArrayList<>();
     Bundle bundle = new Bundle();
@@ -89,7 +88,7 @@ public class AskFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!= null)
         {
-            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mFirebaseDatabase = FirebaseDatabase.getInstance(); //빼도 될것 같다
             mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

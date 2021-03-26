@@ -1,9 +1,5 @@
 package com.toothfairy.dentist.book;
-
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -15,6 +11,7 @@ import android.view.Window;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +19,6 @@ import com.google.firebase.database.*;
 import com.toothfairy.dentist.*;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.intro.IntroFragment;
-
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -41,6 +37,7 @@ public class BookFragment extends Fragment {
     String[] weekDay = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
     int y, m, d, h;
 
+    Context mContext;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_book, container, false);
@@ -99,23 +96,24 @@ public class BookFragment extends Fragment {
                                 bookInfo.setSubject(getCheckbox());
                                 final int hour = item.getTime();
                                 bookInfo.setDetail(detailEdit.getText().toString());
+                                final MyBookList myBookList = new MyBookList();
+                                final String date =y+"년 "+ m+"월 "+d+"일"+hour+"시";
+                                myBookList.setTime(date);
+                                myBookList.setDetail(bookInfo.getDetail());
+                                myBookList.setSubject(bookInfo.getSubject());
                                 mFirebaseDatabase.getReference("book/" + y + "/" + m + "/" + d)// + item.getTime() + "/")
                                         .push()
                                         .setValue(bookInfo)
-                                        .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
+                                        .addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 dialog.dismiss();
                                                 adapter.clear();
                                                 //name, phonenum, booklist 빼고, 날짜와 시간을 넣어야 함
-                                                MyBookList myBookList = new MyBookList();
-                                                String date =y+"년 "+ m+"월 "+d+"일"+hour+"시";
-                                                myBookList.setDetail(bookInfo.getDetail());
-                                                myBookList.setSubject(bookInfo.getSubject());
-                                                addMyBookList(myBookList, date);
-                                                Toast.makeText(getActivity(), "예약이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                                                 setYesterdayAlarm(m, d, hour);
                                                 setOneHourAgoAlarm(m, d, hour);
+                                                addMyBookList(myBookList, date);
+                                                Toast.makeText(getActivity(), "예약이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                                                 ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
                                             }
                                         });
@@ -132,6 +130,7 @@ public class BookFragment extends Fragment {
             }
 
         });
+
         final CalendarView calendarView = root.findViewById(R.id.calendar);
         final Calendar calendar = Calendar.getInstance();
         long startOfMonth = calendar.getTimeInMillis();
@@ -148,20 +147,34 @@ public class BookFragment extends Fragment {
             }
         });
         return root;
-    }
+            }
 
     private void addMyBookList(MyBookList myBookList, String date) {
         mFirebaseDatabase.getReference("patient/"+user.getUid()+"/"+"bookList/"+date+"/")
-                .setValue(myBookList)
-                .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                    }
-                });
+                .setValue(myBookList);
+        //.addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() { //여기서 자꾸 에러가 남.
+        //    @Override
+        //    public void onSuccess(Void unused) {
+        //    }
+        // });
+    }
+
+    private String getCheckbox() {
+        RadioGroup rdGroup = getView().findViewById(R.id.rdGroup);
+        int subjectID = rdGroup.getCheckedRadioButtonId();
+
+        if (subjectID == 0x7f0900b1) {
+            EditText etcEdit = getView().findViewById(R.id.etcEdit);
+            return etcEdit.getText().toString();
+        } else {
+            RadioButton rb = getView().findViewById(subjectID);
+            return rb.getText().toString();
+        }
+
     }
 
     private void setYesterdayAlarm(int m, int d, int hour) {
-        PackageManager pm = getActivity().getPackageManager();
+        PackageManager pm = Objects.requireNonNull(getActivity()).getPackageManager();
         ComponentName receiver = new ComponentName(getActivity(), DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
         alarmIntent.putExtra("m",m);
@@ -215,19 +228,7 @@ public class BookFragment extends Fragment {
         pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
-    private String getCheckbox() {
-        RadioGroup rdGroup = getView().findViewById(R.id.rdGroup);
-        int subjectID = rdGroup.getCheckedRadioButtonId();
 
-        if (subjectID == 0x7f0900b1) {
-            EditText etcEdit = getView().findViewById(R.id.etcEdit);
-            return etcEdit.getText().toString();
-        } else {
-            RadioButton rb = getView().findViewById(subjectID);
-            return rb.getText().toString();
-        }
-
-    }
 
     public void showDialog(int year, int month, int dayOfMonth, int dayOfWeek) { //월, 연
         adapter.clear();
@@ -258,5 +259,16 @@ public class BookFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mContext = null;
     }
 }

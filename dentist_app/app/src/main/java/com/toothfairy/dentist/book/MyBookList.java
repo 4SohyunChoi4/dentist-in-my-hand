@@ -1,6 +1,15 @@
 package com.toothfairy.dentist.book;
 
 public class MyBookList {
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time;
     private String subject;
     private String detail;
 

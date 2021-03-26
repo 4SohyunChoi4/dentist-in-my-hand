@@ -1,6 +1,7 @@
 package com.toothfairy.dentist;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -267,7 +268,21 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 }
+ /*   @Override
+    public void onAttach(Context context) {
+        super.onAttach(activity);
+        mContext = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mContext = null;
+    }
+
+  */
 /*
     private void getHashKey(){
         PackageInfo packageInfo = null;
