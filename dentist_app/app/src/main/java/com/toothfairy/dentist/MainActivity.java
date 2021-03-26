@@ -50,12 +50,14 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     PatientID patient;
     Bundle bundle = new Bundle();
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = FirebaseAuth.getInstance().getCurrentUser();
+        context = this;
 
         //getHashKey();
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
@@ -90,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         /*mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -157,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
     private void getToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -203,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment).commit();
-
+        //fragment.onDestroy();
+        //fragment.onDetach();
+        //fragment = null;
     }
 
     public void updateUI(FirebaseUser user) {
@@ -267,8 +268,25 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
+
+    }
+    /*
+    private Fragment getFragment(int position){
+        return savedInstanceState == null ? adapter.getItem(position) : getSupportFragmentManager().findFragmentByTag(getFragmentTag(position));
     }
 
+    private String getFragmentTag(int position) {
+        return "android:switcher:" + R.id.pager + ":" + position;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("tabsCount",      adapter.getCount());
+        outState.putStringArray("titles", adapter.getTitles().toArray(new String[0]));
+    }
+
+     */
 }
  /*   @Override
     public void onAttach(Context context) {

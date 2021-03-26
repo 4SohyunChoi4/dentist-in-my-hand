@@ -32,7 +32,8 @@
                 android:text="예약하기"
                 app:layout_constraintTop_toBottomOf="@+id/btnBack"
                 app:layout_constraintStart_toEndOf="@+id/btnBack"
-                android:textSize="@dimen/title_size"/>
+                android:textSize="@dimen/title_size"
+        />
 
         <TextView
                 app:layout_constraintVertical_chainStyle="packed"

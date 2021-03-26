@@ -1,7 +1,9 @@
 package com.toothfairy.dentist.intro;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -15,10 +17,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.toothfairy.dentist.LoginFragment;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
+import com.toothfairy.dentist.book.BookActivity;
 import com.toothfairy.dentist.notice.NoticeFragment;
 import com.toothfairy.dentist.ui.OfficehoursFragment;
 import com.toothfairy.dentist.ask.AskFragment;
-import com.toothfairy.dentist.book.BookFragment;
 
 import java.util.Objects;
 
@@ -65,7 +67,12 @@ public class IntroFragment extends Fragment {
                     alertDialog.show();
                 }
                 else
-                 ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(BookFragment.newInstance());
+                {
+                    Intent intent = new Intent(getActivity(), BookActivity.class);
+                    startActivity(intent);
+                }
+                //else
+                 //((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(BookFragment.newInstance());
             }
         });
 
