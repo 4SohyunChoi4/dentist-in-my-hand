@@ -25,7 +25,6 @@ public class LoginFragment extends Fragment {
     }
 
     private FirebaseAuth mAuth;
-    private DatabaseReference ref;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

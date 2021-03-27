@@ -51,7 +51,7 @@
             android:layout_width="150dp"
             app:layout_constraintLeft_toLeftOf="@id/noticeBtn"
             app:layout_constraintTop_toBottomOf="@+id/noticeBtn"
-            android:text="예약하기"/>
+            android:text="예약관리"/>
 
     <Button
             android:id="@+id/askBtn"

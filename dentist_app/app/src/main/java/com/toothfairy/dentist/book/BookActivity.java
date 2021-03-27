@@ -35,7 +35,6 @@ public class BookActivity extends AppCompatActivity {
     Dialog dialog;
     String[] weekDay = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
     int y, m, d, h;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,23 +116,25 @@ public class BookActivity extends AppCompatActivity {
                 PatientID patient = snapshot.getValue(PatientID.class);
                 bookInfo.setName(patient.getName());
                 bookInfo.setPhoneNum(patient.getPhoneNum());
+                bookInfo.setTime(hour);
+                bookInfo.setSubject(checkboxNum);
+                bookInfo.setDetail(detailEdit.getText().toString());
+                saveBook(bookInfo, hour);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        bookInfo.setTime(hour);
-        bookInfo.setSubject(checkboxNum);
-        bookInfo.setDetail(detailEdit.getText().toString());
-        saveBook(bookInfo, hour);
-
         final MyBookList myBookList = new MyBookList();
-        final String date = y + "년 " + m + "월 " + d + "일" + hour + "시";
-        myBookList.setTime(date);
+        myBookList.setYear(y);
+        myBookList.setMonth(m);
+        myBookList.setDayOfMonth(d);
+        myBookList.setHour(hour);
         myBookList.setDetail(bookInfo.getDetail());
         myBookList.setSubject(bookInfo.getSubject());
         addMyBookList(myBookList);
+
         finish();
     }
 

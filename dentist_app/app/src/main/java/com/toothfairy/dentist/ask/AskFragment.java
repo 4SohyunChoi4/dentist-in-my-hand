@@ -76,7 +76,7 @@ public class AskFragment extends Fragment {
             }
         });
 
-        final ListView askBoard = root.findViewById(R.id.askBoard);
+        final ListView askBoard = root.findViewById(R.id.askBoard); 
         displayAsk();
         askAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
         askBoard.setAdapter(askAdapter);

@@ -50,19 +50,4 @@
             android:textColor="@color/defaultContextColor"
             android:text="회원가입"/>
 
-    <Button
-            android:id="@+id/myBookBtn"
-            android:visibility="invisible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-            app:layout_constraintStart_toEndOf="@+id/loginBtn"
-            app:layout_constraintEnd_toStartOf="@+id/joinBtn"
-            android:background="@android:color/transparent"
-            android:textColor="@color/defaultContextColor"
-            android:text="나의 예약 내역 보기"/>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

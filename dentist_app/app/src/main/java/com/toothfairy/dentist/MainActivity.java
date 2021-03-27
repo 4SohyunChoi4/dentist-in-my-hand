@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MyFirebaseMsgService";
     private FirebaseUser user;
-    private FirebaseDatabase mFirebaseDatabase;
     PatientID patient;
     Bundle bundle = new Bundle();
     public static Context context;
@@ -210,15 +209,13 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(FirebaseUser user) {
         final Button loginBtn = findViewById(R.id.loginBtn);
         final Button joinBtn = findViewById(R.id.joinBtn);
-        final Button myBookBtn = findViewById(R.id.myBookBtn);
         ImageView navImageView = findViewById(R.id.navImageView);
         final TextView navTextView = findViewById(R.id.navTextView);
         if (user != null) { // 로그인했을때
             navImageView.setVisibility(View.VISIBLE);
             loginBtn.setText("로그아웃");
             joinBtn.setVisibility(View.GONE);
-            myBookBtn.setVisibility(View.VISIBLE);
-            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
             mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -237,13 +234,6 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseAuth.getInstance().signOut();
                     Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                     updateUI(null);
-                }
-            });
-            myBookBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    replaceFragment(MyBookListFragment.newInstance());
-                    onBackPressed();
                 }
             });
         }

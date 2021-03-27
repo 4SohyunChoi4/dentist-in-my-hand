@@ -7,7 +7,7 @@
     <dimen name="title_size">20sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="button_end_margin">50dp</dimen>
-    <dimen name="button_bottom_margin">150dp</dimen>
+    <dimen name="button_bottom_margin">50dp</dimen>
     <dimen name="join_width_size">200dp</dimen>
 
     </resources>
