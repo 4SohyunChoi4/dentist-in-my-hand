@@ -153,10 +153,10 @@
         function openPop(key) {
             var askRef = firebaseDatabase.ref('ask');
 
-            askRef.child("ask").get(key).then(function(snapshot) {
-                    var popUp = window.open("askDetail.html?childKey:" + key);
-                    console.log("openPop():", key);
-                });
+            askRef.child("ask").get(key).then(function (snapshot) {
+                var popUp = window.open("askDetail.html?childKey:" + key);
+                console.log("openPop():", key);
+            });
         }
 
         function askList() {
@@ -175,17 +175,27 @@
                     console.log(num, "childKey:", childKey, "name:", name);
                     num++;
 
-                    var askView = 
-                    "<a target=_self onclick=\"openPop(" + childKey + ")\">" +
-                    "<div class=\"media-body\">" +
-                    "<h4 class=\"media-heading\">" + name +
-                    " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
-                    "<p>" + content + "</p></div></div>" +
-                    "</a>" +
-                    "<br>";
-                    
+                    var askView =
+                        "<a target=_self onclick=\"openPop(" + childKey + ")\">" +
+                        "<div class=\"media-body\">" +
+                        "<h4 class=\"media-heading\">" + name +
+                        " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
+                        "<p>" + content + "</p></div></div>" +
+                        "</a>" +
+                        "<br>";
+
+                    var replyView =
+                        "<img name=\"arrow\" src=\"image/arrow.png\" width=\"20\" height=\"20\">" +
+                        "<div class=\"media-body\" style=\"padding: 0px 0px 0px 30px;\">" +
+                        "<h4 class=\"media-heading\">" + "관리자" +
+                        " <span STYLE=\"color: red; font-size: 5pt\">" + "(답변 완료)" + "</span></h4>" +
+                        "<p>" + reply + "</p></div></div>" +
+                        "<hr>";
 
                     $(".askList").append(askView);
+                    if (childData.replyIsNull == true) {
+                        $(".askList").append(replyView);
+                    }
                 });
             });
         }
