@@ -48,6 +48,9 @@
                     <li>
                         <a id="bookmenu" href="/book.html">예약 관리</a>
                     </li>
+                    <li>
+                        <a id="receiptmenu" href="/receipt.html">접수 목록</a>
+                    </li>
 
                 </ul>
             </div>
@@ -176,7 +179,7 @@
                     num++;
 
                     var askView =
-                        "<a target=_self onclick=\"openPop(" + childKey + ")\">" +
+                        "<a onclick=\"openPop(" + childKey + ")\">" +
                         "<div class=\"media-body\">" +
                         "<h4 class=\"media-heading\">" + name +
                         " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
