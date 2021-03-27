@@ -18,6 +18,7 @@ import com.toothfairy.dentist.LoginFragment;
 import com.toothfairy.dentist.MainActivity;
 import com.toothfairy.dentist.R;
 import com.toothfairy.dentist.book.BookActivity;
+import com.toothfairy.dentist.book.MyBookListFragment;
 import com.toothfairy.dentist.notice.NoticeFragment;
 import com.toothfairy.dentist.ui.OfficehoursFragment;
 import com.toothfairy.dentist.ask.AskFragment;
@@ -67,12 +68,7 @@ public class IntroFragment extends Fragment {
                     alertDialog.show();
                 }
                 else
-                {
-                    Intent intent = new Intent(getActivity(), BookActivity.class);
-                    startActivity(intent);
-                }
-                //else
-                 //((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(BookFragment.newInstance());
+                 ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(MyBookListFragment.newInstance());
             }
         });
 

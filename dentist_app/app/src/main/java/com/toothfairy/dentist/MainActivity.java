@@ -33,8 +33,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.toothfairy.dentist.book.MyBookListFragment;
-import com.toothfairy.dentist.ui.ReceiptFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
 import com.toothfairy.dentist.intro.IntroFragment;
@@ -197,13 +195,9 @@ public class MainActivity extends AppCompatActivity {
     }
 */
     public void replaceFragment(Fragment fragment) {
-        //fragment.setArguments(bundle);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment).commit();
-        //fragment.onDestroy();
-        //fragment.onDetach();
-        //fragment = null;
     }
 
     public void updateUI(FirebaseUser user) {

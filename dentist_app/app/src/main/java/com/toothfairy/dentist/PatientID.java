@@ -6,6 +6,15 @@ public class PatientID {
     private String name;
     private String regiNum;
     private String phoneNum;
+    private boolean isHere;
+
+    public boolean isHere() {
+        return isHere;
+    }
+
+    public void setHere(boolean here) {
+        isHere = here;
+    }
 
     public String getKey() {
         return key;

@@ -17,6 +17,8 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +37,7 @@ public class BookActivity extends AppCompatActivity {
     Dialog dialog;
     String[] weekDay = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
     int y, m, d, h;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +78,8 @@ public class BookActivity extends AppCompatActivity {
                 Calendar subCalendar = Calendar.getInstance();
                 subCalendar.set(year, month, dayOfMonth);
                 int dayOfWeek = subCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-                if (dayOfWeek != 0 && dayOfWeek != 6)
-                    showDialog(year, month, dayOfMonth, dayOfWeek);
+                //if (dayOfWeek != 0 && dayOfWeek != 6)
+                showDialog(year, month, dayOfMonth, dayOfWeek);
             }
         });
 
@@ -112,7 +115,7 @@ public class BookActivity extends AppCompatActivity {
         final BookInfo bookInfo = new BookInfo();
         mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull final DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 PatientID patient = snapshot.getValue(PatientID.class);
                 bookInfo.setName(patient.getName());
                 bookInfo.setPhoneNum(patient.getPhoneNum());
@@ -126,6 +129,7 @@ public class BookActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
         final MyBookList myBookList = new MyBookList();
         myBookList.setYear(y);
         myBookList.setMonth(m);

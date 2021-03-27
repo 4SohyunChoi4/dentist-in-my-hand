@@ -1,6 +1,7 @@
 package com.toothfairy.dentist.book;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.toothfairy.dentist.MainActivity;
+import com.toothfairy.dentist.PatientID;
 import com.toothfairy.dentist.R;
-import com.toothfairy.dentist.ask.Ask;
 import com.toothfairy.dentist.intro.IntroFragment;
 
 import java.util.ArrayList;
@@ -50,23 +51,20 @@ public class MyBookListFragment extends Fragment {
     protected void displayBookList() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFirebaseDatabase.getReference("patient/" + user.getUid() + "bookList/")
+        mFirebaseDatabase.getReference("patient/" + user.getUid() + "/" +"bookList/")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int y, m, d, h;
                         MyBookList myBookList = snapshot.getValue(MyBookList.class);
-                        String time = myBookList.getSubject();
-                        myBookListArray.add(time);
-                        myBookListAdapter.add(time);
+                        m = myBookList.getMonth();
+                        d = myBookList.getDayOfMonth();
+                        h = myBookList.getHour();
+                        String date = myBookList.getYear() +"년 "+myBookList.getMonth()+"월 "+myBookList.getDayOfMonth()+"일 "+myBookList.getHour()+"시";
+                        //String time = myBookList.getSubject();
+                        myBookListArray.add(date);
+                        myBookListAdapter.add(date);
                         myBookListAdapter.notifyDataSetChanged();
-                        Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
-                        /*MyBookList myBookList = snapshot.getValue(MyBookList.class);
-                        String askContent = ask.getContent();
-                        myBookListArray.add(askContent);
-                        myBookListAdapter.add(askContent);
-                        myBookListAdapter.notifyDataSetChanged();
-
-                         */
                     }
 
                     @Override
