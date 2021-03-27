@@ -68,7 +68,7 @@
         <hr>
         <br>
         <!-- 1:1문의 상세 리스트 붙일 곳 -->
-        <div class="askList"></div>
+        <div class="askView"></div>
     </div>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -146,20 +146,32 @@
         }
 
         function askView(key) {
-            var thisRef = firebaseDatabase.ref('ask/' + key);
-            firebaseDatabase.ref('ask').once('value').then(function (snapshot) {
-                thisRef.on('child_added', on_ask_view);
+            var askRef = firebaseDatabase.ref('ask/' + key)
+            firebaseDatabase.ref('ask/' + key).once('value').then(function (snapshot) {
+                var data = snapshot.val();
+                on_ask_view(data);
             });
         }
 
+        /* function askView(key) {
+            var thisRef = firebaseDatabase.ref('ask/' + key);
+            firebaseDatabase.ref('ask').once('value').then(function (snapshot) {
+                thisRef.on('child_added', on_ask_view);
+                snapshot.then(function(snapshot) {
+                    console.log(snapshot.key);
+                    console.log(snapshot.val().name);
+                    console.log(snapshot.name);
+                });
+            });
+        }*/
+
         function on_ask_view(data) {
-            var childData = data.val();
-            console.log("childData:", childData);
-            //childData: 주차장 위치가 어디인가요?
-            //childData: 2021년 3월 24일 23:18
-            //childData: 김환자
-            //childData: 
-            //childData: false
+            console.log("on_ask_view:", data);
+            var name = data.name;
+            var content = data.content;
+            var createTime = data.createTime;
+            var reply = data.reply;
+
             var contentView =
                 "<div class=\"media-body\">" +
                 "<h4 class=\"media-heading\">" + name +
@@ -188,10 +200,13 @@
                 "<hr>";
 
             $(".askView").append(contentView);
+            console.log("contentView");
             if (data.replyIsNull == true) {
+                console.log("replyView");
                 $(".askView").append(replyView);
             }
             else {
+                console.log("replyAdd");
                 $(".askView").append(replyAdd);
             }
         }
@@ -200,13 +215,12 @@
             var temp = location.href.split("?");
             var data = temp[1].split(":");
             var key = data[1];
-            console.log("key:", key);
 
             return key;
         }
 
         function saveReply(key) {
-            var askRef = firebaseDatabase.ref('ask' + key);
+            var askRef = firebaseDatabase.ref('ask/' + key);
 
             var replyData = {
                 reply: reply,
@@ -214,6 +228,10 @@
             };
 
             askRef.update(replyData);
+
+            alert("답글 작성이 완료되었습니다.");
+            window.location.reload();
+            $('#reply').val("");
         }
 
         $(document).ready(function () {
