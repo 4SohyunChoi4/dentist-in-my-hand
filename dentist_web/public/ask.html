@@ -190,16 +190,7 @@
             });
         }
 
-        function writeReply(childKey) {
-            var askRef = firebaseDatabase.ref('ask' + childKey);
-            
-            var replyData = {
-                reply: reply,
-                replyIsNull: true
-            };
 
-            askRef.update(replyData);
-        }
     </script>
 </body>
 

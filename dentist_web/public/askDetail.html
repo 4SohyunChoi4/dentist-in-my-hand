@@ -93,7 +93,6 @@
         var createTime;
         var reply;
         var replyIsNull = false;
-        var num;
 
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -136,7 +135,8 @@
                         loginUserKey = snapshot.key;  //로그인한 유저의 key도 계속 쓸 것이기 때문에 전역변수로 할당
                         userInfo = snapshot.val(); //snapshot.val()에 user 테이블에 있는 해당 개체 정보가 넘어온다. userInfo에 대입!
 
-                        receiveInfo();
+                        var key = receiveInfo();
+                        askView(key);
                         return true
                     });
                 } else {
@@ -145,13 +145,88 @@
             });
         }
 
+        function askView(key) {
+            var thisRef = firebaseDatabase.ref('ask/' + key);
+            firebaseDatabase.ref('ask').once('value').then(function (snapshot) {
+                thisRef.on('child_added', on_ask_view);
+            });
+        }
+
+        function on_ask_view(data) {
+            var childData = data.val();
+            console.log("childData:", childData);
+            //childData: 주차장 위치가 어디인가요?
+            //childData: 2021년 3월 24일 23:18
+            //childData: 김환자
+            //childData: 
+            //childData: false
+            var contentView =
+                "<div class=\"media-body\">" +
+                "<h4 class=\"media-heading\">" + name +
+                " <span STYLE=\"color: green; font-size: 5pt\">" + createTime + "</span></h4>" +
+                "<p>" + content + "</p></div></div>" +
+                "<br>";
+
+            var replyView =
+                "<div class=\"media-body\">" +
+                "<h4 class=\"media-heading\">" + "관리자" +
+                " <span STYLE=\"color: red; font-size: 5pt\">" + "(답변 완료)" + "</span></h4>" +
+                "<p>" + reply + "</p></div></div>" +
+                "<br>";
+
+            var replyAdd =
+                "<div class=\"container\">" +
+                "<div class=\"form-group\">" +
+                "<label for=\"reply\">" + "답글 작성" + "</label>" +
+                "<textarea class=\"form-control\"; id=\"reply\"\></textarea>" +
+                "<br>" +
+                "<div class=\"text-center\">" +
+                "<button type=\"button\" class=\"btn btn-success write\" id=\"write\" name=\"write\">" + "쓰기" + "</button>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "<hr>";
+
+            $(".askView").append(contentView);
+            if (data.replyIsNull == true) {
+                $(".askView").append(replyView);
+            }
+            else {
+                $(".askView").append(replyAdd);
+            }
+        }
+
         function receiveInfo() {
             var temp = location.href.split("?");
             var data = temp[1].split(":");
             var key = data[1];
             console.log("key:", key);
+
+            return key;
         }
 
+        function saveReply(key) {
+            var askRef = firebaseDatabase.ref('ask' + key);
+
+            var replyData = {
+                reply: reply,
+                replyIsNull: true
+            };
+
+            askRef.update(replyData);
+        }
+
+        $(document).ready(function () {
+            $(document).on('click', '.write', function () {
+                var seseionCheck = document.getElementById("loginmenu").textContent;
+                reply = $('#reply').val();
+                if (seseionCheck == "로그아웃") {
+                    var key = receiveInfo();
+                    saveReply(key);
+                }
+            });
+        });
     </script>
 </body>
+
 </html>
