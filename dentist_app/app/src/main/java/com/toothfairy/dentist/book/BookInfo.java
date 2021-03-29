@@ -9,6 +9,15 @@ public class BookInfo {
     private String subject;
     private String detail;
     private String bookList;
+    private Boolean isHere;
+
+    public Boolean getHere() {
+        return isHere;
+    }
+
+    public void setHere(Boolean here) {
+        isHere = here;
+    }
 
     public String getBookList() {
         return bookList;

@@ -1,9 +1,12 @@
 package com.toothfairy.dentist.ask;
 
+import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +35,7 @@ public class AskFragment extends Fragment {
     }
 
     private FirebaseDatabase mFirebaseDatabase;
-
+    Dialog dialog;
     long num=1;
     private ArrayAdapter<String> askAdapter;
     List<Object> askArray = new ArrayList<>();
@@ -45,6 +48,10 @@ public class AskFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_ask, container, false);
 
         isLogin();
+
+        dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_ask);
 
         CountAskNum();
         final TextView textView = root.findViewById(R.id.title);
@@ -81,7 +88,52 @@ public class AskFragment extends Fragment {
         askAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
         askBoard.setAdapter(askAdapter);
 
+        askBoard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setDialog(position+1);
+            }
+        });
+        (dialog.findViewById(R.id.askCancelBtn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         return root;
+    }
+
+    private void setDialog(int position) {
+        final TextView content = dialog.findViewById(R.id.askContent);
+        final TextView createTime = dialog.findViewById(R.id.askCreateTime);
+        final TextView name = dialog.findViewById(R.id.askName);
+        final TextView reply = dialog.findViewById(R.id.reply);
+        mFirebaseDatabase.getReference("ask/"+position)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
+                    {
+                        Ask ask = snapshot.getValue(Ask.class);
+                        content.setText(ask.getContent());
+                        createTime.setText(ask.getCreateTime());
+                        name.setText(ask.getName());
+                        if(ask.getReply()!= null) {
+                            reply.setText(ask.getReply());
+                        }
+                        else
+                        {
+                            reply.setText("아직 답변이 작성되지 않았습니다.");
+                            reply.setTextColor(Color.parseColor("#850D0D"));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        dialog.show();
     }
 
     private void isLogin() {

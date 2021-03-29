@@ -33,8 +33,9 @@
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/colorPrimaryDark"
+            android:background="@color/colorPrimaryDark"
             android:layout_gravity="bottom"
-            app:itemTextColor="#2E2E2E"
+            app:itemTextColor="@color/white"
+            app:layout_anchorGravity="center"
             app:menu="@menu/menu_bottom_navigation"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

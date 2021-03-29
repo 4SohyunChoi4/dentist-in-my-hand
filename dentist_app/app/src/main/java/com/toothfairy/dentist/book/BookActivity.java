@@ -17,8 +17,6 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,7 +31,7 @@ public class BookActivity extends AppCompatActivity {
     FirebaseUser user;
     FirebaseDatabase mFirebaseDatabase;
     private ListView listView;
-    private ListViewAdapter adapter;
+    private ListViewDialogAdapter adapter;
     Dialog dialog;
     String[] weekDay = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
     int y, m, d, h;
@@ -63,7 +61,7 @@ public class BookActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_book);
 
-        adapter = new ListViewAdapter();
+        adapter = new ListViewDialogAdapter();
 
         listView = dialog.findViewById(R.id.listView);
         final RadioGroup rdGroup = findViewById(R.id.rdGroup);
@@ -94,7 +92,7 @@ public class BookActivity extends AppCompatActivity {
                         return;
                     }
                 });
-                final ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
+                final ListViewDialogItem item = (ListViewDialogItem) parent.getItemAtPosition(position);
 
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
@@ -149,11 +147,21 @@ public class BookActivity extends AppCompatActivity {
                 .addOnSuccessListener(BookActivity.this, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        dialog.dismiss();
-                        adapter.clear();
                         //name, phonenum, booklist 빼고, 날짜와 시간을 넣어야 함
                         setYesterdayAlarm(m, d, hour);
                         setOneHourAgoAlarm(m, d, hour);
+                    }
+                });
+        bookInfo.setHere(false);
+        mFirebaseDatabase.getReference("receipt/" + y + "/" + m + "/" + d)// + item.getTime() + "/")
+                .push()
+                .setValue(bookInfo)
+                .addOnSuccessListener(BookActivity.this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        dialog.dismiss();
+                        adapter.clear();
+                        //name, phonenum, booklist 빼고, 날짜와 시간을 넣어야 함
                         Toast.makeText(getApplicationContext(), "예약이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -253,8 +261,8 @@ public class BookActivity extends AppCompatActivity {
             max = 20;
 
         for (int i = 9; i <= max; i++) {
-            if (i == 12)
-                continue;
+            //if (i == 12)
+            //    continue;
             adapter.addItem(ref, i);
         }
         adapter.notifyDataSetChanged();

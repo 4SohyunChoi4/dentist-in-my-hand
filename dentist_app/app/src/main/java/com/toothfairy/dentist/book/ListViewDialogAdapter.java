@@ -1,6 +1,7 @@
 package com.toothfairy.dentist.book;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +14,26 @@ import com.toothfairy.dentist.R;
 
 import java.util.ArrayList;
 
-public class ListViewAdapter extends BaseAdapter {
+public class ListViewDialogAdapter extends BaseAdapter {
 
     private TextView time;
     private TextView limit;
 
     DatabaseReference mDatabaseReference;
 
-    public ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
+    public ArrayList<ListViewDialogItem> listViewItemListDialog = new ArrayList<>();
 
-    public ListViewAdapter() {
+    public ListViewDialogAdapter() {
     }
 
     @Override
     public int getCount() {
-        return listViewItemList.size();
+        return listViewItemListDialog.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listViewItemList.get(position);
+        return listViewItemListDialog.get(position);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Context context = parent.getContext();
+        Context context = parent.getContext();
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -51,27 +52,30 @@ public class ListViewAdapter extends BaseAdapter {
         time = convertView.findViewById(R.id.time);
         limit = convertView.findViewById(R.id.limit);
 
-        final ListViewItem item = listViewItemList.get(position);
+        final ListViewDialogItem item = listViewItemListDialog.get(position);
 
-        if (item.getLimit() < 2) //1명만
+        if (item.getLimit()>1) { //1명만
+            limit.setText("예약불가");
+            //limit.setTextColor(Color.parseColor("#000000"));
+        }
+        else {//2명이상'
             limit.setText("예약하기");
-        else {//2명이상
-            limit.setText("X");
+            limit.setTextColor(Color.parseColor("#0D8513"));
         }
         time.setText(String.valueOf(item.getTime()));
         return convertView;
     }
 
     public void clear() {
-        listViewItemList.clear();
+        listViewItemListDialog.clear();
     }
 
     public void addItem(String ref, int time) {
-        final ListViewItem item = new ListViewItem();
+        final ListViewDialogItem item = new ListViewDialogItem();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         item.setTime(time); //이렇게 하는게 아니고 firebase에서 값을 받아와야 할것같다...
         item.setLimit(0);
-        mDatabaseReference.child(ref + time + "h/").addChildEventListener(new ChildEventListener() {
+       /* mDatabaseReference.child(ref + time + "h/").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()) {
@@ -100,7 +104,9 @@ public class ListViewAdapter extends BaseAdapter {
 
             }
         });
-        listViewItemList.add(item);
+
+        */
+        listViewItemListDialog.add(item);
 
     }
 }

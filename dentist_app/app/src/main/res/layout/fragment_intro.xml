@@ -8,59 +8,82 @@
         android:layout_height="match_parent"
         tools:context=".intro.IntroFragment">
 
+    <ImageView
+            android:id="@+id/intro_logo"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_marginEnd="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/app_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/text_intro"
+            app:layout_constraintTop_toTopOf="@id/text_intro"/>
     <TextView
             android:id="@+id/text_intro"
-            android:layout_width="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="20sp"
-            android:text="숙명치과입니다"
+            android:textSize="@dimen/title_size"
+            android:text="숙명치과"
+            app:layout_constraintStart_toEndOf="@+id/intro_logo"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
+    />
+
+
+    <ImageView
+            android:id="@+id/intro_image"
+            android:adjustViewBounds="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/intro_logo"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@id/bookBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="150dp"/>
-    <Button
-            android:textSize="20dp"
-            android:stateListAnimator="@null"
-            android:layout_height="80dp"
-            android:layout_width="150dp"
-            android:id="@+id/noticeBtn"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/officehoursBtn"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="200dp"
-            android:text="공지사항"/>
-
-    <Button
-            android:id="@+id/officehoursBtn"
-            android:stateListAnimator="@null"
-            android:textSize="20dp"
-            android:layout_height="80dp"
-            android:layout_width="150dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/noticeBtn"
-            app:layout_constraintTop_toTopOf="@+id/noticeBtn"
-            android:text="진료시간"/>
-
+            app:layout_constraintTop_toBottomOf="@+id/text_intro"
+            android:contentDescription="@string/error"/>
     <Button
             android:id="@+id/bookBtn"
             android:textSize="20dp"
+            android:background="@color/colorBlue1"
             android:stateListAnimator="@null"
-            android:layout_height="80dp"
-            android:layout_width="150dp"
-            app:layout_constraintLeft_toLeftOf="@id/noticeBtn"
-            app:layout_constraintTop_toBottomOf="@+id/noticeBtn"
+            android:layout_height="100dp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@+id/intro_image"
+            app:layout_constraintBottom_toTopOf="@+id/noticeBtn"
+            app:layout_constraintStart_toStartOf="parent"
             android:text="예약관리"/>
+    <Button
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:background="@color/colorBlue2"
+            android:stateListAnimator="@null"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:id="@+id/noticeBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@+id/bookBtn"
+            app:layout_constraintBottom_toTopOf="@+id/askBtn"
+            android:text="공지사항"/>
 
     <Button
             android:id="@+id/askBtn"
             android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@color/colorBlue3"
             android:stateListAnimator="@null"
-            android:layout_height="80dp"
-            android:layout_width="150dp"
-            app:layout_constraintLeft_toLeftOf="@id/officehoursBtn"
-            app:layout_constraintTop_toBottomOf="@+id/officehoursBtn"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noticeBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="100dp"
             android:text="1:1 문의"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

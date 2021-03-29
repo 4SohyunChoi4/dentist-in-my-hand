@@ -51,7 +51,6 @@ public class SubAskFragment extends Fragment {
         if(bundle != null){
             num = bundle.getLong("number"); //Name 받기.
             name = bundle.getString("name");
-            Toast.makeText(getActivity(),name,Toast.LENGTH_SHORT).show();
         }
 
         final EditText editContent = root.findViewById(R.id.editContent);

@@ -72,12 +72,15 @@ public class IntroFragment extends Fragment {
             }
         });
 
-        root.findViewById(R.id.officehoursBtn).setOnClickListener(new View.OnClickListener() {
+        /*root.findViewById(R.id.officehoursBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(OfficehoursFragment.newInstance());
             }
         });
+        
+         */
+        //TODO: officehour 옮기기
         root.findViewById(R.id.askBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

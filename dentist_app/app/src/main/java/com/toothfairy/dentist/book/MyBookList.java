@@ -7,9 +7,18 @@ public class MyBookList {
     private int dayOfMonth;
     private int hour;
     private String subject;
+    private boolean isHere;
 
     public int getYear() {
         return year;
+    }
+
+    public boolean isHere() {
+        return isHere;
+    }
+
+    public void setHere(boolean here) {
+        isHere = here;
     }
 
     public void setYear(int year) {

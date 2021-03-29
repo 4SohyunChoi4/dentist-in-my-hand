@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">dentist_app</string>
+    <string name="app_name">내 손안의 치과</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title_no_login">로그인이 필요합니다</string>
@@ -13,6 +13,8 @@
     <string name="menu_map">오시는 길</string>
     <string name="default_notification_channel_id">123123</string>
     <string name="fcm_message">알림 제목입니다.</string>
+    <string name="error">이미지 로딩 오류</string>
+
     <string name="msg_token_fmt"/>
 
     <string-array name="gender">

@@ -1,6 +1,6 @@
 package com.toothfairy.dentist.book;
 
-public class ListViewItem {
+public class ListViewDialogItem {
 
     private int time;
     private long limit;
