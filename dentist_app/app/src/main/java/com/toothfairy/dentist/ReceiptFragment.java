@@ -97,7 +97,7 @@ public class ReceiptFragment extends Fragment {
                             changeIsHere(snapshot.getKey());
                             return;
                         }
-                        alertDialog.show();
+                        //alertDialog.show();
                     }
 
 

@@ -9,5 +9,6 @@
     <dimen name="button_end_margin">50dp</dimen>
     <dimen name="button_bottom_margin">50dp</dimen>
     <dimen name="join_width_size">200dp</dimen>
+    <dimen name="bottomNavigationSize">50dp</dimen>
 
     </resources>

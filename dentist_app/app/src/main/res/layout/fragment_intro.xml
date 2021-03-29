@@ -44,6 +44,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_intro"
             android:contentDescription="@string/error"/>
+
+    <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:elevation="1dp"
+            android:src="@drawable/book"
+            app:layout_constraintStart_toStartOf="@+id/bookBtn"
+            android:layout_marginStart="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bookBtn"
+            app:layout_constraintTop_toTopOf="@+id/bookBtn"
+    />
     <Button
             android:id="@+id/bookBtn"
             android:textSize="20dp"
@@ -57,6 +68,16 @@
             app:layout_constraintBottom_toTopOf="@+id/noticeBtn"
             app:layout_constraintStart_toStartOf="parent"
             android:text="예약관리"/>
+    <ImageView
+            android:elevation="1dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/notice"
+            app:layout_constraintStart_toStartOf="@+id/noticeBtn"
+            android:layout_marginStart="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/noticeBtn"
+            app:layout_constraintTop_toTopOf="@+id/noticeBtn"
+    />
     <Button
             android:textSize="20dp"
             android:textColor="@color/white"
@@ -70,6 +91,16 @@
             app:layout_constraintTop_toBottomOf="@+id/bookBtn"
             app:layout_constraintBottom_toTopOf="@+id/askBtn"
             android:text="공지사항"/>
+    <ImageView
+            android:elevation="1dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ask"
+            app:layout_constraintStart_toStartOf="@+id/askBtn"
+            android:layout_marginStart="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/askBtn"
+            app:layout_constraintTop_toTopOf="@+id/askBtn"
+    />
 
     <Button
             android:id="@+id/askBtn"
@@ -83,7 +114,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/noticeBtn"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="@dimen/bottomNavigationSize"
             android:text="1:1 문의"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

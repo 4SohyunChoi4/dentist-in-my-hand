@@ -9,6 +9,9 @@
                 android:id="@+id/nav_about"
                 android:title="@string/menu_about"/>
         <item
+                android:id="@+id/nav_time"
+                android:title="진료 시간"/>
+        <item
                 android:id="@+id/nav_subject"
                 android:title="@string/menu_subject"/>
         <item
