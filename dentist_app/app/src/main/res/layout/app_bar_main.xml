@@ -33,7 +33,7 @@
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottomNavigationSize"
-            android:background="@color/colorPrimaryDark"
+            android:background="#2A3442"
             android:layout_gravity="bottom"
             app:itemTextColor="@color/white"
             app:layout_anchorGravity="center"
