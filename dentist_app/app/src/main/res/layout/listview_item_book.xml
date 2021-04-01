@@ -24,6 +24,8 @@
             android:textSize="9dp"
             android:stateListAnimator="@null"
             android:id="@+id/btnEditBook"
+            android:backgroundTint="#3C495A"
+            android:textColor="#ffffff"
             android:layout_width="60dp"
             android:layout_height="match_parent"/>
 

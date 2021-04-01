@@ -8,6 +8,14 @@
         android:background="#ffffff"
         tools:context=".ui.OfficehoursFragment">
 
+    <ImageView
+            android:id="@+id/officehoursImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/officehours"/>
     <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="20dp"
@@ -27,22 +35,18 @@
             app:layout_constraintStart_toEndOf="@+id/btnBack"
             android:textSize="@dimen/title_size"/>
 
-    <ImageView
-            android:id="@+id/img_dentist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/dentist_background"/>
     <TextView
+            android:background="@drawable/rounded_box"
+            android:elevation="1dp"
             android:id="@+id/contents"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="100dp"
-            android:text="주중\n 9~12시 / (12~1시 점심시간)   /  1시~5시 오후진료
-\n\n화, 목 야간진료   : ~20시까지\n\n주말은 휴진합니다. 감사합니다."
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="\n\n\n[오전] 9~12시 \n\n(12~1시 점심시간)
+              \n\n[오후] 1시~5시 오후진료
+\n\n[야간진료] \n화, 목 ~20시까지\n\n\n주말은 휴진합니다. 감사합니다."/>
 </androidx.constraintlayout.widget.ConstraintLayout>

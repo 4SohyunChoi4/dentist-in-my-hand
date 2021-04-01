@@ -23,38 +23,42 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1대1 문의"
+            android:text="글 작성하기"
             android:textSize="30dp"
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/editContent"
             app:layout_constraintStart_toStartOf="@+id/editContent"
-            app:layout_constraintVertical_chainStyle="packed"
 
     />
 
     <EditText
+            android:padding="10dp"
             android:id="@+id/editContent"
             android:hint="내용을 입력해주세요"
+            app:layout_constraintVertical_chainStyle="packed"
             android:textAlignment="center"
             android:layout_width="300dp"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:elevation="0dp"
             android:shadowColor="@android:color/transparent"
             android:background="@drawable/notice_board"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/btnUpload"/>
 
     <Button
             android:id="@+id/btnUpload"
             android:text="완료"
-           app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="@dimen/button_bottom_margin"
-            android:layout_marginEnd="@dimen/button_end_margin"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/bottomNavigationSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editContent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
+            android:backgroundTint="@color/btnColor"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
     />
 </androidx.constraintlayout.widget.ConstraintLayout>

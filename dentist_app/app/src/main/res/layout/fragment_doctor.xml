@@ -26,64 +26,32 @@
             app:layout_constraintStart_toEndOf="@+id/btnBack"
             android:textSize="@dimen/title_size"/>
 
-    <TextView
-            android:id="@+id/doc1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="30sp"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            android:layout_marginTop="30sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="김숙대 원장"/>
-    <TextView
-            android:id="@+id/doc1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/doc1"
-            app:layout_constraintStart_toStartOf="@+id/doc1"
-            android:text="숙명여대 치대 졸업\n숙명여대 외래교수 겸임"
-            />
-
     <ImageView
-            android:id="@+id/doc1_img"
-            android:layout_width="150sp"
-            android:layout_height="200sp"
-            app:layout_constraintStart_toEndOf="@+id/doc1_text"
-            app:layout_constraintTop_toTopOf="@+id/doc1"
-            android:src="@drawable/doc1"
-
-    />
-    <TextView
-            android:id="@+id/doc2"
+            android:id="@+id/doc1Img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginBottom="10dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toTopOf="@+id/doc2Img"
+            android:src="@drawable/doctor1"
 
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="30sp"
-            app:layout_constraintTop_toBottomOf="@+id/doc1_text"
-            app:layout_constraintBottom_toTopOf="@+id/doc2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="박숙명 부원장"/>
-    <TextView
-            android:id="@+id/doc2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/doc2"
-            app:layout_constraintStart_toStartOf="@+id/doc2"
-            android:text="숙명여대 치대 졸업\n숙명여대 외래교수 겸임"
-            app:layout_constraintBottom_toBottomOf="parent"
     />
 
     <ImageView
-            android:layout_width="200sp"
-            android:layout_height="200sp"
-            app:layout_constraintStart_toEndOf="@+id/doc2_text"
-            app:layout_constraintTop_toTopOf="@+id/doc2"
-            android:src="@drawable/doc2"
+            android:id="@+id/doc2Img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doc1Img"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/doctor2"
 
     />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

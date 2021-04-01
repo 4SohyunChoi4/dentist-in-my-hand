@@ -13,6 +13,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,6 +61,10 @@ public class BookActivity extends AppCompatActivity {
         dialog = new Dialog(BookActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_book);
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(params);
 
         adapter = new ListViewDialogAdapter();
 
@@ -76,7 +81,7 @@ public class BookActivity extends AppCompatActivity {
                 Calendar subCalendar = Calendar.getInstance();
                 subCalendar.set(year, month, dayOfMonth);
                 int dayOfWeek = subCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-                //if (dayOfWeek != 0 && dayOfWeek != 6)
+                    if (dayOfWeek != 0 && dayOfWeek != 6)
                 showDialog(year, month, dayOfMonth, dayOfWeek);
             }
         });
@@ -148,7 +153,7 @@ public class BookActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         //name, phonenum, booklist 빼고, 날짜와 시간을 넣어야 함
-                        setYesterdayAlarm(m, d, hour);
+                        //setYesterdayAlarm(m, d, hour);
                         setOneHourAgoAlarm(m, d, hour);
                     }
                 });
@@ -261,8 +266,8 @@ public class BookActivity extends AppCompatActivity {
             max = 20;
 
         for (int i = 9; i <= max; i++) {
-            //if (i == 12)
-            //    continue;
+            if (i == 12)
+                continue;
             adapter.addItem(ref, i);
         }
         adapter.notifyDataSetChanged();

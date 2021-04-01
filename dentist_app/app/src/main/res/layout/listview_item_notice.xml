@@ -7,6 +7,10 @@
         android:orientation="horizontal">
 
     <TextView
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="8dp"
             android:id="@+id/text_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

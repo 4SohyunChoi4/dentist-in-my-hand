@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         user = FirebaseAuth.getInstance().getCurrentUser();
         context = this;
+        //updateUI(user);
 
         //getHashKey();
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         ViewCompat.setLayoutDirection(toolbar, ViewCompat.LAYOUT_DIRECTION_RTL);
         NavigationView navigationView = findViewById(R.id.nav_view);
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.call:
-                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:01036161879"));
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:027100000"));
                         if (ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                             startActivity(intent);
                         } else {
@@ -201,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateUI(FirebaseUser user) {
+        final TextView welcomeText = findViewById(R.id.welcomeText);
         final Button loginBtn = findViewById(R.id.loginBtn);
         final Button joinBtn = findViewById(R.id.joinBtn);
         ImageView navImageView = findViewById(R.id.navImageView);
@@ -214,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     patient = snapshot.getValue(PatientID.class);
+                    welcomeText.setText("김환자님 \n안녕하세요");
                     navTextView.setText(patient.getName() + getResources().getString(R.string.nav_header_title_login));
                     bundle.putString("name", patient.getName());
                 }

@@ -27,30 +27,21 @@
             app:layout_constraintTop_toBottomOf="@+id/btnBack"
             app:layout_constraintStart_toEndOf="@+id/btnBack"
             android:textSize="@dimen/title_size"/>
-
-    <ImageView
-            android:id="@+id/dentalClinicImg"
-            android:layout_width="409dp"
-            android:layout_height="244dp"
-            android:src="@drawable/dental_clinic"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintBottom_toTopOf="@id/contents"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
     <TextView
+            android:elevation="1dp"
             android:id="@+id/contents"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="20sp"
+            android:layout_width="320dp"
+            android:layout_height="450dp"
+            android:textSize="17sp"
+            android:background="@drawable/rounded_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dentalClinicImg"
-            android:text="내원하시는 모든 고객님들을 내 가족처럼\n 소중하게 생각합니다.\n
-고객님의 행복이 곧 직원과 의사의 행복으로\n 하나되는
-숙명치과가 되겠습니다."
+            android:paddingTop="250dp"
+            android:textAlignment="center"
+            android:paddingBottom="20dp"
+            android:text="내원하시는 모든 고객님들을\n 내 가족처럼, 친구처럼 \n소중하게 생각합니다.\n
+고객님의 행복이 \n곧 직원과 의사의 행복으로 \n하나되는
+숙명치과가\n 되겠습니다.\n "
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

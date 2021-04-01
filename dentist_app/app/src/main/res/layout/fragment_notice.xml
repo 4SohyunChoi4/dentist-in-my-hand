@@ -37,7 +37,7 @@
             android:elevation="0sp"
             android:shadowColor="@android:color/transparent"
             android:background="@drawable/notice_board"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 <!--    <EditText
             android:id="@+id/noticeBoard"

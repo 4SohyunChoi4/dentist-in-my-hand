@@ -53,7 +53,6 @@ public class ListViewDialogAdapter extends BaseAdapter {
         limit = convertView.findViewById(R.id.limit);
 
         final ListViewDialogItem item = listViewItemListDialog.get(position);
-
         if (item.getLimit()>1) { //1명만
             limit.setText("예약불가");
             //limit.setTextColor(Color.parseColor("#000000"));

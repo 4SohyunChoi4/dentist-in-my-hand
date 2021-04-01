@@ -4,22 +4,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:orientation="vertical">
 
     <TextView
-            android:text="질문"
+            android:text="Q."
             android:textSize="@dimen/title_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
     />
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="안녕하세요. 제가 왜 이가 아픈지 잘 모르겠어요.\n
-안녕하세요. 제가 왜 이가 아픈지 잘 모르겠어요."
-            android:textSize="20dp"
-            android:id="@+id/askContent"
-    />
+
     <TextView android:layout_width="match_parent"
               android:textAlignment="textEnd"
               android:layout_height="wrap_content"
@@ -30,8 +25,17 @@
               android:layout_height="wrap_content"
               android:id="@+id/askName"/>
     <TextView
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="안녕하세요. 제가 왜 이가 아픈지 잘 모르겠어요.\n
+안녕하세요. 제가 왜 이가 아픈지 잘 모르겠어요."
+            android:textSize="15dp"
+            android:id="@+id/askContent"
+    />
+    <TextView
             android:layout_marginBottom="50dp"
-            android:text="답변"
+            android:text="A."
             android:layout_marginTop="30dp"
             android:textSize="@dimen/title_size"
             android:layout_width="wrap_content"
@@ -39,15 +43,17 @@
     />
     <TextView android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:textSize="20dp"
+              android:textSize="15dp"
               android:text="안녕하세요. 반갑습니다. 안녕하세요. 반갑습니다."
               android:layout_marginBottom="30dp"
               android:id="@+id/reply"/>
 
     <Button
             android:id="@+id/askCancelBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="확인"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/btnColor"
             android:layout_gravity="center"/>
 </LinearLayout>

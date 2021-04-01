@@ -9,6 +9,8 @@
     <color name="colorBlue2">#B5157CD6</color>
     <color name="colorBlue3">#0C60A8</color>
     <color name="white">#EAEAEA</color>
+    <color name="btnColor">#495768</color>
+
 
 
 </resources>

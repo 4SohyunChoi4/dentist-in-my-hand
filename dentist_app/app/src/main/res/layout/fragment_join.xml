@@ -36,14 +36,31 @@
             android:layout_marginTop="30sp"
             android:text="이메일"/>
     <EditText
-            android:layout_width="@dimen/join_width_size"
+            android:layout_width="80dp"
+            app:layout_constraintHorizontal_chainStyle="packed"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="90sp"
+            app:layout_constraintEnd_toStartOf="@+id/email2"
+            app:layout_constraintStart_toEndOf="@+id/emailText"
             app:layout_constraintTop_toTopOf="@+id/emailText"
             android:singleLine="true"
-            android:id="@+id/email"
-            android:autofillHints="hongrilldong123"/>
+            android:id="@+id/email"/>
+    <TextView
+            android:id="@+id/email2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@"
+            app:layout_constraintStart_toEndOf="@+id/email"
+            app:layout_constraintTop_toTopOf="@+id/email"
+            app:layout_constraintBottom_toBottomOf="@+id/email"
+            app:layout_constraintEnd_toStartOf="@+id/emailSpinner"/>
+    <Spinner
+            android:id="@+id/emailSpinner"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/email2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/email"
+    app:layout_constraintBottom_toBottomOf="@+id/email"/>
     <TextView
             android:id="@+id/passwdText"
             android:layout_width="wrap_content"
@@ -56,8 +73,8 @@
             android:layout_width="@dimen/join_width_size"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            app:layout_constraintStart_toStartOf="@+id/email"
-            app:layout_constraintTop_toTopOf="@+id/passwdText"
+            app:layout_constraintStart_toEndOf="@+id/emailText"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@+id/passwdText"
             android:singleLine="true"
             android:id="@+id/passwd"
             android:autofillHints="hongrilldong123"/>
@@ -73,7 +90,8 @@
             android:layout_width="@dimen/join_width_size"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintStart_toEndOf="@+id/emailText"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/passwd2Text"
             android:singleLine="true"
             android:id="@+id/passwd2"
@@ -89,7 +107,8 @@
     <EditText
             android:layout_width="@dimen/join_width_size"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintStart_toEndOf="@+id/emailText"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/nameText"
             android:singleLine="true"
             android:id="@+id/name"
@@ -103,13 +122,31 @@
             android:layout_marginTop="30sp"
             android:text="주민등록번호"/>
     <EditText
-            android:layout_width="@dimen/join_width_size"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintEnd_toStartOf="@+id/bar"
             app:layout_constraintTop_toTopOf="@+id/regiNumText"
             android:singleLine="true"
-            android:id="@+id/regiNum"
-            android:autofillHints="hongrilldong123"/>
+            android:id="@+id/regiNum"/>
+    <TextView
+            android:id="@+id/bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/regiNum"
+            app:layout_constraintEnd_toStartOf="@+id/regiNum2"
+            app:layout_constraintTop_toTopOf="@+id/regiNum"
+            app:layout_constraintBottom_toBottomOf="@+id/regiNum"
+            android:text="-"/>
+    <EditText
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/bar"
+            app:layout_constraintTop_toTopOf="@+id/regiNumText"
+            app:layout_constraintEnd_toEndOf="@+id/passwd2"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:id="@+id/regiNum2"/>
     <TextView
             android:id="@+id/phoneNumText"
             android:layout_width="wrap_content"
@@ -119,19 +156,61 @@
             android:layout_marginTop="30sp"
             android:text="연락처"/>
     <EditText
-            android:layout_width="@dimen/join_width_size"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/phoneNumText"
+            app:layout_constraintEnd_toStartOf="@+id/bar2"
             app:layout_constraintTop_toTopOf="@+id/phoneNumText"
             android:singleLine="true"
-            android:id="@+id/phoneNum"
-            android:autofillHints="hongrilldong123"/>
+            android:id="@+id/phoneNum"/>
 
+    <TextView
+            android:id="@+id/bar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/phoneNum"
+            app:layout_constraintEnd_toStartOf="@+id/phoneNum2"
+            app:layout_constraintTop_toTopOf="@+id/phoneNum"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneNum"
+            android:text="-"/>
+
+    <EditText
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/bar2"
+            app:layout_constraintEnd_toStartOf="@+id/bar3"
+            app:layout_constraintTop_toTopOf="@+id/phoneNumText"
+            android:singleLine="true"
+            android:id="@+id/phoneNum2"/>
+
+    <TextView
+            android:id="@+id/bar3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/phoneNum2"
+            app:layout_constraintEnd_toStartOf="@+id/phoneNum3"
+            app:layout_constraintTop_toTopOf="@+id/phoneNum2"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneNum2"
+            android:text="-"/>
+
+    <EditText
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/bar3"
+            app:layout_constraintTop_toTopOf="@+id/phoneNumText"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:singleLine="true"
+            android:id="@+id/phoneNum3"
+            android:autofillHints="hongrilldong123"/>
     <Button
             android:id="@+id/join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="완료"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNum"
+            android:backgroundTint="@color/btnColor"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="@dimen/button_bottom_margin"

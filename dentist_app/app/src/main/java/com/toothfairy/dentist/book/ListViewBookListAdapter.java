@@ -69,7 +69,7 @@ public class ListViewBookListAdapter extends BaseAdapter implements View.OnClick
         ListViewBookListItem listViewBookListItem = listViewBookListItemList.get(position);
 
         textDate.setText(listViewBookListItem.getTextDate());
-        isChangeable.setText("진료 완료"); // else 진료전
+        isChangeable.setText("진료 전"); // else 진료전
         btnEditBook.setTag(position);
         btnEditBook.setOnClickListener(this);
         if (listViewBookListItem.getChangeable()) { //true이면

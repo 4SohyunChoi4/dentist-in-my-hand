@@ -131,7 +131,7 @@ public class NoticeFragment extends Fragment {
 
     private void displayNotice() {
         final int COLLAPSED_HEIGHT = 100;
-        final int EXPANDED_HEIGHT = 500;
+        final int EXPANDED_HEIGHT = 300;
         mFirebaseDatabase.getReference("notice/")
                 .addChildEventListener(new ChildEventListener() {
                     @Override
