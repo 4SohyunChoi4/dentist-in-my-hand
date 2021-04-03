@@ -11,35 +11,17 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:gravity="bottom">
 
-    <ImageView
-            android:id="@+id/navImageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:srcCompat="@mipmap/face"
-            android:contentDescription="@string/nav_header_desc"
-            app:layout_constraintTop_toTopOf="@id/navTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-    <TextView
-            android:id="@+id/navTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="40sp"
-            android:layout_marginStart="30sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@+id/navImageView"
-            android:textColor="@color/defaultContextColor"
-    />
     <Button
             android:id="@+id/loginBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/navTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@android:color/transparent"
-            android:layout_marginTop="15sp"
-            app:layout_constraintStart_toEndOf="@+id/navImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/joinBtn"
             android:textColor="@color/defaultContextColor"
-            android:text="로그인"/>
+            android:text="@string/login"/>
     <Button
             android:id="@+id/joinBtn"
             android:layout_width="wrap_content"
@@ -48,6 +30,6 @@
             app:layout_constraintStart_toEndOf="@+id/loginBtn"
             android:background="@android:color/transparent"
             android:textColor="@color/defaultContextColor"
-            android:text="회원가입"/>
+            android:text="@string/join"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

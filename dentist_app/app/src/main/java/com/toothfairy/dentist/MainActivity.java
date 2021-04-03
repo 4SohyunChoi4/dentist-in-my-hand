@@ -48,14 +48,13 @@ public class MainActivity extends AppCompatActivity {
     PatientID patient;
     Bundle bundle = new Bundle();
     public static Context context;
-
+    String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         user = FirebaseAuth.getInstance().getCurrentUser();
         context = this;
-        //updateUI(user);
 
         //getHashKey();
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault));
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!(drawer.isDrawerOpen(Gravity.RIGHT))) {
                     drawer.openDrawer(Gravity.RIGHT);
-                    updateUI(user);
+                    updateNavigationUI(user);
                 }
             }
         });
@@ -156,6 +155,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void updateNavigationUI(FirebaseUser user) {
+        final Button loginBtn = findViewById(R.id.loginBtn);
+        final Button joinBtn = findViewById(R.id.joinBtn);
+        if (user != null) { // 로그인했을때
+            loginBtn.setText("로그아웃");
+            joinBtn.setVisibility(View.GONE);
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else { //로그인 x
+            loginBtn.setText("로그인");
+            joinBtn.setVisibility(View.VISIBLE);
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replaceFragment(LoginFragment.newInstance());
+                    onBackPressed();
+                }
+            });
+            joinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replaceFragment(JoinFragment.newInstance());
+                    onBackPressed();
+                }
+            });
+
+        }
+
+    }
+
     private void getToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -202,62 +237,6 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.nav_host_fragment, fragment).commit();
     }
 
-    public void updateUI(FirebaseUser user) {
-        final TextView welcomeText = findViewById(R.id.welcomeText);
-        final Button loginBtn = findViewById(R.id.loginBtn);
-        final Button joinBtn = findViewById(R.id.joinBtn);
-        ImageView navImageView = findViewById(R.id.navImageView);
-        final TextView navTextView = findViewById(R.id.navTextView);
-        if (user != null) { // 로그인했을때
-            navImageView.setVisibility(View.VISIBLE);
-            loginBtn.setText("로그아웃");
-            joinBtn.setVisibility(View.GONE);
-            FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-            mFirebaseDatabase.getReference("patient/" + user.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    patient = snapshot.getValue(PatientID.class);
-                    welcomeText.setText("김환자님 \n안녕하세요");
-                    navTextView.setText(patient.getName() + getResources().getString(R.string.nav_header_title_login));
-                    bundle.putString("name", patient.getName());
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
-            });
-            loginBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(MainActivity.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
-                    updateUI(null);
-                }
-            });
-        }
-        else { //로그인 x
-            navTextView.setText(getResources().getString(R.string.nav_header_title_no_login));
-            navImageView.setVisibility(View.GONE);
-            loginBtn.setText("로그인");
-            joinBtn.setVisibility(View.VISIBLE);
-            loginBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    replaceFragment(LoginFragment.newInstance());
-                    onBackPressed();
-                }
-            });
-            joinBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    replaceFragment(JoinFragment.newInstance());
-                    onBackPressed();
-                }
-            });
-
-        }
-
-    }
     /*
     private Fragment getFragment(int position){
         return savedInstanceState == null ? adapter.getItem(position) : getSupportFragmentManager().findFragmentByTag(getFragmentTag(position));

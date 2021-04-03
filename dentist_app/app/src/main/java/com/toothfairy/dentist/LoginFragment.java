@@ -57,8 +57,7 @@ public class LoginFragment extends Fragment {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        ((MainActivity) getActivity()).updateUI(user);
+                                       // FirebaseUser user = mAuth.getCurrentUser();
                                         ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
                                     } else {
                                         // If sign in fails, display a message to the user.

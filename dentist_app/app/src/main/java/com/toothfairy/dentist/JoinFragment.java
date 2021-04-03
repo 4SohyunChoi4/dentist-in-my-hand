@@ -151,7 +151,6 @@ public class JoinFragment extends Fragment {
                                             updateDatabase(patient);
                                         } else {
                                             Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                            ((MainActivity) getActivity()).updateUI(null);
                                         }
 
                                     }
@@ -172,7 +171,6 @@ public class JoinFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        ((MainActivity) getActivity()).updateUI(user);
                         ((MainActivity) getActivity()).replaceFragment(IntroFragment.newInstance());
                         Toast.makeText(getActivity(), "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
 

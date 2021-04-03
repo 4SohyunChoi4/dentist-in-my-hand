@@ -16,6 +16,8 @@
     <string name="error">이미지 로딩 오류</string>
     <string name="msg_token_fmt"/>
     <string name="name">숙명치과</string>
+    <string name="login">로그인</string>
+    <string name="join">회원가입</string>
 
     <string-array name="gender">
         <item>여자</item>
