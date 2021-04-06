@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.toothfairy.dentist.ui.OfficehoursFragment;
 import com.toothfairy.dentist.ui.about.AboutFragment;
 import com.toothfairy.dentist.ui.doctor.DoctorFragment;
 import com.toothfairy.dentist.intro.IntroFragment;

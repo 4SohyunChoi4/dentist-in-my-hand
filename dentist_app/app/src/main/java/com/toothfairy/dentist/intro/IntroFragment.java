@@ -77,15 +77,12 @@ public class IntroFragment extends Fragment {
                  ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(MyBookListFragment.newInstance());
             }
         });
-
         root.findViewById(R.id.officehoursBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity) Objects.requireNonNull(getActivity())).replaceFragment(OfficehoursFragment.newInstance());
             }
         });
-
-        //TODO: officehour 옮기기
         root.findViewById(R.id.askBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

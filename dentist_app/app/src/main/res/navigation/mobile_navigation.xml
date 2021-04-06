@@ -12,7 +12,6 @@
             android:id="@+id/nav_about"
             android:name="com.toothfairy.dentist.ui.about.AboutFragment"
             tools:layout="@layout/fragment_about"/>
-
     <fragment
             android:id="@+id/nav_subject"
             android:name="com.toothfairy.dentist.ui.subject.SubjectFragment"

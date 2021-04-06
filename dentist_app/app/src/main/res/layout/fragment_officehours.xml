@@ -39,7 +39,7 @@
             android:background="@drawable/rounded_box"
             android:elevation="1dp"
             android:id="@+id/contents"
-            android:layout_width="350dp"
+            android:layout_width="300dp"
             android:layout_height="300dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
